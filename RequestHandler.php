@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace EvanG\Modules\MailSystem;
 
+use Fisharebest\Webtrees\I18N;
 use Illuminate\Support\Collection;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,6 +28,9 @@ use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Query\Expression;
 use stdClass;
 
+use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Family;
+
 class RequestHandler implements RequestHandlerInterface
 {
     public const ROUTE_PREFIX = 'mail-sys';
@@ -47,38 +51,55 @@ class RequestHandler implements RequestHandlerInterface
     public function handle(Request $request): Response
     {
         switch ($request->getAttribute('action')) {
-            case 'api': return response($this->api($request));
-            case 'html': return response($this->html($request));
-            case 'send': return response($this->sendMails($request));
+            case 'api': return response($this->api($this->parseRequestArgs($request)));
+            case 'html': return response($this->html($this->parseRequestArgs($request)));
+            case 'send': return response($this->sendMails($this->parseRequestArgs($request)));
             default: throw new HttpNotFoundException();
         }
     }
 
-    function api(Request $_): array
+    function parseRequestArgs(Request $request): object
+    {
+        $params = $request->getQueryParams();
+        return (object)[
+            'days' => array_key_exists("days", $params) ? intval($params["days"]) : 7,
+            'tags' => array_key_exists("tags", $params) ? explode(',', $params["tags"]) : [Individual::RECORD_TYPE, Family::RECORD_TYPE],
+            'users' => array_key_exists("users", $params) ? explode(',', $params["users"]) : [],
+            'imageCompatibilityMode' => array_key_exists("png", $params),
+            'title' =>  I18N::translate('Recent changes')
+        ];
+    }
+
+    function api(object $args): array
     {
         $changes = array();
-        foreach($this->trees->all() as $tree) $changes[$tree->name()] = $this->getChanges($tree, 7);
+        foreach($this->trees->all() as $tree)
+            $changes[$tree->name()] = $this->getChanges($tree, $args->days)
+                                        ->filter(static function (stdClass $row) use ($args):bool { return in_array($row->record["tag"] , $args->tags); })
+                                        ->groupBy(static function (stdClass $row) { return $row->time->format('Y-m-d'); });
         return $changes;
     }
 
-    function html(Request $request): string
+    function html(object $args): string
     {
         return view("{$this->module->name()}::email", [
-            'subject' => "Changes",
-            'items' => $this->api($request),
+            'args' =>  $args,
+            'subject' => $args->title,
+            'items' => $this->api($args),
+            'module' => $this->module
         ]);
     }
 
-    function sendMails(Request $request): bool
+    function sendMails(object $args): array
     {
         foreach ($this->users->all() as $user) {
-            if ($user->username() == "EvanG") $this->sendMail($user, "Changes", $request);
+            if (in_array($user->username(), $args->users)) $this->sendMail($user, $args->title, $args);
         }
-        return True;
+        return ["users" => $args->users];
     }
 
-    function sendMail(User $user, String $subject, Request $request){
-        $html = $this->html($request);
+    function sendMail(User $user, String $subject, $args){
+        $html = $this->html($args);
         $this->email->send(new SiteUser(), $user, new NoReplyUser(), $subject, strip_tags($html), $html);
     }
 
@@ -101,11 +122,11 @@ class RequestHandler implements RequestHandlerInterface
             ->map(function (stdClass $row) use ($tree): stdClass {
                 $record = Registry::gedcomRecordFactory()->make($row->xref, $tree, $row->new_gedcom);
                 return (object) [
-                    'record' => [ 'canShow' => $record->canShow(), 'tag' => $record->tag(), 'xref' => $record->xref(), 'fullName' => $record->fullName(), 'url' => $record->url() ],
+                    'record' => $record == null ? null : [ 'canShow' => $record->canShow(), 'tag' => $record->tag(), 'xref' => $record->xref(), 'fullName' => $record->fullName(), 'url' => $record->url() ],
                     'time'   => Carbon::create($row->change_time)->local(),
                     'user'   => $this->users->find((int) $row->user_id)->userName(),
                 ];
             })
-            ->filter(static function (stdClass $row): bool { return $row->record["canShow"]; });
+            ->filter(static function (stdClass $row): bool { return $row->record != null && $row->record["canShow"]; });
     }
 }

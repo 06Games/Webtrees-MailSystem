@@ -1,12 +1,10 @@
 <?php
 
+use EvanG\Modules\MailSystem\MailSystem;
 use Fisharebest\Webtrees\I18N;
-use Fisharebest\Webtrees\View;
 
-use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
-use Fisharebest\Webtrees\Services\ModuleService;
-use Fisharebest\Webtrees\DebugBar;
+use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Family;
@@ -17,64 +15,87 @@ use Fisharebest\Webtrees\Submitter;
 use Fisharebest\Webtrees\Repository;
 use Illuminate\Support\Collection;
 
+/** @var object $args */
 /** @var string $subject */
 /** @var Collection $items */
+/** @var MailSystem $module */
 ?>
 
-<html>
+<html lang="<?= I18N::locale()->code() ?>">
     <head>
         <title><?= $subject ?></title>
+
+        <style>
+            body {
+                padding: 1em;
+            }
+
+            .treeName {
+                font-weight: bold;
+            }
+            .treeChanges .date {
+                margin-top: 0.5em;
+                margin-bottom: 0.25em;
+            }
+            .treeChanges .changes {
+                padding-left: 1em;
+                padding-bottom: 0.5em;
+            }
+            .treeChanges .changes .recordTypeIcon {
+                display: inline-block;
+                text-align: center;
+                min-width: 1.5em;
+            }
+            .treeChanges .changes .recordTypeIcon img {
+                height: 1rem;
+            }
+            .treeChanges .changes .record {
+                vertical-align: middle;
+            }
+        </style>
+
         <?php foreach (app(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
             <link rel="stylesheet" href="<?= e($stylesheet) ?>">
         <?php endforeach ?>
-        <?= View::stack('styles') ?>
-        <?= app(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
-    return $module->headContent();
-        })->implode('') ?>
-
-        <?= DebugBar::renderHead() ?>
     </head>
     <body>
 
-        <?php foreach ($items as $tree => $changes) : ?>
-            <h3><?= $tree ?></h3>
-            <br/>
-            <?php foreach ($changes as $change) : ?>
-                <?php $record = $change->record; ?>
-        
-                <span>
-                    <?php $tag = $record["tag"]; ?>
-                    <?php if ($tag === Individual::RECORD_TYPE) : ?>
-                        <?= view('icons/individual') ?>
-                        <span class="sr-only"><?= I18N::translate('Individual') ?></span>
-                    <?php elseif ($tag === Family::RECORD_TYPE) : ?>
-                        <?= view('icons/family') ?>
-                        <span class="sr-only"><?= I18N::translate('Family') ?></span>
-                    <?php elseif ($tag === Media::RECORD_TYPE) : ?>
-                        <?= view('icons/media') ?>
-                        <span class="sr-only"><?= I18N::translate('Media') ?></span>
-                    <?php elseif ($tag === Note::RECORD_TYPE) : ?>
-                        <?= view('icons/note') ?>
-                        <span class="sr-only"><?= I18N::translate('Note') ?></span>
-                    <?php elseif ($tag === Source::RECORD_TYPE) : ?>
-                        <?= view('icons/source') ?>
-                        <span class="sr-only"><?= I18N::translate('Source') ?></span>
-                    <?php elseif ($tag === Submitter::RECORD_TYPE) : ?>
-                        <?= view('icons/submitter') ?>
-                        <span class="sr-only"><?= I18N::translate('Submitter') ?></span>
-                    <?php elseif ($tag === Repository::RECORD_TYPE) : ?>
-                        <?= view('icons/repository') ?>
-                        <span class="sr-only"><?= I18N::translate('Repository') ?></span>
-                    <?php endif ?>
-                </span>
-
-                <a href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
-
-                (<?= $change->time->format('Y-m-d'); ?>)
-                <br/>
+        <?php foreach ($items as $tree => $dates) : ?>
+            <h3 id="<?= $tree ?>" class="treeName"><?= ucwords($tree) ?></h3>
+            <div class="treeChanges">
+                <?php if ($dates->isEmpty()) { ?>
+                <p><?= I18N::plural('There have been no changes within the last %s day.', 'There have been no changes within the last %s days.', $args->days, I18N::number($args->days)); ?>
+                <?php } else foreach ($dates as $date => $changes) : ?>
+                <h4 id="<?= $date ?>" class="date"><?= $date ?></h4>
+                <div class="changes">
+                    <?php foreach ($changes as $change) : ?>
+                        <?php $record = $change->record; ?>
+                        <div id="<?= $record["xref"] ?>" class="change">
+                            <span class="recordTypeIcon">
+                                <?php
+                                    $tag = $record["tag"];
+                                    $getIcon = function ($name) use($module, $args) {
+                                        $format = $args->imageCompatibilityMode ? 'png' : 'svg';
+                                        $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
+                                        ?>
+                                        <img height="16" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
+                                <?php } ?>
+                                <?php
+                                    if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
+                                    elseif ($tag === Family::RECORD_TYPE) $getIcon('family');
+                                    elseif ($tag === Media::RECORD_TYPE) $getIcon('media');
+                                    elseif ($tag === Note::RECORD_TYPE) $getIcon('note');
+                                    elseif ($tag === Source::RECORD_TYPE) $getIcon('source');
+                                    elseif ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
+                                    elseif ($tag === Repository::RECORD_TYPE) $getIcon('repository');
+                                ?>
+                            </span>
+                             <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
+                        </div>
+                    <?php endforeach ?>
+                </div>
             <?php endforeach ?>
+            </div>
         <?php endforeach ?>
-        <script src="<?= e(asset('js/vendor.min.js')) ?>"></script>
-        <script src="<?= e(asset('js/webtrees.min.js')) ?>"></script>
     </body>
 </html>
