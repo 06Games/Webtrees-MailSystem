@@ -66,7 +66,7 @@ class RequestHandler implements RequestHandlerInterface
             'tags' => array_key_exists("tags", $params) ? explode(',', $params["tags"]) : [Individual::RECORD_TYPE, Family::RECORD_TYPE],
             'users' => array_key_exists("users", $params) ? explode(',', $params["users"]) : [],
             'imageCompatibilityMode' => array_key_exists("png", $params),
-            'title' =>  I18N::translate('Recent changes')
+            'title' => array_key_exists("title", $params) ? $params["title"] : I18N::translate('Recent changes')
         ];
     }
 
@@ -93,14 +93,14 @@ class RequestHandler implements RequestHandlerInterface
     function sendMails(object $args): array
     {
         foreach ($this->users->all() as $user) {
-            if (in_array($user->username(), $args->users)) $this->sendMail($user, $args->title, $args);
+            if (in_array($user->username(), $args->users)) $this->sendMail($user, $args);
         }
         return ["users" => $args->users];
     }
 
-    function sendMail(User $user, String $subject, $args){
+    function sendMail(User $user, $args){
         $html = $this->html($args);
-        $this->email->send(new SiteUser(), $user, new NoReplyUser(), $subject, strip_tags($html), $html);
+        $this->email->send(new SiteUser(), $user, new NoReplyUser(), $args->title, strip_tags($html), $html);
     }
 
     function getChanges(Tree $tree, int $days): Collection // From getRecentChangesFromDatabase in RecentChangesModule

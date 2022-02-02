@@ -26,8 +26,20 @@ use Illuminate\Support\Collection;
         <title><?= $subject ?></title>
 
         <style>
-            body {
+            body{
+                margin: 0;
+            }
+            br {
+                display: block;
+                margin: 1em 0 0 0;
+            }
+            slot {
+                display: block;
                 padding: 1em;
+            }
+            footer{
+                padding: 1em;
+                background: #cccccc;
             }
 
             .treeName {
@@ -59,43 +71,52 @@ use Illuminate\Support\Collection;
         <?php endforeach ?>
     </head>
     <body>
-
-        <?php foreach ($items as $tree => $dates) : ?>
-            <h3 id="<?= $tree ?>" class="treeName"><?= ucwords($tree) ?></h3>
-            <div class="treeChanges">
-                <?php if ($dates->isEmpty()) { ?>
-                <p><?= I18N::plural('There have been no changes within the last %s day.', 'There have been no changes within the last %s days.', $args->days, I18N::number($args->days)); ?>
-                <?php } else foreach ($dates as $date => $changes) : ?>
-                <h4 id="<?= $date ?>" class="date"><?= $date ?></h4>
-                <div class="changes">
-                    <?php foreach ($changes as $change) : ?>
-                        <?php $record = $change->record; ?>
-                        <div id="<?= $record["xref"] ?>" class="change">
-                            <span class="recordTypeIcon">
-                                <?php
-                                    $tag = $record["tag"];
-                                    $getIcon = function ($name) use($module, $args) {
-                                        $format = $args->imageCompatibilityMode ? 'png' : 'svg';
-                                        $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
-                                        ?>
-                                        <img height="16" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
-                                <?php } ?>
-                                <?php
-                                    if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
-                                    elseif ($tag === Family::RECORD_TYPE) $getIcon('family');
-                                    elseif ($tag === Media::RECORD_TYPE) $getIcon('media');
-                                    elseif ($tag === Note::RECORD_TYPE) $getIcon('note');
-                                    elseif ($tag === Source::RECORD_TYPE) $getIcon('source');
-                                    elseif ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
-                                    elseif ($tag === Repository::RECORD_TYPE) $getIcon('repository');
-                                ?>
-                            </span>
-                             <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
-                        </div>
-                    <?php endforeach ?>
+        <slot>
+            <?php foreach ($items as $tree => $dates) : ?>
+                <h3 id="<?= $tree ?>" class="treeName"><?= ucwords($tree) ?></h3>
+                <div class="treeChanges">
+                    <?php if ($dates->isEmpty()) { ?>
+                    <p><?= I18N::plural('There have been no changes within the last %s day.', 'There have been no changes within the last %s days.',
+                            $args->days, I18N::number($args->days)); ?>
+                    <?php } else foreach ($dates as $date => $changes) : ?>
+                    <h4 id="<?= $date ?>" class="date"><?= $date ?></h4>
+                    <div class="changes">
+                        <?php foreach ($changes as $change) : ?>
+                            <?php $record = $change->record; ?>
+                            <div id="<?= $record["xref"] ?>" class="change">
+                                <span class="recordTypeIcon">
+                                    <?php
+                                        $tag = $record["tag"];
+                                        $getIcon = function ($name) use($module, $args) {
+                                            $format = $args->imageCompatibilityMode ? 'png' : 'svg';
+                                            $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
+                                            ?>
+                                            <img height="16" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
+                                    <?php } ?>
+                                    <?php
+                                        if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
+                                        elseif ($tag === Family::RECORD_TYPE) $getIcon('family');
+                                        elseif ($tag === Media::RECORD_TYPE) $getIcon('media');
+                                        elseif ($tag === Note::RECORD_TYPE) $getIcon('note');
+                                        elseif ($tag === Source::RECORD_TYPE) $getIcon('source');
+                                        elseif ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
+                                        elseif ($tag === Repository::RECORD_TYPE) $getIcon('repository');
+                                    ?>
+                                </span>
+                                 <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+                <?php endforeach ?>
                 </div>
             <?php endforeach ?>
-            </div>
-        <?php endforeach ?>
+        </slot>
+        <br />
+        <footer>
+            <small>
+                <?= I18N::translate("This email was autogenerated by Webtrees and programmed with ❤ by %s",
+                    "<a href=\"https://github.com/06Games/Webtrees-MailSystem\">Evan Galli</a>") ?>
+            </small>
+        </footer>
     </body>
 </html>
