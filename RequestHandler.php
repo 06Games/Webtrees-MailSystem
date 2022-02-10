@@ -61,12 +61,22 @@ class RequestHandler implements RequestHandlerInterface
     function parseRequestArgs(Request $request): object
     {
         $params = $request->getQueryParams();
+        $getValue = function ($param, $default, $exists = null) use ($params) {
+            if (array_key_exists($param, $params)) return $exists === null ? $params[$param] : $exists($params[$param]);
+            else return $default;
+        };
+
+        $strToBool = function($str) { return $str === null || $str === "" || $str === "True"; };
+        $strToInt = function($str) { return intval($str); };
+        $strToArray = function($str) { return explode(',', $str); };
+
+        $days = $getValue("days", 7, $strToInt);
         return (object)[
-            'days' => array_key_exists("days", $params) ? intval($params["days"]) : 7,
-            'tags' => array_key_exists("tags", $params) ? explode(',', $params["tags"]) : [Individual::RECORD_TYPE, Family::RECORD_TYPE],
-            'users' => array_key_exists("users", $params) ? explode(',', $params["users"]) : [],
-            'imageCompatibilityMode' => array_key_exists("png", $params),
-            'title' => array_key_exists("title", $params) ? $params["title"] : I18N::translate('Recent changes')
+            'days' => $days,
+            'title' => $getValue("title", I18N::plural('Changes in the last %s day', 'Changes in the last %s days', $days, $days)),
+            'tags' => $getValue("tags", [Individual::RECORD_TYPE, Family::RECORD_TYPE], $strToArray),
+            'users' => $getValue("users", [], $strToArray),
+            'imageCompatibilityMode' => $getValue("png", false, $strToBool)
         ];
     }
 
@@ -76,7 +86,8 @@ class RequestHandler implements RequestHandlerInterface
         foreach($this->trees->all() as $tree)
             $changes[$tree->name()] = $this->getChanges($tree, $args->days)
                                         ->filter(static function (stdClass $row) use ($args):bool { return in_array($row->record["tag"] , $args->tags); })
-                                        ->groupBy(static function (stdClass $row) { return $row->time->format('Y-m-d'); });
+                                        ->groupBy(static function (stdClass $row) { return $row->time->format('Y-m-d'); })
+                                        ->sortKeys();
         return $changes;
     }
 

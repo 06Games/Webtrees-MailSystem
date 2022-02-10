@@ -19,7 +19,14 @@ use Illuminate\Support\Collection;
 /** @var string $subject */
 /** @var Collection $items */
 /** @var MailSystem $module */
-?>
+
+
+$getIcon = function ($name, $height=16) use($module, $args) {
+    $format = $args->imageCompatibilityMode ? 'png' : 'svg';
+    $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
+    ?>
+    <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
+<?php } ?>
 
 <html lang="<?= I18N::locale()->code() ?>">
     <head>
@@ -73,7 +80,10 @@ use Illuminate\Support\Collection;
     <body>
         <slot>
             <?php foreach ($items as $tree => $dates) : ?>
-                <h3 id="<?= $tree ?>" class="treeName"><?= ucwords($tree) ?></h3>
+                <h3 id="<?= $tree ?>" class="treeName">
+                    <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
+                    <?= ucwords($tree) ?>
+                </h3>
                 <div class="treeChanges">
                     <?php if ($dates->isEmpty()) { ?>
                     <p><?= I18N::plural('There have been no changes within the last %s day.', 'There have been no changes within the last %s days.',
@@ -85,14 +95,7 @@ use Illuminate\Support\Collection;
                             <?php $record = $change->record; ?>
                             <div id="<?= $record["xref"] ?>" class="change">
                                 <span class="recordTypeIcon">
-                                    <?php
-                                        $tag = $record["tag"];
-                                        $getIcon = function ($name) use($module, $args) {
-                                            $format = $args->imageCompatibilityMode ? 'png' : 'svg';
-                                            $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
-                                            ?>
-                                            <img height="16" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
-                                    <?php } ?>
+                                    <?php $tag = $record["tag"]; ?>
                                     <?php
                                         if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
                                         elseif ($tag === Family::RECORD_TYPE) $getIcon('family');
