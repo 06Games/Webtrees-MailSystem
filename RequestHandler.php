@@ -21,7 +21,6 @@ use Fisharebest\Webtrees\SiteUser;
 use Fisharebest\Webtrees\NoReplyUser;
 
 // getChanges
-use Fisharebest\Webtrees\Carbon;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Tree;
 use Illuminate\Database\Capsule\Manager as DB;
@@ -86,7 +85,7 @@ class RequestHandler implements RequestHandlerInterface
         foreach($this->trees->all() as $tree)
             $changes[$tree->name()] = $this->getChanges($tree, $args->days)
                                         ->filter(static function (stdClass $row) use ($args):bool { return in_array($row->record["tag"] , $args->tags); })
-                                        ->groupBy(static function (stdClass $row) { return $row->time->format('Y-m-d'); })
+                                        ->groupBy(static function (stdClass $row) { return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d'); })
                                         ->sortKeys();
         return $changes;
     }
@@ -120,7 +119,7 @@ class RequestHandler implements RequestHandlerInterface
             ->where('gedcom_id', '=', $tree->id())
             ->where('status', '=', 'accepted')
             ->where('new_gedcom', '<>', '')
-            ->where('change_time', '>', Carbon::now()->subDays($days))
+            ->where('change_time', '>', Registry::timestampFactory()->now()->subtractDays($days)->toDateTimeString())
             ->groupBy(['xref'])
             ->select(new Expression('MAX(change_id) AS recent_change_id'));
 
@@ -134,7 +133,7 @@ class RequestHandler implements RequestHandlerInterface
                 $record = Registry::gedcomRecordFactory()->make($row->xref, $tree, $row->new_gedcom);
                 return (object) [
                     'record' => $record == null ? null : [ 'canShow' => $record->canShow(), 'tag' => $record->tag(), 'xref' => $record->xref(), 'fullName' => $record->fullName(), 'url' => $record->url() ],
-                    'time'   => Carbon::create($row->change_time)->local(),
+                    'time'   => $row->change_time,
                     'user'   => $this->users->find((int) $row->user_id)->userName(),
                 ];
             })
