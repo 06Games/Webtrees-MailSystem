@@ -82,7 +82,7 @@ class RequestHandler implements RequestHandlerInterface
             'users' => $getValue("users", [], $strToArray),
             'trees' => $getValue("trees", null, $strToArray),
             'showEmptyTrees' => $getValue("empty", true, $strToBool),
-            'imageCompatibilityMode' => $getValue("png", false, $strToBool)
+            'format' => $getValue("format", "png")
         ];
     }
 

@@ -22,12 +22,13 @@ use Illuminate\Support\Collection;
 
 
 $getIcon = function ($name, $height=16) use($module, $args) {
-    $format = $args->imageCompatibilityMode ? 'png' : 'svg';
+    $format = in_array($args->format, ["png", "svg"]) ? $args->format : 'png';
     $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
     ?>
     <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
 <?php } ?>
 
+<!DOCTYPE html>
 <html lang="<?= I18N::locale()->code() ?>">
     <head>
         <title><?= $subject ?></title>

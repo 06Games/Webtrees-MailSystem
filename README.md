@@ -22,4 +22,4 @@ To use the plugin, you just have to add a cron task (replacing `YOURWEBTREESSERV
 |  `tags`   |  `list`   |                                      Types of changes to be considered                                       |          `INDI,FAM`           |
 |  `empty`  | `boolean` | Display trees without changes <br>(If the value is `False` and there is no changes, the email won't be sent) |            `True`             |
 |  `title`  | `string`  |                                         Customised title of the mail                                         | `Changes in the last %s days` |
-|   `png`   | `boolean` |                                     The images are in PNG instead of SVG                                     |            `False`            |
+| `format`  | `string`  |                                   The image format (either `png` or `svg`)                                   |             `png`             |
