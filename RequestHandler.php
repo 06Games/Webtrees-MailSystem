@@ -81,6 +81,7 @@ class RequestHandler implements RequestHandlerInterface
             'tags' => $getValue("tags", [Individual::RECORD_TYPE, Family::RECORD_TYPE], $strToArray),
             'users' => $getValue("users", [], $strToArray),
             'trees' => $getValue("trees", null, $strToArray),
+            'showEmptyTrees' => $getValue("empty", true, $strToBool),
             'imageCompatibilityMode' => $getValue("png", false, $strToBool)
         ];
     }
@@ -89,36 +90,43 @@ class RequestHandler implements RequestHandlerInterface
     {
         $changes = [];
         foreach ($this->trees->all() as $tree)
-            if ($args->trees == null || in_array($tree->name(), $args->trees))
-                $changes[$tree->name()] = $this->getChanges($tree, $args->days)
+            if ($args->trees == null || in_array($tree->name(), $args->trees)) {
+                $treeChanges = $this->getChanges($tree, $args->days)
                     ->filter(static function (stdClass $row) use ($args): bool { return in_array($row->record["tag"], $args->tags); })
                     ->groupBy(static function (stdClass $row) { return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d'); })
                     ->sortKeys();
+                if ($args->showEmptyTrees || !$treeChanges->isEmpty()) $changes[$tree->name()] = $treeChanges;
+            }
         return $changes;
     }
 
-    function html(object $args): string
+
+    function html(object $args): ?string
     {
+        $items = $this->api($args);
+        if (empty($items)) return null;
         return view("{$this->module->name()}::email", [
             'args' => $args,
             'subject' => $args->title,
-            'items' => $this->api($args),
+            'items' => $items,
             'module' => $this->module
         ]);
     }
 
     function sendMails(object $args): array
     {
+        $sent = [];
         foreach ($this->users->all() as $user) {
-            if (in_array($user->username(), $args->users)) $this->sendMail($user, $args);
+            if (in_array($user->username(), $args->users) && $this->sendMail($user, $args)) $sent[] = $user;
         }
-        return ["users" => $args->users];
+        return ["users" => $sent];
     }
 
-    function sendMail(User $user, $args)
+    function sendMail(User $user, $args): bool
     {
         $html = $this->html($args);
-        $this->email->send(new SiteUser(), $user, new NoReplyUser(), $args->title, strip_tags($html), $html);
+        if ($html == null) return false;
+        return $this->email->send(new SiteUser(), $user, new NoReplyUser(), $args->title, strip_tags($html), $html);
     }
 
     function getChanges(Tree $tree, int $days): Collection // From getRecentChangesFromDatabase in RecentChangesModule

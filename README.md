@@ -14,11 +14,12 @@ To use the plugin, you just have to add a cron task (replacing `YOURWEBTREESSERV
 
 ## Parameters
 
-| Parameter |   Type    |              Description              |         Default value         |
-|:---------:|:---------:|:-------------------------------------:|:-----------------------------:|
-|  `users`  |  `list`   |       Users to send the mail to       |                               |
-|  `trees`  |  `list`   |   `Names of trees to be considered    |                               |
-|  `days`   | `integer` | The period (in days) to be considered |              `7`              |
-|  `tags`   |  `list`   |   Types of changes to be considered   |          `INDI,FAM`           |
-|  `title`  | `string`  |     Customised title of the mail      | `Changes in the last %s days` |
-|   `png`   | `boolean` | The images are in PNG instead of SVG  |            `False`            |
+| Parameter |   Type    |                                                 Description                                                 |         Default value         |
+|:---------:|:---------:|:-----------------------------------------------------------------------------------------------------------:|:-----------------------------:|
+|  `users`  |  `list`   |                                          Users to send the mail to                                          |                               |
+|  `trees`  |  `list`   |                                       Names of trees to be considered                                       |                               |
+|  `days`   | `integer` |                                    The period (in days) to be considered                                    |              `7`              |
+|  `tags`   |  `list`   |                                      Types of changes to be considered                                      |          `INDI,FAM`           |
+|  `empty`  | `boolean` | Display trees without changes <br>(If the value is `False` and there is no change, the email won't be sent) |            `True`             |
+|  `title`  | `string`  |                                        Customised title of the mail                                         | `Changes in the last %s days` |
+|   `png`   | `boolean` |                                    The images are in PNG instead of SVG                                     |            `False`            |
