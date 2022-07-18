@@ -117,7 +117,7 @@ class RequestHandler implements RequestHandlerInterface
     {
         $sent = [];
         foreach ($this->users->all() as $user) {
-            if (in_array($user->username(), $args->users) && $this->sendMail($user, $args)) $sent[] = $user;
+            if ($args->users == null || in_array($user->username(), $args->users) && $this->sendMail($user, $args)) $sent[] = $user->username();
         }
         return ["users" => $sent];
     }
