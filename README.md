@@ -14,8 +14,11 @@ To use the plugin, you just have to add a cron task (replacing `YOURWEBTREESSERV
 
 ## Parameters
 
-* `users`: A list of users (separated by a `,`) to send the mail to
-* `days`: The period (in days) to be considered -- default `7`
-* `title`: Customised title of the mail -- default `Changes in the last %s days`
-* `tags`: Types of changes to be considered -- default `INDI,FAM`
-* `png`: The images are in png instead of svg -- default `False`
+| Parameter |   Type    |              Description              |         Default value         |
+|:---------:|:---------:|:-------------------------------------:|:-----------------------------:|
+|  `users`  |  `list`   |       Users to send the mail to       |                               |
+|  `trees`  |  `list`   |   `Names of trees to be considered    |                               |
+|  `days`   | `integer` | The period (in days) to be considered |              `7`              |
+|  `tags`   |  `list`   |   Types of changes to be considered   |          `INDI,FAM`           |
+|  `title`  | `string`  |     Customised title of the mail      | `Changes in the last %s days` |
+|   `png`   | `boolean` | The images are in PNG instead of SVG  |            `False`            |

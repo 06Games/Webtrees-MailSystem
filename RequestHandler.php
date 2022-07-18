@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace EvanG\Modules\MailSystem;
 
 use Fisharebest\Webtrees\I18N;
@@ -50,10 +51,14 @@ class RequestHandler implements RequestHandlerInterface
     public function handle(Request $request): Response
     {
         switch ($request->getAttribute('action')) {
-            case 'api': return response($this->api($this->parseRequestArgs($request)));
-            case 'html': return response($this->html($this->parseRequestArgs($request)));
-            case 'send': return response($this->sendMails($this->parseRequestArgs($request)));
-            default: throw new HttpNotFoundException();
+            case 'api':
+                return response($this->api($this->parseRequestArgs($request)));
+            case 'html':
+                return response($this->html($this->parseRequestArgs($request)));
+            case 'send':
+                return response($this->sendMails($this->parseRequestArgs($request)));
+            default:
+                throw new HttpNotFoundException();
         }
     }
 
@@ -65,9 +70,9 @@ class RequestHandler implements RequestHandlerInterface
             else return $default;
         };
 
-        $strToBool = function($str) { return $str === null || $str === "" || $str === "True"; };
-        $strToInt = function($str) { return intval($str); };
-        $strToArray = function($str) { return explode(',', $str); };
+        $strToBool = function ($str) { return $str === null || $str === "" || $str === "True"; };
+        $strToInt = function ($str) { return intval($str); };
+        $strToArray = function ($str) { return explode(',', $str); };
 
         $days = $getValue("days", 7, $strToInt);
         return (object)[
@@ -75,25 +80,27 @@ class RequestHandler implements RequestHandlerInterface
             'title' => $getValue("title", I18N::plural('Changes in the last %s day', 'Changes in the last %s days', $days, $days)),
             'tags' => $getValue("tags", [Individual::RECORD_TYPE, Family::RECORD_TYPE], $strToArray),
             'users' => $getValue("users", [], $strToArray),
+            'trees' => $getValue("trees", null, $strToArray),
             'imageCompatibilityMode' => $getValue("png", false, $strToBool)
         ];
     }
 
     function api(object $args): array
     {
-        $changes = array();
-        foreach($this->trees->all() as $tree)
-            $changes[$tree->name()] = $this->getChanges($tree, $args->days)
-                                        ->filter(static function (stdClass $row) use ($args):bool { return in_array($row->record["tag"] , $args->tags); })
-                                        ->groupBy(static function (stdClass $row) { return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d'); })
-                                        ->sortKeys();
+        $changes = [];
+        foreach ($this->trees->all() as $tree)
+            if ($args->trees == null || in_array($tree->name(), $args->trees))
+                $changes[$tree->name()] = $this->getChanges($tree, $args->days)
+                    ->filter(static function (stdClass $row) use ($args): bool { return in_array($row->record["tag"], $args->tags); })
+                    ->groupBy(static function (stdClass $row) { return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d'); })
+                    ->sortKeys();
         return $changes;
     }
 
     function html(object $args): string
     {
         return view("{$this->module->name()}::email", [
-            'args' =>  $args,
+            'args' => $args,
             'subject' => $args->title,
             'items' => $this->api($args),
             'module' => $this->module
@@ -108,7 +115,8 @@ class RequestHandler implements RequestHandlerInterface
         return ["users" => $args->users];
     }
 
-    function sendMail(User $user, $args){
+    function sendMail(User $user, $args)
+    {
         $html = $this->html($args);
         $this->email->send(new SiteUser(), $user, new NoReplyUser(), $args->title, strip_tags($html), $html);
     }
@@ -131,10 +139,10 @@ class RequestHandler implements RequestHandlerInterface
             ->get()
             ->map(function (stdClass $row) use ($tree): stdClass {
                 $record = Registry::gedcomRecordFactory()->make($row->xref, $tree, $row->new_gedcom);
-                return (object) [
-                    'record' => $record == null ? null : [ 'canShow' => $record->canShow(), 'tag' => $record->tag(), 'xref' => $record->xref(), 'fullName' => $record->fullName(), 'url' => $record->url() ],
-                    'time'   => $row->change_time,
-                    'user'   => $this->users->find((int) $row->user_id)->userName(),
+                return (object)[
+                    'record' => $record == null ? null : ['canShow' => $record->canShow(), 'tag' => $record->tag(), 'xref' => $record->xref(), 'fullName' => $record->fullName(), 'url' => $record->url()],
+                    'time' => $row->change_time,
+                    'user' => $this->users->find((int)$row->user_id)->userName(),
                 ];
             })
             ->filter(static function (stdClass $row): bool { return $row->record != null && $row->record["canShow"]; });
