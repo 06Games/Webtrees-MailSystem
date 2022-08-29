@@ -1,10 +1,10 @@
 <?php
 
 use EvanG\Modules\MailSystem\MailSystem;
+use EvanG\Modules\MailSystem\Settings;
 use Fisharebest\Webtrees\I18N;
 
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
-use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Family;
@@ -15,14 +15,14 @@ use Fisharebest\Webtrees\Submitter;
 use Fisharebest\Webtrees\Repository;
 use Illuminate\Support\Collection;
 
-/** @var object $args */
+/** @var Settings $args */
 /** @var string $subject */
 /** @var Collection $items */
 /** @var MailSystem $module */
 
 
 $getIcon = function ($name, $height=16) use($module, $args) {
-    $format = in_array($args->format, ["png", "svg"]) ? $args->format : 'png';
+    $format = $args->getImageFormat();
     $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
     ?>
     <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
@@ -88,7 +88,7 @@ $getIcon = function ($name, $height=16) use($module, $args) {
                 <div class="treeChanges">
                     <?php if ($dates->isEmpty()) { ?>
                     <p><?= I18N::plural('There have been no changes within the last %s day.', 'There have been no changes within the last %s days.',
-                            $args->days, I18N::number($args->days)); ?>
+                            $args->getDays(), I18N::number($args->getDays())); ?>
                     <?php } else foreach ($dates as $date => $changes) : ?>
                     <h4 id="<?= $date ?>" class="date"><?= $date ?></h4>
                     <div class="changes">

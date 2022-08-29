@@ -1,0 +1,137 @@
+<?php
+
+use EvanG\Modules\MailSystem\AdminAction;
+use EvanG\Modules\MailSystem\RequestHandler;
+use EvanG\Modules\MailSystem\Settings;
+use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
+use Fisharebest\Webtrees\I18N;
+
+/**
+ * @var string $title
+ * @var Settings $settings
+ */
+
+?>
+
+<?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => I18N::translate('Control panel'), $title]]) ?>
+
+<div id="reminder-admin-config">
+
+    <h1><?= $title ?></h1>
+
+    <div id="reminder-admin-config-content">
+
+        <h2 style="margin-top: 1em;"><?= I18N::translate('First steps') ?></h2>
+
+        <p>
+            <?= I18N::translate('This module requires a cron job to be set up and run every day.') ?>
+            <br>
+            <?= I18N::translate('Please add the following line to your cron file') ?>
+        </p>
+        <input type="text" class="form-control" id="reminder-admin-config-cron-input" readonly
+               value="0 8 * * * wget -O - -q &quot;<?= e(route(RequestHandler::class, ['action' => 'cron'])) ?>&quot;">
+
+
+        <h2 style="margin-top: 1em;"><?= I18N::translate('Settings') ?></h2>
+        <form action="<?= route(AdminAction::class) ?>" method="get" class="form-horizontal">
+
+            <!-- EVANG_MAILSYSTEM_TREES -->
+            <div class="row mb-3">
+                <label class="col-sm-3" for="EVANG_MAILSYSTEM_TREES">
+                    <?= I18N::translate('Trees') ?>
+                </label>
+
+                <div class="col-sm-9">
+                    <?= view('components/select', ['class' => 'tom-select', 'id' => 'EVANG_MAILSYSTEM_TREES', 'name' => 'EVANG_MAILSYSTEM_TREES[]', 'options' => $settings->getAllTrees(), 'selected' => $settings->getTrees()]) ?>
+                    <div class="form-text">
+                        <?= I18N::translate("Trees to be considered") ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVANG_MAILSYSTEM_USERS -->
+            <div class="row mb-3">
+                <label class="col-sm-3" for="EVANG_MAILSYSTEM_USERS">
+                    <?= I18N::translate('Users') ?>
+                </label>
+
+                <div class="col-sm-9">
+                    <?= view('components/select', ['class' => 'tom-select', 'id' => 'EVANG_MAILSYSTEM_USERS', 'name' => 'EVANG_MAILSYSTEM_USERS[]', 'options' => $settings->getAllUsers(), 'selected' => $settings->getUsers()]) ?>
+                    <div class="form-text">
+                        <?= I18N::translate("Users to send the mail to") ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVANG_MAILSYSTEM_TAGS -->
+            <div class="row mb-3">
+                <label class="col-sm-3" for="EVANG_MAILSYSTEM_TAGS">
+                    <?= I18N::translate('Tags') ?>
+                </label>
+
+                <div class="col-sm-9">
+                    <?= view('components/select', ['class' => 'tom-select', 'id' => 'EVANG_MAILSYSTEM_TAGS', 'name' => 'EVANG_MAILSYSTEM_TAGS[]', 'options' => $settings->getAllTags(), 'selected' => $settings->getTags()]) ?>
+                    <div class="form-text">
+                        <?= I18N::translate("Types of changes to be considered") ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVANG_MAILSYSTEM_DAYS -->
+            <div class="row mb-3">
+                <label for="EVANG_MAILSYSTEM_DAYS" class="col-sm-3 col-form-label">
+                    <?= I18N::translate('Days') ?>
+                </label>
+                <div class="col-sm-9">
+                    <input type="number" step="1" pattern="^\d*$" class="form-control" id="EVANG_MAILSYSTEM_DAYS" name="EVANG_MAILSYSTEM_DAYS" value="<?= $settings->getDays() ?>"
+                           placeholder="7" maxlength="3">
+                    <div class="form-text">
+                        <?= I18N::translate('The period (in days) to be considered') ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVANG_MAILSYSTEM_EMPTY -->
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-3">
+                    <?= I18N::translate('Display trees without changes') ?>
+                </legend>
+                <div class="col-sm-9">
+                    <?= view('components/radios-inline', ['name' => 'EVANG_MAILSYSTEM_EMPTY', 'options' => [I18N::translate('no'), I18N::translate('yes')], 'selected' => (int)$settings->getEmpty()]) ?>
+                    <div class="form-text">
+                        <?= I18N::translate("If the value is False and there is no changes, the email won't be sent") ?>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- EVANG_MAILSYSTEM_IMAGEFORMAT -->
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-3">
+                    <?= I18N::translate('Image format') ?>
+                </legend>
+                <div class="col-sm-9">
+                    <?= view('components/radios-inline', ['name' => 'EVANG_MAILSYSTEM_IMAGEFORMAT', 'options' => $settings->getAllImageFormat(), 'selected' => $settings->getImageFormat()]) ?>
+                    <div class="form-text">
+                        <?= I18N::translate("Use PNG for a better compatibility") ?>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row mb-3">
+                <div class="offset-sm-3 col-sm-9">
+                    <button type="submit" class="btn btn-primary">
+                        <?= view('icons/save') ?>
+                        <?= I18N::translate('save') ?>
+                    </button>
+
+                    <a href="<?= e(route(ControlPanel::class)) ?>" class="btn btn-secondary">
+                        <?= view('icons/cancel') ?>
+                        <?= I18N::translate('cancel') ?>
+                    </a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
