@@ -99,7 +99,7 @@ use Fisharebest\Webtrees\I18N;
                 <div class="col-sm-9">
                     <?= view('components/radios-inline', ['name' => 'EVANG_MAILSYSTEM_EMPTY', 'options' => [I18N::translate('no'), I18N::translate('yes')], 'selected' => (int)$settings->getEmpty()]) ?>
                     <div class="form-text">
-                        <?= I18N::translate("If the value is False and there is no changes, the email won't be sent") ?>
+                        <?= I18N::translate("When this option is disabled, no mail will be sent if there have been no changes during the given period") ?>
                     </div>
                 </div>
             </fieldset>
