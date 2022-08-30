@@ -7,6 +7,9 @@ namespace EvanG\Modules\MailSystem;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
+use Fisharebest\Localization\Locale;
+use Fisharebest\Localization\Translator;
+use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\NoReplyUser;
 use Fisharebest\Webtrees\Registry;
@@ -49,7 +52,10 @@ class RequestHandler implements RequestHandlerInterface
             'help' => function () { return response($this->help()); },
             'cron' => function () { return $this->cron(); },
             'get' => function () { return response($this->api($this->module->getSettings())); },
-            'html' => function () { return response($this->html($this->module->getSettings())); },
+            'html' => function (Request $request) {
+                $query = $request->getQueryParams();
+                return response($this->html($this->htmlData($this->module->getSettings(), $query["lang"] ?? null)));
+            },
             //'send' => function () { return response($this->sendMails($this->module->getSettings())); }
         ];
     }
@@ -57,7 +63,7 @@ class RequestHandler implements RequestHandlerInterface
     public function handle(Request $request): Response
     {
         $action = $request->getAttribute('action');
-        if (key_exists($action, $this->actions)) return $this->actions[$action]();
+        if (key_exists($action, $this->actions)) return $this->actions[$action]($request);
         else return redirect(route(RequestHandler::class, ['action' => 'help']));
     }
 
@@ -78,12 +84,15 @@ class RequestHandler implements RequestHandlerInterface
         $settings = $this->module->getSettings();
 
         $lastCronTxt = Site::getPreference('EVANG_MAILSYSTEM_LASTCRONDATE');
-        if(!empty($lastCronTxt)){
-            $lastCronDate = new DateTimeImmutable($lastCronTxt);
-            $nextCron = $lastCronDate->add(new DateInterval('P'.$settings->getDays().'D'));
-            $today = new DateTime("midnight");
-            if($today < $nextCron) return response(["message" => "Skip", "today" => $today, "next" => $nextCron]);
-        }
+        if (!empty($lastCronTxt))
+            try {
+                $lastCronDate = new DateTimeImmutable($lastCronTxt);
+                $nextCron = $lastCronDate->add(new DateInterval('P' . $settings->getDays() . 'D'));
+                $today = new DateTime("midnight");
+                if ($today < $nextCron) return response(["message" => "Skip", "today" => $today->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")]);
+            } catch (\Exception $e) {
+                /* The date of the last send couldn't be understood, so we send the mails to give it a known value */
+            }
 
         Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', date("Y-m-d"));
         return response($this->sendMails($settings));
@@ -96,45 +105,63 @@ class RequestHandler implements RequestHandlerInterface
             if ($args->getTrees() == null || in_array($tree->name(), $args->getTrees())) {
                 $treeChanges = $this->getChanges($tree, $args->getDays())
                     ->filter(static function (stdClass $row) use ($args): bool { return in_array($row->record["tag"], $args->getTags()); })
-                    ->groupBy(static function (stdClass $row) { return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d'); })
+                    ->groupBy(static function (stdClass $row) {
+                        /** @noinspection PhpUndefinedMethodInspection */
+                        return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d');
+                    })
                     ->sortKeys();
                 if ($args->getEmpty() || !$treeChanges->isEmpty()) $changes[$tree->name()] = $treeChanges;
             }
         return $changes;
     }
 
-
-    function html(Settings $args): ?string
+    function htmlData(Settings $args, $languageCode = null): array
     {
+        $locale = $languageCode == null ? I18N::locale() : Locale::create($languageCode);
+        $translations = $this->module->customTranslations($locale->languageTag());
+        $translator = new Translator($translations, $locale->pluralRule());
+
         $items = $this->api($args);
-        if (empty($items)) return null;
-        return view("{$this->module->name()}::email", [
+        return [
             'args' => $args,
-            'subject' => I18N::plural('Changes in the last %s day', 'Changes in the last %s days', $args->getDays(), $args->getDays()),
+            'subject' => sprintf($translator->translatePlural('Changes during the day', 'Changes during the last %s days', $args->getDays()), $args->getDays()),
             'items' => $items,
-            'module' => $this->module
-        ]);
+            'module' => $this->module,
+            'translator' => $translator,
+            'locale' => $locale
+        ];
+    }
+
+    function html(array $data): ?string
+    {
+        if (empty($data["items"])) return null;
+        return view("{$this->module->name()}::email", $data);
     }
 
     function sendMails(Settings $args): array
     {
         $sent = [];
+        $failed = [];
         foreach ($this->users->all() as $user) {
-            if ($args->getUsers() == null || in_array($user->username(), $args->getUsers()) && $this->sendMail($user, $args)) $sent[] = $user->username();
+            if ($args->getUsers() == null || in_array($user->username(), $args->getUsers())) {
+                if ($this->sendMail($user, $args)) $sent[] = $user->username();
+                else $failed[] = $user->username();
+            }
         }
-        return ["users" => $sent];
+        return ["success" => $sent, "failure" => $failed];
     }
 
     function sendMail(User $user, Settings $args): bool
     {
-        $html = $this->html($args);
+        $data = $this->htmlData($args, $user->getPreference(UserInterface::PREF_LANGUAGE));
+        $html = $this->html($data);
         if ($html == null) return false;
-        return $this->email->send(new SiteUser(), $user, new NoReplyUser(),
-            I18N::plural('Changes in the last %s day', 'Changes in the last %s days', $args->getDays(), $args->getDays()), strip_tags($html), $html);
+        return $this->email->send(new SiteUser(), $user, new NoReplyUser(), $data["subject"], strip_tags($html), $html);
     }
 
     function getChanges(Tree $tree, int $days): Collection // From getRecentChangesFromDatabase in RecentChangesModule
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $subquery = DB::table('change')
             ->where('gedcom_id', '=', $tree->id())
             ->where('status', '=', 'accepted')

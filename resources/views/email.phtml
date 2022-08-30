@@ -2,7 +2,8 @@
 
 use EvanG\Modules\MailSystem\MailSystem;
 use EvanG\Modules\MailSystem\Settings;
-use Fisharebest\Webtrees\I18N;
+use Fisharebest\Localization\Locale\LocaleInterface;
+use Fisharebest\Localization\Translator;
 
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 
@@ -19,108 +20,117 @@ use Illuminate\Support\Collection;
 /** @var string $subject */
 /** @var Collection $items */
 /** @var MailSystem $module */
+/** @var Translator $translator */
+/** @var LocaleInterface $locale */
 
 
-$getIcon = function ($name, $height=16) use($module, $args) {
+$getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
     $format = $args->getImageFormat();
-    $url = $module->assetUrl('img/'.$format.'/'.$name.'.'.$format);
+    $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format);
     ?>
-    <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= I18N::translate($name) ?>" />
+    <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= $translator->translate($name) ?>"/>
 <?php } ?>
 
 <!DOCTYPE html>
-<html lang="<?= I18N::locale()->code() ?>">
-    <head>
-        <title><?= $subject ?></title>
+<html lang="<?= $locale->code() ?>">
+<head>
+    <title><?= $subject ?></title>
 
-        <style>
-            body{
-                margin: 0;
-            }
-            br {
-                display: block;
-                margin: 1em 0 0 0;
-            }
-            slot {
-                display: block;
-                padding: 1em;
-            }
-            footer{
-                padding: 1em;
-                background: #cccccc;
-            }
+    <style>
+        body {
+            margin: 0;
+        }
 
-            .treeName {
-                font-weight: bold;
-            }
-            .treeChanges .date {
-                margin-top: 0.5em;
-                margin-bottom: 0.25em;
-            }
-            .treeChanges .changes {
-                padding-left: 1em;
-                padding-bottom: 0.5em;
-            }
-            .treeChanges .changes .recordTypeIcon {
-                display: inline-block;
-                text-align: center;
-                min-width: 1.5em;
-            }
-            .treeChanges .changes .recordTypeIcon img {
-                height: 1rem;
-            }
-            .treeChanges .changes .record {
-                vertical-align: middle;
-            }
-        </style>
+        br {
+            display: block;
+            margin: 1em 0 0 0;
+        }
 
-        <?php foreach (app(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
-            <link rel="stylesheet" href="<?= e($stylesheet) ?>">
-        <?php endforeach ?>
-    </head>
-    <body>
-        <slot>
-            <?php foreach ($items as $tree => $dates) : ?>
-                <h3 id="<?= $tree ?>" class="treeName">
-                    <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
-                    <?= ucwords($tree) ?>
-                </h3>
-                <div class="treeChanges">
-                    <?php if ($dates->isEmpty()) { ?>
-                    <p><?= I18N::plural('There have been no changes within the last %s day.', 'There have been no changes within the last %s days.',
-                            $args->getDays(), I18N::number($args->getDays())); ?>
-                    <?php } else foreach ($dates as $date => $changes) : ?>
-                    <h4 id="<?= $date ?>" class="date"><?= $date ?></h4>
-                    <div class="changes">
-                        <?php foreach ($changes as $change) : ?>
-                            <?php $record = $change->record; ?>
-                            <div id="<?= $record["xref"] ?>" class="change">
+        slot {
+            display: block;
+            padding: 1em;
+        }
+
+        footer {
+            padding: 1em;
+            background: #cccccc;
+        }
+
+        .treeName {
+            font-weight: bold;
+        }
+
+        .treeChanges .date {
+            margin-top: 0.5em;
+            margin-bottom: 0.25em;
+        }
+
+        .treeChanges .changes {
+            padding-left: 1em;
+            padding-bottom: 0.5em;
+        }
+
+        .treeChanges .changes .recordTypeIcon {
+            display: inline-block;
+            text-align: center;
+            min-width: 1.5em;
+        }
+
+        .treeChanges .changes .recordTypeIcon img {
+            height: 1rem;
+        }
+
+        .treeChanges .changes .record {
+            vertical-align: middle;
+        }
+    </style>
+
+    <?php foreach (app(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
+        <link rel="stylesheet" href="<?= e($stylesheet) ?>">
+    <?php endforeach ?>
+</head>
+<body>
+<slot>
+    <?php foreach ($items as $tree => $dates) : ?>
+        <h3 id="<?= $tree ?>" class="treeName">
+            <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
+            <?= ucwords($tree) ?>
+        </h3>
+        <div class="treeChanges">
+            <?php if ($dates->isEmpty()) { ?>
+                <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
+            <?php } else foreach ($dates as $date => $changes) : ?>
+                <h4 id="<?= $date ?>" class="date"><?= $date ?></h4>
+                <div class="changes">
+                    <?php foreach ($changes as $change) : ?>
+                        <?php $record = $change->record; ?>
+                        <div id="<?= $record["xref"] ?>" class="change">
                                 <span class="recordTypeIcon">
                                     <?php $tag = $record["tag"]; ?>
                                     <?php
-                                        if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
-                                        elseif ($tag === Family::RECORD_TYPE) $getIcon('family');
-                                        elseif ($tag === Media::RECORD_TYPE) $getIcon('media');
-                                        elseif ($tag === Note::RECORD_TYPE) $getIcon('note');
-                                        elseif ($tag === Source::RECORD_TYPE) $getIcon('source');
-                                        elseif ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
-                                        elseif ($tag === Repository::RECORD_TYPE) $getIcon('repository');
+                                    if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
+                                    else if ($tag === Family::RECORD_TYPE) $getIcon('family');
+                                    else if ($tag === Media::RECORD_TYPE) $getIcon('media');
+                                    else if ($tag === Note::RECORD_TYPE) $getIcon('note');
+                                    else if ($tag === Source::RECORD_TYPE) $getIcon('source');
+                                    else if ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
+                                    else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
                                     ?>
                                 </span>
-                                 <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
-                            </div>
-                        <?php endforeach ?>
-                    </div>
-                <?php endforeach ?>
+                            <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
+                        </div>
+                    <?php endforeach ?>
                 </div>
             <?php endforeach ?>
-        </slot>
-        <br />
-        <footer>
-            <small>
-                <?= I18N::translate("This email was autogenerated by Webtrees and programmed with ❤ by %s",
-                    "<a href=\"https://github.com/06Games/Webtrees-MailSystem\">Evan Galli</a>") ?>
-            </small>
-        </footer>
-    </body>
+        </div>
+    <?php endforeach ?>
+</slot>
+<br/>
+<footer>
+    <small>
+        <?= sprintf($translator->translate("This email was autogenerated by Webtrees and programmed with ❤ by %s"),
+            "<a href=\"https://github.com/06Games/Webtrees-MailSystem\">Evan Galli</a>") ?>
+    </small>
+</footer>
+</body>
 </html>
