@@ -2,6 +2,9 @@
 
 namespace EvanG\Modules\MailSystem;
 
+use DateInterval;
+use DateTimeImmutable;
+use Exception;
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
@@ -117,4 +120,33 @@ class Settings
     }
 
     public function setTags($value) { Site::setPreference('EVANG_MAILSYSTEM_TAGS', implode(',', $value)); }
+
+
+    public function getLastSend(): ?DateTimeImmutable
+    {
+        $lastCronTxt = Site::getPreference('EVANG_MAILSYSTEM_LASTCRONDATE');
+        if (empty($lastCronTxt)) return null;
+        try {
+            return new DateTimeImmutable($lastCronTxt);
+        } catch (Exception $e) {
+            /* The date of the last send couldn't be understood, so we send the mails to give it a known value */
+            return null;
+        }
+    }
+
+    public function setLastSend(?DateTimeImmutable $date) {
+        Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
+    }
+
+    public function getNextSend(): DateTimeImmutable
+    {
+        $lastCronDate = $this->getLastSend();
+        $today = new DateTimeImmutable("midnight");
+        if ($lastCronDate == null) return $today;
+        try {
+            return $lastCronDate->add(new DateInterval('P' . $this->getDays() . 'D'));
+        } catch (Exception $e) {
+            return $today;
+        }
+    }
 }

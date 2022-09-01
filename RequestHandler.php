@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EvanG\Modules\MailSystem;
 
-use DateInterval;
-use DateTime;
 use DateTimeImmutable;
 use Fisharebest\Localization\Locale;
 use Fisharebest\Localization\Translator;
@@ -15,7 +13,6 @@ use Fisharebest\Webtrees\NoReplyUser;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\EmailService;
 use Fisharebest\Webtrees\Services\TreeService;
-use Fisharebest\Webtrees\Site;
 use Fisharebest\Webtrees\SiteUser;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\User;
@@ -83,18 +80,10 @@ class RequestHandler implements RequestHandlerInterface
     {
         $settings = $this->module->getSettings();
 
-        $lastCronTxt = Site::getPreference('EVANG_MAILSYSTEM_LASTCRONDATE');
-        if (!empty($lastCronTxt))
-            try {
-                $lastCronDate = new DateTimeImmutable($lastCronTxt);
-                $nextCron = $lastCronDate->add(new DateInterval('P' . $settings->getDays() . 'D'));
-                $today = new DateTime("midnight");
-                if ($today < $nextCron) return response(["message" => "Skip", "today" => $today->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")]);
-            } catch (\Exception $e) {
-                /* The date of the last send couldn't be understood, so we send the mails to give it a known value */
-            }
-
-        Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', date("Y-m-d"));
+        $today = new DateTimeImmutable("midnight");
+        $nextCron = $settings->getNextSend();
+        if ($today < $nextCron) return response(["message" => "Skip", "today" => $today->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")]);
+        $settings->setLastSend($today);
         return response($this->sendMails($settings));
     }
 

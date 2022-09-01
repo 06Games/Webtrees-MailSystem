@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Mail System\n"
-"POT-Creation-Date: 2022-08-30 20:15+0200\n"
-"PO-Revision-Date: 2022-08-30 20:16+0200\n"
+"POT-Creation-Date: 2022-09-01 18:25+0200\n"
+"PO-Revision-Date: 2022-09-01 18:25+0200\n"
 "Last-Translator: Evan Galli <fr.06games@gmail.com>\n"
 "Language-Team: Evan Galli\n"
 "Language: fr\n"
@@ -18,15 +18,15 @@ msgstr ""
 "X-Poedit-SearchPath-2: RequestHandler.php\n"
 "X-Poedit-SearchPath-3: resources/views\n"
 
-#: AdminAction.php:32
+#: AdminAction.php:31
 msgid "The Mail System preferences have been updated."
 msgstr "Les préférences de Mail System ont bien été mises à jour."
 
-#: AdminPage.php:42
+#: AdminPage.php:43
 msgid "Mail system preferences"
 msgstr "Préférences Mail System"
 
-#: RequestHandler.php:124 RequestHandler.php:146
+#: RequestHandler.php:119
 #, php-format
 msgid "Changes during the day"
 msgid_plural "Changes during the last %s days"
@@ -37,7 +37,7 @@ msgstr[1] "Changements au cours des %s derniers jours"
 msgid "Control panel"
 msgstr "Panneau de controle"
 
-#: resources/views/admin.phtml:24
+#: resources/views/admin.phtml:25
 msgid "First steps"
 msgstr "Premiers pas"
 
@@ -51,55 +51,61 @@ msgstr ""
 msgid "Please add the following line to your cron file"
 msgstr "Veuillez ajouter la ligne suivante à votre fichier cron"
 
-#: resources/views/admin.phtml:35
+#: resources/views/admin.phtml:34
+#, php-format
+msgid "You may need to add %1$s and %2$s depending on your configuration"
+msgstr ""
+"Vous pourriez avoir besoin d'ajouter %1$s et %2$s selon votre configuration"
+
+#: resources/views/admin.phtml:39
 msgid "Settings"
 msgstr "Paramètres"
 
-#: resources/views/admin.phtml:41
+#: resources/views/admin.phtml:45
 msgid "Trees"
 msgstr "Arbres"
 
-#: resources/views/admin.phtml:47
+#: resources/views/admin.phtml:51
 msgid "Trees to be considered"
 msgstr "Arbres à considérer"
 
-#: resources/views/admin.phtml:55
+#: resources/views/admin.phtml:59
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: resources/views/admin.phtml:61
+#: resources/views/admin.phtml:65
 msgid "Users to send the mail to"
 msgstr "Les utilisateurs à qui envoyer les mails"
 
-#: resources/views/admin.phtml:69
+#: resources/views/admin.phtml:73
 msgid "Tags"
 msgstr "Tags"
 
-#: resources/views/admin.phtml:75
+#: resources/views/admin.phtml:79
 msgid "Types of changes to be considered"
 msgstr "Types de changements à considérer"
 
-#: resources/views/admin.phtml:83
+#: resources/views/admin.phtml:87
 msgid "Days"
 msgstr "Jours"
 
-#: resources/views/admin.phtml:89
+#: resources/views/admin.phtml:94
 msgid "The period (in days) to be considered"
 msgstr "La période (en jours) à considérer"
 
-#: resources/views/admin.phtml:97
+#: resources/views/admin.phtml:102
 msgid "Display trees without changes"
 msgstr "Afficher les arbres sans changements"
 
-#: resources/views/admin.phtml:100
+#: resources/views/admin.phtml:105
 msgid "no"
 msgstr "non"
 
-#: resources/views/admin.phtml:100
+#: resources/views/admin.phtml:105
 msgid "yes"
 msgstr "oui"
 
-#: resources/views/admin.phtml:102
+#: resources/views/admin.phtml:107
 msgid ""
 "When this option is disabled, no mail will be sent if there have been no "
 "changes during the given period"
@@ -107,21 +113,44 @@ msgstr ""
 "Lorsque cette option est désactivé, aucun mail ne sera envoyé s'il n'y a pas "
 "eu de changement durant la période donnée"
 
-#: resources/views/admin.phtml:110
+#: resources/views/admin.phtml:115
 msgid "Image format"
 msgstr "Format des images"
 
-#: resources/views/admin.phtml:115
+#: resources/views/admin.phtml:120
 msgid "Use PNG for a better compatibility"
 msgstr "Utilisez le format PNG pour une meilleure compatibilité"
 
-#: resources/views/admin.phtml:124
+#: resources/views/admin.phtml:129
 msgid "save"
 msgstr "sauvegarder"
 
-#: resources/views/admin.phtml:129
+#: resources/views/admin.phtml:134
 msgid "cancel"
 msgstr "annuler"
+
+#: resources/views/admin.phtml:142
+msgid "Information"
+msgstr "Informations"
+
+#: resources/views/admin.phtml:148
+msgid "never"
+msgstr "jamais"
+
+#: resources/views/admin.phtml:148
+#, php-format
+msgid "Last mailing: %s"
+msgstr "Dernier envoi : %s"
+
+#: resources/views/admin.phtml:150
+#, php-format
+msgid "Next mailing: %s"
+msgstr "Prochain envoi : %s"
+
+#: resources/views/admin.phtml:152
+#, php-format
+msgid "Number of recipients: %s"
+msgstr "Nombre de destinataires: %s"
 
 #: resources/views/email.phtml:101
 #, php-format

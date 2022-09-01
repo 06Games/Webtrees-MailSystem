@@ -57,7 +57,7 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
     public function description(): string { return 'Sends a mail with recent changes to Webtrees users.'; }
     public function customModuleAuthorName(): string { return 'EvanG'; }
     public function customModuleSupportUrl(): string { return 'https://github.com/06Games/Webtrees-MailSystem'; }
-    public function customModuleVersion(): string { return '2.1.0'; }
+    public function customModuleVersion(): string { return '2.1.1'; }
     public function customModuleLatestVersionUrl(): string { return 'https://github.com/06Games/Webtrees-MailSystem/raw/main/version.txt'; }
     public function resourcesFolder(): string { return __DIR__ . '/resources/'; }
     public function getConfigLink(): string { return route(AdminPage::class); }
