@@ -7,8 +7,10 @@ namespace EvanG\Modules\MailSystem;
 use DateTimeImmutable;
 use Fisharebest\Localization\Locale;
 use Fisharebest\Localization\Translator;
+use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Log;
 use Fisharebest\Webtrees\NoReplyUser;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\EmailService;
@@ -87,10 +89,13 @@ class RequestHandler implements RequestHandlerInterface
         return response($this->sendMails($settings));
     }
 
-    function api(Settings $args): array
+    function api(Settings $args, User $user = null): array
     {
-        $changes = [];
-        foreach ($this->trees->all() as $tree)
+        if ($user != null) {
+            Auth::login($user);
+            Registry::cache()->array()->forget('all-trees');
+        }
+        $changes = $this->trees->all()->map(function ($tree) use ($args) {
             if ($args->getTrees() == null || in_array($tree->name(), $args->getTrees())) {
                 $treeChanges = $this->getChanges($tree, $args->getDays())
                     ->filter(static function (stdClass $row) use ($args): bool { return in_array($row->record["tag"], $args->getTags()); })
@@ -99,18 +104,21 @@ class RequestHandler implements RequestHandlerInterface
                         return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d');
                     })
                     ->sortKeys();
-                if ($args->getEmpty() || !$treeChanges->isEmpty()) $changes[$tree->name()] = $treeChanges;
+                if ($args->getEmpty() || !$treeChanges->isEmpty()) return $treeChanges;
             }
-        return $changes;
+            return null;
+        });
+        if ($user != null) Auth::logout();
+        return $changes->toArray();
     }
 
-    function htmlData(Settings $args, $languageCode = null): array
+    function htmlData(Settings $args, $languageCode = null, $user = null): array
     {
-        $locale = $languageCode == null ? I18N::locale() : Locale::create($languageCode);
+        $locale = empty($languageCode) ? I18N::locale() : Locale::create($languageCode);
         $translations = $this->module->customTranslations($locale->languageTag());
         $translator = new Translator($translations, $locale->pluralRule());
 
-        $items = $this->api($args);
+        $items = $this->api($args, $user);
         return [
             'args' => $args,
             'subject' => sprintf($translator->translatePlural('Changes during the day', 'Changes during the last %s days', $args->getDays()), $args->getDays()),
@@ -142,9 +150,12 @@ class RequestHandler implements RequestHandlerInterface
 
     function sendMail(User $user, Settings $args): bool
     {
-        $data = $this->htmlData($args, $user->getPreference(UserInterface::PREF_LANGUAGE));
+        $data = $this->htmlData($args, $user->getPreference(UserInterface::PREF_LANGUAGE), $user);
         $html = $this->html($data);
-        if ($html == null) return false;
+        if ($html == null) {
+            Log::addErrorLog("Mail System: HTML page is null (" . $user->userName() . ")");
+            return false;
+        }
         return $this->email->send(new SiteUser(), $user, new NoReplyUser(), $data["subject"], strip_tags($html), $html);
     }
 
