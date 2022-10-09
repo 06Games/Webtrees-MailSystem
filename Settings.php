@@ -6,10 +6,12 @@ use DateInterval;
 use DateTimeImmutable;
 use Exception;
 use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\Gedcom;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Media;
 use Fisharebest\Webtrees\Note;
+use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Repository;
 use Fisharebest\Webtrees\Services\TreeService;
 use Fisharebest\Webtrees\Services\UserService;
@@ -43,6 +45,8 @@ class Settings
         foreach (["png", "svg"] as $f) $formats[$f] = $f;
         $this->allImageFormat = $formats;
     }
+
+    #region General
 
     public function getAllUsers(): array { return $this->allUsers; }
 
@@ -99,8 +103,21 @@ class Settings
 
     public function setImageFormat($value) { Site::setPreference('EVANG_MAILSYSTEM_IMAGEFORMAT', $value); }
 
+    #endregion
 
-    public function getAllTags(): array
+
+    #region Change-list
+
+    public function getChangelistEnabled(): bool
+    {
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED');
+        if (!isset($pref)) return true;
+        return (bool)$pref;
+    }
+
+    public function setChangelistEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED', $value); }
+
+    public function getAllChangelistTags(): array
     {
         return [
             Individual::RECORD_TYPE => I18N::translate("Individual"),
@@ -112,15 +129,58 @@ class Settings
             Repository::RECORD_TYPE => I18N::translate("Repository")];
     }
 
-    public function getTags(): array
+    public function getChangelistTags(): array
     {
-        $pref = Site::getPreference('EVANG_MAILSYSTEM_TAGS');
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_CHANGE_TAGS');
         if (empty($pref)) return [Individual::RECORD_TYPE, Family::RECORD_TYPE];
         return explode(",", $pref);
     }
 
-    public function setTags($value) { Site::setPreference('EVANG_MAILSYSTEM_TAGS', implode(',', $value)); }
+    public function setChangelistTags($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_TAGS', implode(',', $value)); }
 
+    #
+
+    #region Anniversaries
+
+    public function getAnniversariesEnabled(): bool
+    {
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED');
+        if (!isset($pref)) return true;
+        return (bool)$pref;
+    }
+
+    public function setAnniversariesEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED', $value); }
+
+    public function getAnniversariesDeceased(): bool
+    {
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_DECEASED');
+        if (!isset($pref)) return false;
+        return (bool)$pref;
+    }
+
+    public function setAnniversariesDeceased($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_DECEASED', $value); }
+
+    public function getAllAnniversariesTags(): array
+    {
+        $data = [];
+        foreach (array_merge(Gedcom::BIRTH_EVENTS, Gedcom::DEATH_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("INDI:".$tag)->label();
+        foreach (array_merge(Gedcom::MARRIAGE_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("FAM:".$tag)->label();
+        return $data;
+    }
+
+    public function getAnniversariesTags(): array
+    {
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_TAGS');
+        if (empty($pref)) return $this->getAllAnniversariesTags();
+        return explode(",", $pref);
+    }
+
+    public function setAnniversariesTags($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_TAGS', implode(',', $value)); }
+
+    #endregion
+
+
+    #region Infos
 
     public function getLastSend(): ?DateTimeImmutable
     {
@@ -134,7 +194,8 @@ class Settings
         }
     }
 
-    public function setLastSend(?DateTimeImmutable $date) {
+    public function setLastSend(?DateTimeImmutable $date)
+    {
         Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
     }
 
@@ -149,4 +210,6 @@ class Settings
             return $today;
         }
     }
+
+    #endregion
 }

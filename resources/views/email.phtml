@@ -13,6 +13,7 @@ use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Media;
 use Fisharebest\Webtrees\Note;
+use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Source;
 use Fisharebest\Webtrees\Submitter;
 use Fisharebest\Webtrees\Repository;
@@ -127,11 +128,13 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                 <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
                 <?= ucwords($tree) ?>
             </h3>
-            <?php $changesData = $data["changes"] ?>
+            <?php
+            if ($args->getChangelistEnabled() && (!empty($data["changes"]) || $args->getEmpty())) :
+                $changesData = $data["changes"]; ?>
             <div class="treeChanges" id="<?= $tree ?>-changes">
                 <h4><?php $getIcon('changes', 24) ?> <?= $translator->translate("Changes") ?></h4>
                 <div>
-                    <?php if ($changesData->isEmpty()) { ?>
+                    <?php if (empty($changesData)) { ?>
                         <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
                     <?php } else foreach ($changesData as $date => $changes) : ?>
                         <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format("%d %F %Y") ?></h5>
@@ -139,60 +142,61 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                             <?php foreach ($changes as $change) : ?>
                                 <?php $record = $change->record; ?>
                                 <div id="<?= $record["xref"] ?>" class="change">
-                                <span class="recordTypeIcon">
-                                    <?php $tag = $record["tag"]; ?>
-                                    <?php
-                                    if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
-                                    else if ($tag === Family::RECORD_TYPE) $getIcon('family');
-                                    else if ($tag === Media::RECORD_TYPE) $getIcon('media');
-                                    else if ($tag === Note::RECORD_TYPE) $getIcon('note');
-                                    else if ($tag === Source::RECORD_TYPE) $getIcon('source');
-                                    else if ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
-                                    else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
-                                    ?>
-                                </span>
+                                        <span class="recordTypeIcon">
+                                            <?php $tag = $record["tag"]; ?>
+                                            <?php
+                                            if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
+                                            else if ($tag === Family::RECORD_TYPE) $getIcon('family');
+                                            else if ($tag === Media::RECORD_TYPE) $getIcon('media');
+                                            else if ($tag === Note::RECORD_TYPE) $getIcon('note');
+                                            else if ($tag === Source::RECORD_TYPE) $getIcon('source');
+                                            else if ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
+                                            else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
+                                            ?>
+                                        </span>
                                     <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
                                 </div>
                             <?php endforeach ?>
                         </div>
                     <?php endforeach ?>
                 </div>
+                <?php endif ?>
             </div>
 
-            <?php $anniversariesData = $data["anniversaries"] ?>
-            <div class="treeAnniversaries" id="<?= $tree ?>-anniversaries">
-                <h4><?php $getIcon('anniversaries', 24) ?> <?= $translator->translate("Anniversaries") ?></h4>
-                <div>
-                    <?php if ($anniversariesData->isEmpty()) { ?>
-                        <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
-                    <?php } else foreach ($anniversariesData as $date => $anniversaries) : ?>
-                        <h5 id="<?= $tree ?>-anniversaries-<?= $date ?>" class="date"><?= $getDate("0" . $date)->format("%d %F") ?></h5>
-                        <div class="anniversaries">
-                            <?php foreach ($anniversaries as $anniversary) : ?>
-                                <div id="<?= $anniversary["xref"] ?>-<?= $anniversary["id"] ?>" class="anniversary">
-                                    <span class="anniversary-picture">
-                                    <?php if (!empty($anniversary["picture"])) : ?>
-                                        <img src="<?= $anniversary["picture"] ?>" height="50" alt=""/>
-                                    <?php endif ?>
-                                    </span>
-                                    <span class="anniversary-info">
-                                        <span><?php
-                                            $tag = $anniversary["tag"];
-                                            $age = $anniversary["age"];
-                                            $name = '<a class="record" href="' . e($anniversary["url"]) . '">' . $anniversary["name"] . '</a>';
-                                            if (in_array($tag, Gedcom::BIRTH_EVENTS)) echo sprintf($translator->translate('Birth of %1$s (%2$s years ago)'), $name, $age);
-                                            else if (in_array($tag, Gedcom::MARRIAGE_EVENTS)) echo sprintf($translator->translate('Marriage of %1$s (%2$s years ago)'), $name, $age);
-                                            else if (in_array($tag, Gedcom::DEATH_EVENTS)) echo sprintf($translator->translate('Death of %1$s (%2$s years ago)'), $name, $age);
-                                            ?></span>
-                                        <br/>
-                                        <span class="anniversary-date"><?= $getDate($anniversary["date"])->format("%d %F %Y") ?></span>
-                                    </span>
-                                </div>
-                            <?php endforeach ?>
-                        </div>
-                    <?php endforeach ?>
+            <?php
+            if ($args->getAnniversariesEnabled() && (!empty($data["anniversaries"]) || $args->getEmpty())) :
+                $anniversariesData = $data["anniversaries"]; ?>
+                <div class="treeAnniversaries" id="<?= $tree ?>-anniversaries">
+                    <h4><?php $getIcon('anniversaries', 24) ?> <?= $translator->translate("Anniversaries") ?></h4>
+                    <div>
+                        <?php if (empty($anniversariesData)) { ?>
+                            <p><?= sprintf($translator->translatePlural('There is no anniversary to celebrate today.', 'There are no birthdays to celebrate in the next %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
+                        <?php } else foreach ($anniversariesData as $date => $anniversaries) : ?>
+                            <h5 id="<?= $tree ?>-anniversaries-<?= $date ?>" class="date"><?= $getDate("0" . $date)->format("%d %F") ?></h5>
+                            <div class="anniversaries">
+                                <?php foreach ($anniversaries as $anniversary) : ?>
+                                    <div id="<?= $anniversary["xref"] ?>-<?= $anniversary["id"] ?>" class="anniversary">
+                                        <span class="anniversary-picture">
+                                        <?php if (!empty($anniversary["picture"])) : ?>
+                                            <img src="<?= $anniversary["picture"] ?>" height="50" alt=""/>
+                                        <?php endif ?>
+                                        </span>
+                                        <span class="anniversary-info">
+                                            <span><?php
+                                                $tag = $anniversary["tag"];
+                                                $age = $anniversary["age"];
+                                                $name = '<a class="record" href="' . e($anniversary["url"]) . '">' . $anniversary["name"] . '</a>';
+                                                echo sprintf($translator->translate('%1$s of %2$s (%3$s years ago)'), Registry::elementFactory()->make($tag)->label(), $name, $age); ?>
+                                            <br/>
+                                            <span class="anniversary-date"><?= $getDate($anniversary["date"])->format("%d %F %Y") ?></span>
+                                        </span>
+                                    </div>
+                                <?php endforeach ?>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif ?>
         </section>
     <?php endforeach ?>
 </main>

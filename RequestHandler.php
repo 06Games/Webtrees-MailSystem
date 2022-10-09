@@ -62,7 +62,7 @@ class RequestHandler implements RequestHandlerInterface
                 $query = $request->getQueryParams();
                 return response($this->html($this->htmlData($this->module->getSettings(), $query["lang"] ?? null)));
             },
-            'send' => function () { if(Auth::isAdmin()) return response($this->sendMails($this->module->getSettings())); else return null; }
+            'send' => function () { if (Auth::isAdmin()) return response($this->sendMails($this->module->getSettings())); else return null; }
         ];
     }
 
@@ -107,38 +107,40 @@ class RequestHandler implements RequestHandlerInterface
             ->filter(function ($tree) use ($args) {
                 return $args->getTrees() == null || in_array($tree->name(), $args->getTrees());
             })->map(function ($tree) use ($args) {
-                $treeChanges = $this->getChanges($tree, $args->getDays())
-                    ->filter(static fn(stdClass $row) => in_array($row->record["tag"], $args->getTags()))
-                    ->groupBy(static fn(stdClass $row) => (new DateTimeImmutable($row->time))->format('Y-m-d'))
-                    ->sortKeys();
+                $treeData = new Collection();
 
-                $tags = array_merge(Gedcom::BIRTH_EVENTS, Gedcom::MARRIAGE_EVENTS, Gedcom::DEATH_EVENTS);
-                $anniversaries = $this->calendar
-                    ->getEventsList(unixtojd($args->getNextSend()->getTimestamp()), unixtojd($args->getNextSend()->add(new \DateInterval("P".$args->getDays()."D"))->getTimestamp()), implode("|", $tags), false, 'alpha', $tree)
-                    ->map(function (Fact $fact){
-                        $date = new DateTimeImmutable(jdtogregorian($fact->date()->julianDay()));
-                        $tag = explode(":", $fact->tag());
-                        return [
-                            "tag" => end($tag),
-                            "xref" => $fact->record()->xref(),
-                            "id" => $fact->id(),
-                            "name" => $fact->record()->fullName(),
-                            "date" => $date->format("Y-m-d"),
-                            "age" => date("Y") - $date->format("Y"),
-                            "url" => $fact->record()->url(),
-                            "picture" => $this->getImage($fact->record())
+                if ($args->getChangelistEnabled())
+                    $treeData["changes"] = $this->getChanges($tree, $args->getDays())
+                        ->filter(static fn(stdClass $row) => in_array($row->record["tag"], $args->getChangelistTags()))
+                        ->groupBy(static fn(stdClass $row) => (new DateTimeImmutable($row->time))->format('Y-m-d'))
+                        ->sortKeys();
+
+                if ($args->getAnniversariesEnabled())
+                    $treeData["anniversaries"] = $this->calendar
+                        ->getEventsList(unixtojd($args->getNextSend()->getTimestamp()), unixtojd($args->getNextSend()->add(new \DateInterval("P" . $args->getDays() . "D"))->getTimestamp()), implode("|", $args->getAnniversariesTags()), !$args->getAnniversariesDeceased(), 'alpha', $tree)
+                        ->map(function (Fact $fact) {
+                            $date = new DateTimeImmutable(jdtogregorian($fact->date()->julianDay()));
+                            return [
+                                "tag" => $fact->tag(),
+                                "xref" => $fact->record()->xref(),
+                                "id" => $fact->id(),
+                                "name" => $fact->record()->fullName(),
+                                "date" => $date->format("Y-m-d"),
+                                "age" => date("Y") - $date->format("Y"),
+                                "url" => $fact->record()->url(),
+                                "picture" => $this->getImage($fact->record())
                             ];
-                    })->groupBy(static fn($fact) => (new DateTimeImmutable($fact["date"]))->format('-m-d'))
-                    ->sortKeys();
+                        })->groupBy(static fn($fact) => (new DateTimeImmutable($fact["date"]))->format('-m-d'))
+                        ->sortKeys();
 
-                if ($args->getEmpty() || !$treeChanges->isEmpty()|| !$anniversaries->isEmpty()) return ["changes" => $treeChanges, "anniversaries" => $anniversaries];
-                return null;
-            });
+                return !$args->getEmpty() && empty($treeData->whereNotNull()->count()) ? null : $treeData;
+            })->whereNotNull();
         if ($user != null) Auth::logout();
         return $data->toArray();
     }
 
-    private function getImage($individual){
+    private function getImage($individual)
+    {
         foreach ($individual->facts(['OBJE']) as $fact) {
             $media_object = $fact->target();
             if ($media_object instanceof Media) {

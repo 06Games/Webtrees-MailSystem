@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Mail System\n"
-"POT-Creation-Date: 2022-10-09 00:09+0200\n"
-"PO-Revision-Date: 2022-10-09 00:09+0200\n"
+"POT-Creation-Date: 2022-10-09 16:26+0200\n"
+"PO-Revision-Date: 2022-10-09 16:26+0200\n"
 "Last-Translator: Evan Galli <fr.06games@gmail.com>\n"
 "Language-Team: Evan Galli\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: RequestHandler.php\n"
 "X-Poedit-SearchPath-3: resources/views\n"
 
-#: AdminAction.php:32
+#: AdminAction.php:41
 msgid "The Mail System preferences have been updated."
 msgstr "Les préférences de Mail System ont bien été mises à jour."
 
@@ -26,7 +26,7 @@ msgstr "Les préférences de Mail System ont bien été mises à jour."
 msgid "Mail system preferences"
 msgstr "Préférences Mail System"
 
-#: RequestHandler.php:163
+#: RequestHandler.php:165
 #, php-format
 msgid "Changes during the day"
 msgid_plural "Changes during the last %s days"
@@ -57,138 +57,202 @@ msgid "You may need to add %1$s and %2$s depending on your configuration"
 msgstr ""
 "Vous pourriez avoir besoin d'ajouter %1$s et %2$s selon votre configuration"
 
-#: resources/views/admin.phtml:39
-msgid "Settings"
-msgstr "Paramètres"
+#: resources/views/admin.phtml:41
+msgid "General settings"
+msgstr "Paramètres généraux"
 
-#: resources/views/admin.phtml:45
+#: resources/views/admin.phtml:46
 msgid "Trees"
 msgstr "Arbres"
 
-#: resources/views/admin.phtml:51
+#: resources/views/admin.phtml:52
 msgid ""
 "Trees to be considered (User restrictions take precedence over this setting)"
 msgstr ""
 "Arbres à considérer (Les restrictions utilisateurs sont prioritaires sur ce "
 "paramètre)"
 
-#: resources/views/admin.phtml:59
+#: resources/views/admin.phtml:60
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: resources/views/admin.phtml:65
+#: resources/views/admin.phtml:66
 msgid "Users to send the mail to"
 msgstr "Les utilisateurs à qui envoyer les mails"
 
-#: resources/views/admin.phtml:73
-msgid "Tags"
-msgstr "Tags"
+#: resources/views/admin.phtml:74
+msgid "Frequency"
+msgstr "Fréquence"
 
-#: resources/views/admin.phtml:79
-msgid "Types of changes to be considered"
-msgstr "Types de changements à considérer"
+#: resources/views/admin.phtml:81
+msgid "Frequency of sending e-mails (in days)"
+msgstr "Fréquence d'envoi des e-mails (en jours)"
 
-#: resources/views/admin.phtml:87
-msgid "Days"
-msgstr "Jours"
+#: resources/views/admin.phtml:89
+msgid "Show empty categories"
+msgstr "Afficher les catégories vides"
 
-#: resources/views/admin.phtml:94
-msgid "The period (in days) to be considered"
-msgstr "La période (en jours) à considérer"
-
-#: resources/views/admin.phtml:102
-msgid "Display trees without changes"
-msgstr "Afficher les arbres sans changements"
-
-#: resources/views/admin.phtml:105
+#: resources/views/admin.phtml:92 resources/views/admin.phtml:123
+#: resources/views/admin.phtml:154 resources/views/admin.phtml:182
 msgid "no"
 msgstr "non"
 
-#: resources/views/admin.phtml:105
+#: resources/views/admin.phtml:92 resources/views/admin.phtml:123
+#: resources/views/admin.phtml:154 resources/views/admin.phtml:182
 msgid "yes"
 msgstr "oui"
 
-#: resources/views/admin.phtml:107
+#: resources/views/admin.phtml:94
 msgid ""
-"When this option is disabled, no mail will be sent if there have been no "
-"changes during the given period"
+"If this option is enabled, a message will indicate that there is no data to "
+"display for the period."
 msgstr ""
-"Lorsque cette option est désactivée, aucun mail ne sera envoyé s'il n'y a "
-"pas eu de changement durant la période donnée"
+"Si cette option est activée, un message indiquera qu'il n'y a pas de données "
+"à afficher pour cette période."
 
-#: resources/views/admin.phtml:115
+#: resources/views/admin.phtml:95
+msgid ""
+"When this option is disabled, in case all categories of all trees are "
+"without data, no mail will be sent."
+msgstr ""
+"Lorsque cette option est désactivée, si toutes les catégories de tous les "
+"arbres sont dépourvues de données, aucun courrier ne sera envoyé."
+
+#: resources/views/admin.phtml:103
 msgid "Image format"
 msgstr "Format des images"
 
-#: resources/views/admin.phtml:120
+#: resources/views/admin.phtml:108
 msgid "Use PNG for a better compatibility"
 msgstr "Utilisez le format PNG pour une meilleure compatibilité"
 
-#: resources/views/admin.phtml:129
+#: resources/views/admin.phtml:115
+msgid "Change-list settings"
+msgstr "Paramètres de la liste des changements"
+
+#: resources/views/admin.phtml:120 resources/views/admin.phtml:151
+msgid "Enabled"
+msgstr "Activé"
+
+#: resources/views/admin.phtml:125
+msgid "List of changes made in the previous period"
+msgstr "Liste des modifications apportées au cours de la période précédente"
+
+#: resources/views/admin.phtml:133 resources/views/admin.phtml:164
+msgid "Tags"
+msgstr "Tags"
+
+#: resources/views/admin.phtml:139
+msgid "Types of changes to be considered"
+msgstr "Types de changements à considérer"
+
+#: resources/views/admin.phtml:146
+msgid "Anniversaries settings"
+msgstr "Paramètres de la liste des anniversaires"
+
+#: resources/views/admin.phtml:156
+msgid "List of upcoming anniversaries in the next period"
+msgstr "Liste des anniversaires à venir au cours la prochaine période"
+
+#: resources/views/admin.phtml:170
+msgid "Types of events to consider"
+msgstr "Types d'évènements à considérer"
+
+#: resources/views/admin.phtml:179
+msgid "Deceased persons"
+msgstr "Personnes décédées"
+
+#: resources/views/admin.phtml:184
+msgid "Display the anniversaries of deceased persons"
+msgstr "Afficher les anniversaires des personnes décédées"
+
+#: resources/views/admin.phtml:185
+msgid "Required for death anniversaries"
+msgstr "Requis pour les anniversaires de décès"
+
+#: resources/views/admin.phtml:195
 msgid "save"
 msgstr "sauvegarder"
 
-#: resources/views/admin.phtml:134
+#: resources/views/admin.phtml:200
 msgid "cancel"
 msgstr "annuler"
 
-#: resources/views/admin.phtml:142
+#: resources/views/admin.phtml:208
 msgid "Information"
 msgstr "Informations"
 
-#: resources/views/admin.phtml:148
+#: resources/views/admin.phtml:214
 msgid "never"
 msgstr "jamais"
 
-#: resources/views/admin.phtml:148
+#: resources/views/admin.phtml:214
 #, php-format
 msgid "Last mailing: %s"
 msgstr "Dernier envoi : %s"
 
-#: resources/views/admin.phtml:150
+#: resources/views/admin.phtml:216
 #, php-format
 msgid "Next mailing: %s"
 msgstr "Prochain envoi : %s"
 
-#: resources/views/admin.phtml:152
+#: resources/views/admin.phtml:218
 #, php-format
 msgid "Number of recipients: %s"
 msgstr "Nombre de destinataires: %s"
 
-#: resources/views/email.phtml:128
+#: resources/views/email.phtml:135
 msgid "Changes"
 msgstr "Changements"
 
-#: resources/views/email.phtml:131 resources/views/email.phtml:163
+#: resources/views/email.phtml:138
 #, php-format
 msgid "There were no changes during the day."
 msgid_plural "There have been no changes within the last %s days."
 msgstr[0] "Il n'y a pas eu de changements au cours de la journée."
 msgstr[1] "Il n'y a pas eu de changements au cours de ces %s derniers jours."
 
-#: resources/views/email.phtml:160
+#: resources/views/email.phtml:170
 msgid "Anniversaries"
 msgstr "Anniversaires"
 
-#: resources/views/email.phtml:179
+#: resources/views/email.phtml:173
 #, php-format
-msgid "Birth of %1$s (%2$s years ago)"
-msgstr "Naissance de %1$s (il y a %2$s ans)"
+msgid "There is no anniversary to celebrate today."
+msgid_plural "There are no birthdays to celebrate in the next %s days."
+msgstr[0] "Il n'y a pas d'anniversaire à célébrer aujourd'hui."
+msgstr[1] ""
+"Il n'y a pas d'anniversaire à célébrer durant les %s prochains jours."
 
-#: resources/views/email.phtml:180
+#: resources/views/email.phtml:189
 #, php-format
-msgid "Marriage of %1$s (%2$s years ago)"
-msgstr "Mariage de %1$s (il y a %2$s ans)"
+msgid "%1$s of %2$s (%3$s years ago)"
+msgstr "%1$s de %2$s (il y a %3$s ans)"
 
-#: resources/views/email.phtml:181
-#, php-format
-msgid "Death of %1$s (%2$s years ago)"
-msgstr "Décès de %1$s (il y a %2$s ans)"
-
-#: resources/views/email.phtml:198
+#: resources/views/email.phtml:206
 #, php-format
 msgid "This email was autogenerated by Webtrees and programmed with ❤ by %s"
 msgstr "Cet email a été autogénéré par Webtrees et programmé avec ❤ par %s"
+
+#, php-format
+#~ msgid "Marriage of %1$s (%2$s years ago)"
+#~ msgstr "Mariage de %1$s (il y a %2$s ans)"
+
+#, php-format
+#~ msgid "Death of %1$s (%2$s years ago)"
+#~ msgstr "Décès de %1$s (il y a %2$s ans)"
+
+#~ msgid "Display trees without changes"
+#~ msgstr "Afficher les arbres sans changements"
+
+#~ msgid "Days"
+#~ msgstr "Jours"
+
+#~ msgid "Settings"
+#~ msgstr "Paramètres"
+
+#~ msgid "The period (in days) to be considered"
+#~ msgstr "La période (en jours) à considérer"
 
 #~ msgid "Trees to be considered"
 #~ msgstr ""

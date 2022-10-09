@@ -22,12 +22,21 @@ class AdminAction implements RequestHandlerInterface
         $params = Validator::queryParams($request);
         $settings = $this->module->getSettings();
 
+        /*** General Settings ***/
         $settings->setTrees($params->array("EVANG_MAILSYSTEM_TREES"));
         $settings->setUsers($params->array("EVANG_MAILSYSTEM_USERS"));
-        $settings->setTags($params->array("EVANG_MAILSYSTEM_TAGS"));
         $settings->setEmpty($params->integer("EVANG_MAILSYSTEM_EMPTY"));
         $settings->setDays($params->integer("EVANG_MAILSYSTEM_DAYS"));
         $settings->setImageFormat($params->string("EVANG_MAILSYSTEM_IMAGEFORMAT"));
+
+        /*** Change-list Settings ***/
+        $settings->setChangelistEnabled($params->integer("EVANG_MAILSYSTEM_CHANGE_ENABLED"));
+        $settings->setChangelistTags($params->array("EVANG_MAILSYSTEM_CHANGE_TAGS"));
+
+        /*** Anniversaries Settings ***/
+        $settings->setAnniversariesEnabled($params->integer("EVANG_MAILSYSTEM_ANNIV_ENABLED"));
+        $settings->setAnniversariesDeceased($params->integer("EVANG_MAILSYSTEM_ANNIV_DECEASED"));
+        $settings->setAnniversariesTags($params->array("EVANG_MAILSYSTEM_ANNIV_TAGS"));
 
         FlashMessages::addMessage(I18N::translate('The Mail System preferences have been updated.'), 'success');
         return redirect(route(AdminPage::class));
