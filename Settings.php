@@ -163,15 +163,15 @@ class Settings
     public function getAllAnniversariesTags(): array
     {
         $data = [];
-        foreach (array_merge(Gedcom::BIRTH_EVENTS, Gedcom::DEATH_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("INDI:".$tag)->label();
-        foreach (array_merge(Gedcom::MARRIAGE_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("FAM:".$tag)->label();
+        foreach (array_merge(Gedcom::BIRTH_EVENTS, Gedcom::DEATH_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("INDI:" . $tag)->label();
+        foreach (array_merge(Gedcom::MARRIAGE_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("FAM:" . $tag)->label();
         return $data;
     }
 
     public function getAnniversariesTags(): array
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_TAGS');
-        if (empty($pref)) return $this->getAllAnniversariesTags();
+        if (empty($pref)) return ["BIRT"];
         return explode(",", $pref);
     }
 

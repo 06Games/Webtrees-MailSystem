@@ -161,7 +161,7 @@ class RequestHandler implements RequestHandlerInterface
         $items = $this->api($args, $user);
         return [
             'args' => $args,
-            'subject' => sprintf($translator->translatePlural('Changes during the day', 'Changes during the last %s days', $args->getDays()), $args->getDays()),
+            'subject' => $translator->translate('Newsletter'),
             'items' => $items,
             'module' => $this->module,
             'translator' => $translator,

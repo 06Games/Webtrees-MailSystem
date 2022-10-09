@@ -26,7 +26,7 @@ use Illuminate\Support\Collection;
 /** @var LocaleInterface $locale */
 
 
-$getDate = function ($dateString) {
+$getDate = function ($dateString): GregorianDate {
     $date = date_parse($dateString);
     return new GregorianDate(gregoriantojd($date["month"], $date["day"], $date["year"]));
 };
