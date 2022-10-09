@@ -62,7 +62,7 @@ class RequestHandler implements RequestHandlerInterface
                 $query = $request->getQueryParams();
                 return response($this->html($this->htmlData($this->module->getSettings(), $query["lang"] ?? null)));
             },
-            //'send' => function () { return response($this->sendMails($this->module->getSettings())); }
+            'send' => function () { if(Auth::isAdmin()) return response($this->sendMails($this->module->getSettings())); else return null; }
         ];
     }
 
@@ -200,7 +200,6 @@ class RequestHandler implements RequestHandlerInterface
 
     function getChanges(Tree $tree, int $days): Collection // From getRecentChangesFromDatabase in RecentChangesModule
     {
-        /** @noinspection PhpUndefinedMethodInspection */
         $subquery = DB::table('change')
             ->where('gedcom_id', '=', $tree->id())
             ->where('status', '=', 'accepted')
