@@ -9,10 +9,15 @@ use Fisharebest\Localization\Locale;
 use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
+use Fisharebest\Webtrees\Fact;
+use Fisharebest\Webtrees\Gedcom;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Log;
+use Fisharebest\Webtrees\Media;
+use Fisharebest\Webtrees\MediaFile;
 use Fisharebest\Webtrees\NoReplyUser;
 use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Services\CalendarService;
 use Fisharebest\Webtrees\Services\EmailService;
 use Fisharebest\Webtrees\Services\TreeService;
 use Fisharebest\Webtrees\SiteUser;
@@ -39,6 +44,7 @@ class RequestHandler implements RequestHandlerInterface
     protected UserService $users;
     protected TreeService $trees;
     protected EmailService $email;
+    protected CalendarService $calendar;
 
     public function __construct(MailSystem $msys)
     {
@@ -46,6 +52,7 @@ class RequestHandler implements RequestHandlerInterface
         $this->users = app(UserService::class);
         $this->trees = app(TreeService::class);
         $this->email = app(EmailService::class);
+        $this->calendar = app(CalendarService::class);
 
         $this->actions = [
             'help' => function () { return response($this->help()); },
@@ -95,21 +102,53 @@ class RequestHandler implements RequestHandlerInterface
             Auth::login($user);
             Registry::cache()->array()->forget('all-trees');
         }
-        $changes = $this->trees->all()->map(function ($tree) use ($args) {
-            if ($args->getTrees() == null || in_array($tree->name(), $args->getTrees())) {
+
+        $data = $this->trees->all()
+            ->filter(function ($tree) use ($args) {
+                return $args->getTrees() == null || in_array($tree->name(), $args->getTrees());
+            })->map(function ($tree) use ($args) {
                 $treeChanges = $this->getChanges($tree, $args->getDays())
-                    ->filter(static function (stdClass $row) use ($args): bool { return in_array($row->record["tag"], $args->getTags()); })
-                    ->groupBy(static function (stdClass $row) {
-                        /** @noinspection PhpUndefinedMethodInspection */
-                        return Registry::timestampFactory()->fromString($row->time)->format('Y-m-d');
-                    })
+                    ->filter(static fn(stdClass $row) => in_array($row->record["tag"], $args->getTags()))
+                    ->groupBy(static fn(stdClass $row) => (new DateTimeImmutable($row->time))->format('Y-m-d'))
                     ->sortKeys();
-                if ($args->getEmpty() || !$treeChanges->isEmpty()) return $treeChanges;
-            }
-            return null;
-        });
+
+                $tags = array_merge(Gedcom::BIRTH_EVENTS, Gedcom::MARRIAGE_EVENTS, Gedcom::DEATH_EVENTS);
+                $anniversaries = $this->calendar
+                    ->getEventsList(unixtojd($args->getNextSend()->getTimestamp()), unixtojd($args->getNextSend()->add(new \DateInterval("P".$args->getDays()."D"))->getTimestamp()), implode("|", $tags), false, 'alpha', $tree)
+                    ->map(function (Fact $fact){
+                        $date = new DateTimeImmutable(jdtogregorian($fact->date()->julianDay()));
+                        $tag = explode(":", $fact->tag());
+                        return [
+                            "tag" => end($tag),
+                            "xref" => $fact->record()->xref(),
+                            "id" => $fact->id(),
+                            "name" => $fact->record()->fullName(),
+                            "date" => $date->format("Y-m-d"),
+                            "age" => date("Y") - $date->format("Y"),
+                            "url" => $fact->record()->url(),
+                            "picture" => $this->getImage($fact->record())
+                            ];
+                    })->groupBy(static fn($fact) => (new DateTimeImmutable($fact["date"]))->format('-m-d'))
+                    ->sortKeys();
+
+                if ($args->getEmpty() || !$treeChanges->isEmpty()|| !$anniversaries->isEmpty()) return ["changes" => $treeChanges, "anniversaries" => $anniversaries];
+                return null;
+            });
         if ($user != null) Auth::logout();
-        return $changes->toArray();
+        return $data->toArray();
+    }
+
+    private function getImage($individual){
+        foreach ($individual->facts(['OBJE']) as $fact) {
+            $media_object = $fact->target();
+            if ($media_object instanceof Media) {
+                $media_file = $media_object->firstImageFile();
+                if ($media_file instanceof MediaFile) {
+                    return $media_file->imageUrl(512, 512, "crop");
+                }
+            }
+        }
+        return null;
     }
 
     function htmlData(Settings $args, $languageCode = null, $user = null): array

@@ -5,6 +5,8 @@ use EvanG\Modules\MailSystem\Settings;
 use Fisharebest\Localization\Locale\LocaleInterface;
 use Fisharebest\Localization\Translator;
 
+use Fisharebest\Webtrees\Date\GregorianDate;
+use Fisharebest\Webtrees\Gedcom;
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 
 use Fisharebest\Webtrees\Individual;
@@ -24,15 +26,20 @@ use Illuminate\Support\Collection;
 /** @var LocaleInterface $locale */
 
 
+$getDate = function ($dateString) {
+    $date = date_parse($dateString);
+    return new GregorianDate(gregoriantojd($date["month"], $date["day"], $date["year"]));
+};
+
 $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
     $format = $args->getImageFormat();
     $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format);
     ?>
     <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= $translator->translate($name) ?>"/>
-<?php } ?>
+<?php }; ?>
 
 <!DOCTYPE html>
-<html lang="<?= $locale->code() ?>">
+<html lang="<?= $locale->languageTag() ?>">
 <head>
     <title><?= $subject ?></title>
 
@@ -41,7 +48,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
             margin: 0;
         }
 
-        br {
+        main ~ br {
             display: block;
             margin: 1em 0 0 0;
         }
@@ -60,13 +67,16 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
             font-weight: bold;
         }
 
-        .treeChanges .date {
+        .tree div {
+            padding-left: 1em;
+        }
+
+        .date {
             margin-top: 0.5em;
             margin-bottom: 0.25em;
         }
 
         .treeChanges .changes {
-            padding-left: 1em;
             padding-bottom: 0.5em;
         }
 
@@ -83,6 +93,26 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
         .treeChanges .changes .record {
             vertical-align: middle;
         }
+
+        .anniversary {
+            clear: both;
+            margin-bottom: 0.5em;
+        }
+
+        .anniversary .anniversary-picture {
+            float: left;
+            margin-right: 1em;
+            width: 50px;
+            height: 50px;
+            background-color: lightgray;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .anniversary .anniversary-picture img {
+            max-height: 100%;
+            max-width: 100%;
+        }
     </style>
 
     <?php foreach (app(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
@@ -90,21 +120,25 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
     <?php endforeach ?>
 </head>
 <body>
-<slot>
-    <?php foreach ($items as $tree => $dates) : ?>
-        <h3 id="<?= $tree ?>" class="treeName">
-            <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
-            <?= ucwords($tree) ?>
-        </h3>
-        <div class="treeChanges">
-            <?php if ($dates->isEmpty()) { ?>
-                <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
-            <?php } else foreach ($dates as $date => $changes) : ?>
-                <h4 id="<?= $date ?>" class="date"><?= $date ?></h4>
-                <div class="changes">
-                    <?php foreach ($changes as $change) : ?>
-                        <?php $record = $change->record; ?>
-                        <div id="<?= $record["xref"] ?>" class="change">
+<main>
+    <?php foreach ($items as $tree => $data) : ?>
+        <section id="<?= $tree ?>" class="tree">
+            <h3 class="treeName">
+                <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
+                <?= ucwords($tree) ?>
+            </h3>
+            <?php $changesData = $data["changes"] ?>
+            <div class="treeChanges" id="<?= $tree ?>-changes">
+                <h4><?php $getIcon('changes', 24) ?> <?= $translator->translate("Changes") ?></h4>
+                <div>
+                    <?php if ($changesData->isEmpty()) { ?>
+                        <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
+                    <?php } else foreach ($changesData as $date => $changes) : ?>
+                        <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format("%d %F %Y") ?></h5>
+                        <div class="changes">
+                            <?php foreach ($changes as $change) : ?>
+                                <?php $record = $change->record; ?>
+                                <div id="<?= $record["xref"] ?>" class="change">
                                 <span class="recordTypeIcon">
                                     <?php $tag = $record["tag"]; ?>
                                     <?php
@@ -117,14 +151,51 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                                     else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
                                     ?>
                                 </span>
-                            <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
+                                    <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
+                                </div>
+                            <?php endforeach ?>
                         </div>
                     <?php endforeach ?>
                 </div>
-            <?php endforeach ?>
-        </div>
+            </div>
+
+            <?php $anniversariesData = $data["anniversaries"] ?>
+            <div class="treeAnniversaries" id="<?= $tree ?>-anniversaries">
+                <h4><?php $getIcon('anniversaries', 24) ?> <?= $translator->translate("Anniversaries") ?></h4>
+                <div>
+                    <?php if ($anniversariesData->isEmpty()) { ?>
+                        <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
+                    <?php } else foreach ($anniversariesData as $date => $anniversaries) : ?>
+                        <h5 id="<?= $tree ?>-anniversaries-<?= $date ?>" class="date"><?= $getDate("0" . $date)->format("%d %F") ?></h5>
+                        <div class="anniversaries">
+                            <?php foreach ($anniversaries as $anniversary) : ?>
+                                <div id="<?= $anniversary["xref"] ?>-<?= $anniversary["id"] ?>" class="anniversary">
+                                    <span class="anniversary-picture">
+                                    <?php if (!empty($anniversary["picture"])) : ?>
+                                        <img src="<?= $anniversary["picture"] ?>" height="50" alt=""/>
+                                    <?php endif ?>
+                                    </span>
+                                    <span class="anniversary-info">
+                                        <span><?php
+                                            $tag = $anniversary["tag"];
+                                            $age = $anniversary["age"];
+                                            $name = '<a class="record" href="' . e($anniversary["url"]) . '">' . $anniversary["name"] . '</a>';
+                                            if (in_array($tag, Gedcom::BIRTH_EVENTS)) echo sprintf($translator->translate('Birth of %1$s (%2$s years ago)'), $name, $age);
+                                            else if (in_array($tag, Gedcom::MARRIAGE_EVENTS)) echo sprintf($translator->translate('Marriage of %1$s (%2$s years ago)'), $name, $age);
+                                            else if (in_array($tag, Gedcom::DEATH_EVENTS)) echo sprintf($translator->translate('Death of %1$s (%2$s years ago)'), $name, $age);
+                                            ?></span>
+                                        <br/>
+                                        <span class="anniversary-date"><?= $getDate($anniversary["date"])->format("%d %F %Y") ?></span>
+                                    </span>
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        </section>
     <?php endforeach ?>
-</slot>
+</main>
 <br/>
 <footer>
     <small>
