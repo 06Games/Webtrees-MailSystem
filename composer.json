@@ -19,6 +19,6 @@
         }
     },
     "require": {
-        "fisharebest/webtrees": "^2.1"
+        "fisharebest/webtrees": "^2.0"
     }
 }

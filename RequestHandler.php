@@ -10,7 +10,6 @@ use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Fact;
-use Fisharebest\Webtrees\Gedcom;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Log;
 use Fisharebest\Webtrees\Media;
