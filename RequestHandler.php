@@ -109,7 +109,7 @@ class RequestHandler implements RequestHandlerInterface
                 $treeData = new Collection();
 
                 if ($args->getChangelistEnabled())
-                    $treeData["changes"] = $this->getChanges($tree, $args->getDays())
+                    $treeData["changes"] = $this->getChanges($tree, $args->getLastSend(), $args->getNextSend())
                         ->filter(static fn(stdClass $row) => in_array($row->record["tag"], $args->getChangelistTags()))
                         ->groupBy(static fn(stdClass $row) => (new DateTimeImmutable($row->time))->format('Y-m-d'))
                         ->sortKeys();
@@ -199,13 +199,14 @@ class RequestHandler implements RequestHandlerInterface
         return $this->email->send(new SiteUser(), $user, new NoReplyUser(), $data["subject"], strip_tags($html), $html);
     }
 
-    function getChanges(Tree $tree, int $days): Collection // From getRecentChangesFromDatabase in RecentChangesModule
+    function getChanges(Tree $tree, DateTimeImmutable $start, DateTimeImmutable $end): Collection // From getRecentChangesFromDatabase in RecentChangesModule
     {
         $subquery = DB::table('change')
             ->where('gedcom_id', '=', $tree->id())
             ->where('status', '=', 'accepted')
             ->where('new_gedcom', '<>', '')
-            ->where('change_time', '>', Registry::timestampFactory()->now()->subtractDays($days)->toDateTimeString())
+            ->where('change_time', '>', $start->format("Y-m-d H:i:s"))
+            ->where('change_time', '<', $end->format("Y-m-d H:i:s"))
             ->groupBy(['xref'])
             ->select(new Expression('MAX(change_id) AS recent_change_id'));
 
