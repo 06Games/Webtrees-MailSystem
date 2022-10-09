@@ -54,7 +54,7 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
     }
 
     public function title(): string { return 'Mail System'; }
-    public function description(): string { return 'Sends a mail with recent changes to Webtrees users.'; }
+    public function description(): string { return 'Sends out newsletters at regular intervals'; }
     public function customModuleAuthorName(): string { return 'EvanG'; }
     public function customModuleSupportUrl(): string { return 'https://github.com/06Games/Webtrees-MailSystem'; }
     public function customModuleVersion(): string { return '2.2.0'; }
