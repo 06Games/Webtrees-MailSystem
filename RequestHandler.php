@@ -74,14 +74,19 @@ class RequestHandler implements RequestHandlerInterface
 
     function help(): array
     {
-        $help = [];
+        $endpoints = [];
         foreach ($this->actions as $action => $fct) {
-            $help[$action] = [
+            $endpoints[$action] = [
                 "name" => $action,
                 "url" => route(RequestHandler::class, ['action' => $action])
             ];
         }
-        return $help;
+        return [
+            "version" => $this->module->customModuleVersion(),
+            "latest_version" => $this->module->customModuleLatestVersion(),
+            "update_available" => version_compare($this->module->customModuleLatestVersion(), $this->module->customModuleVersion()) > 0,
+            "endpoints" => $endpoints
+        ];
     }
 
     function cron(): Response
