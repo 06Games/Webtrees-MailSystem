@@ -157,7 +157,15 @@ class RequestHandler implements RequestHandlerInterface
             if ($media_object instanceof Media) {
                 $media_file = $media_object->firstImageFile();
                 if ($media_file instanceof MediaFile) {
-                    return $media_file->imageUrl(512, 512, "crop");
+                    $image_factory = Registry::imageFactory();
+                    $response = $image_factory->mediaFileThumbnailResponse(
+                        $media_file,
+                        50,
+                        50,
+                        "crop",
+                        false
+                    );
+                    return 'data: ' . $media_file->mimeType() . ';base64,' . base64_encode((string)$response->getBody());
                 }
             }
         }

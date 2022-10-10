@@ -110,8 +110,8 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
         }
 
         .anniversary .anniversary-picture img {
-            max-height: 100%;
-            max-width: 100%;
+            min-height: 100%;
+            width: 100%;
         }
     </style>
 
@@ -177,7 +177,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                                     <div id="<?= $anniversary["xref"] ?>-<?= $anniversary["id"] ?>" class="anniversary">
                                         <span class="anniversary-picture">
                                         <?php if (!empty($anniversary["picture"])) : ?>
-                                            <img src="<?= $anniversary["picture"] ?>" height="50" alt=""/>
+                                            <img src="<?= $anniversary["picture"] ?>" width="50" alt=""/>
                                         <?php endif ?>
                                         </span>
                                         <span class="anniversary-info">
