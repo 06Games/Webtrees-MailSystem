@@ -91,8 +91,9 @@ class RequestHandler implements RequestHandlerInterface
         $today = new DateTimeImmutable("midnight");
         $nextCron = $settings->getNextSend();
         if ($today < $nextCron) return response(["message" => "Skip", "today" => $today->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")]);
+        $response = $this->sendMails($settings);
         $settings->setLastSend($today);
-        return response($this->sendMails($settings));
+        return response($response);
     }
 
     function api(Settings $args, User $user = null): array
@@ -108,15 +109,21 @@ class RequestHandler implements RequestHandlerInterface
             })->map(function ($tree) use ($args) {
                 $treeData = new Collection();
 
+                $lastCron = $args->getLastSend();
+                $thisCron = $args->getNextSend();
+                $nextCron = $args->getNextSend()->add(new \DateInterval("P" . $args->getDays() . "D"));
+
+                $treeData["dates"] = [$lastCron, $thisCron, $nextCron];
+
                 if ($args->getChangelistEnabled())
-                    $treeData["changes"] = $this->getChanges($tree, $args->getLastSend(), $args->getNextSend())
+                    $treeData["changes"] = $this->getChanges($tree, $lastCron, $thisCron)
                         ->filter(static fn(stdClass $row) => in_array($row->record["tag"], $args->getChangelistTags()))
                         ->groupBy(static fn(stdClass $row) => (new DateTimeImmutable($row->time))->format('Y-m-d'))
                         ->sortKeys();
 
                 if ($args->getAnniversariesEnabled())
                     $treeData["anniversaries"] = $this->calendar
-                        ->getEventsList(unixtojd($args->getNextSend()->getTimestamp()), unixtojd($args->getNextSend()->add(new \DateInterval("P" . $args->getDays() . "D"))->getTimestamp()), implode("|", $args->getAnniversariesTags()), !$args->getAnniversariesDeceased(), 'alpha', $tree)
+                        ->getEventsList(unixtojd($thisCron->getTimestamp()), unixtojd($nextCron->getTimestamp()), implode("|", $args->getAnniversariesTags()), !$args->getAnniversariesDeceased(), 'alpha', $tree)
                         ->map(function (Fact $fact) {
                             $date = new DateTimeImmutable(jdtogregorian($fact->date()->julianDay()));
                             return [
