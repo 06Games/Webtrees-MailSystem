@@ -118,7 +118,7 @@ class RequestHandler implements RequestHandlerInterface
                 $thisCron = $args->getNextSend();
                 $nextCron = $args->getNextSend()->add(new \DateInterval("P" . $args->getDays() . "D"));
 
-                $treeData["dates"] = [$lastCron, $thisCron, $nextCron];
+                $treeData["dates"] = ["last" => $lastCron->format("Y-m-d"), "this" => $thisCron->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")];
 
                 if ($args->getChangelistEnabled())
                     $treeData["changes"] = $this->getChanges($tree, $lastCron, $thisCron)
@@ -236,14 +236,20 @@ class RequestHandler implements RequestHandlerInterface
 
         return $query
             ->get()
-            ->map(function (stdClass $row) use ($tree): stdClass {
+            ->map(function (stdClass $row) use ($tree): ?stdClass {
                 $record = Registry::gedcomRecordFactory()->make($row->xref, $tree, $row->new_gedcom);
+                if ($record == null || !$record->canShow()) return null;
                 return (object)[
-                    'record' => $record == null ? null : ['canShow' => $record->canShow(), 'tag' => $record->tag(), 'xref' => $record->xref(), 'fullName' => $record->fullName(), 'url' => $record->url()],
+                    'record' => [
+                        'tag' => $record->tag(),
+                        'xref' => $record->xref(),
+                        'fullName' => $record->fullName(),
+                        'url' => $record->url()
+                    ],
                     'time' => $row->change_time,
                     'user' => $this->users->find((int)$row->user_id)->userName(),
                 ];
             })
-            ->filter(static function (stdClass $row): bool { return $row->record != null && $row->record["canShow"]; });
+            ->filter(static function ($row): bool { return $row != null; });
     }
 }
