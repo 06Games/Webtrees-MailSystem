@@ -209,7 +209,7 @@ use Fisharebest\Webtrees\I18N;
             <p>
                 <?php
                 $lastSend = $settings->getLastSend();
-                $nextSend = $settings->getNextSend();
+                $nextSend = $settings->getThisSend();
                 ?>
                 <?= I18N::translate('Last mailing: %s', "<code>" . ($lastSend == null ? I18N::translate("never") : $lastSend->format("Y-m-d")) . "</code>") ?>
                 <br/>

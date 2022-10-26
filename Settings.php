@@ -199,7 +199,7 @@ class Settings
         Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
     }
 
-    public function getNextSend(): DateTimeImmutable
+    public function getThisSend(): DateTimeImmutable
     {
         $lastCronDate = $this->getLastSend();
         $today = new DateTimeImmutable("midnight");
@@ -208,6 +208,14 @@ class Settings
             return $lastCronDate->add(new DateInterval('P' . $this->getDays() . 'D'));
         } catch (Exception $e) {
             return $today;
+        }
+    }
+
+    public function getNextSend(): DateTimeImmutable{
+        try {
+            return $this->getThisSend()->add(new DateInterval("P" . $this->getDays() . "D"));
+        } catch (Exception $e) {
+            return $this->getThisSend();
         }
     }
 

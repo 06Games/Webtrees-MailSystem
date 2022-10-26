@@ -3,8 +3,8 @@
 declare(strict_types=1);
 namespace EvanG\Modules\MailSystem;
 
-// Module
 use Aura\Router\Map;
+use Aura\Router\RouterContainer;
 use Composer\Autoload\ClassLoader;
 use Fisharebest\Localization\Translation;
 use Fisharebest\Webtrees\Http\Middleware\AuthAdministrator;
@@ -13,9 +13,6 @@ use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 use Fisharebest\Webtrees\View;
-
-// Router
-use Aura\Router\RouterContainer;
 
 /** Sends a mail with recent changes to Webtrees users. */
 class MailSystem extends AbstractModule implements ModuleCustomInterface, ModuleConfigInterface {
