@@ -150,7 +150,11 @@ class RequestHandler implements RequestHandlerInterface
                 $thisCron = $args->getThisSend();
                 $nextCron = $args->getNextSend();
 
-                $treeData["dates"] = ["last" => $lastCron->format("Y-m-d"), "this" => $thisCron->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")];
+                $treeData["dates"] = [
+                    "last" => $lastCron == null ? null : $lastCron->format("Y-m-d"),
+                    "this" => $thisCron->format("Y-m-d"),
+                    "next" => $nextCron->format("Y-m-d")
+                ];
 
                 if ($args->getChangelistEnabled()) $treeData["changes"] = $this->changes->get($args, $tree);
                 if ($args->getAnniversariesEnabled()) $treeData["anniversaries"] = $this->anniversaries->get($args, $tree);

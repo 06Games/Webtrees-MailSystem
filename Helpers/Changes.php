@@ -2,6 +2,7 @@
 
 namespace EvanG\Modules\MailSystem\Helpers;
 
+use DateInterval;
 use DateTimeImmutable;
 use EvanG\Modules\MailSystem\Settings;
 use Fisharebest\Webtrees\Registry;
@@ -21,9 +22,13 @@ class Changes implements DataGetter
         $this->users = app(UserService::class);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function get(Settings $args, Tree $tree): Collection
     {
-        return $this->getChanges($tree, $args->getLastSend(), $args->getThisSend())
+        $startDate = $args->getLastSend() ?? $args->getThisSend()->sub(new DateInterval("P" . $args->getDays() . "D"));
+        return $this->getChanges($tree, $startDate, $args->getThisSend())
             ->map(function (stdClass $row) use ($tree): ?object {
                 $record = Registry::gedcomRecordFactory()->make($row->xref, $tree, $row->new_gedcom);
                 if ($record == null || !$record->canShow()) return null;
