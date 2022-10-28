@@ -7,11 +7,13 @@ namespace EvanG\Modules\MailSystem;
 use DateTimeImmutable;
 use EvanG\Modules\MailSystem\Helpers\Anniversaries;
 use EvanG\Modules\MailSystem\Helpers\Changes;
+use EvanG\Modules\MailSystem\Helpers\Images;
 use Fisharebest\Localization\Locale;
 use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Log;
 use Fisharebest\Webtrees\NoReplyUser;
 use Fisharebest\Webtrees\Registry;
@@ -55,6 +57,13 @@ class RequestHandler implements RequestHandlerInterface
             'help' => function () { return response($this->help()); },
             'cron' => function () { return $this->cron(); },
             'get' => function () { return response($this->api($this->module->getSettings())); },
+            'image' => function(Request $request){
+                if($this->module->getSettings()->getImageDataType() != "link") return response([ "message" => "Direct links are disabled" ], 403);
+
+                $query = $request->getQueryParams();
+                $record = Registry::gedcomRecordFactory()->make($query["xref"], $this->trees->find((int)$query["tree"]));
+                return $record instanceof Individual ? Images::getImageDataResponse(Images::getIndividualPicture($record)) : null;
+            },
             'html' => function (Request $request) {
                 $query = $request->getQueryParams();
                 return response($this->html($this->htmlData($this->module->getSettings(), $query["lang"] ?? null)));

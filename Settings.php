@@ -48,8 +48,6 @@ class Settings
 
     #region General
 
-    public function getAllUsers(): array { return $this->allUsers; }
-
     public function getUsers(): array
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_USERS');
@@ -57,10 +55,9 @@ class Settings
         return explode(",", $pref);
     }
 
+    public function getAllUsers(): array { return $this->allUsers; }
+
     public function setUsers($value) { Site::setPreference('EVANG_MAILSYSTEM_USERS', implode(',', $value)); }
-
-
-    public function getAllTrees(): array { return $this->allTrees; }
 
     public function getTrees(): array
     {
@@ -68,6 +65,8 @@ class Settings
         if (empty($pref)) return $this->getAllTrees();
         return explode(",", $pref);
     }
+
+    public function getAllTrees(): array { return $this->allTrees; }
 
     public function setTrees($value) { Site::setPreference('EVANG_MAILSYSTEM_TREES', implode(',', $value)); }
 
@@ -81,16 +80,25 @@ class Settings
 
     public function setEmpty($value) { Site::setPreference('EVANG_MAILSYSTEM_EMPTY', $value); }
 
-
-    public function getDays(): int
-    {
-        $pref = Site::getPreference('EVANG_MAILSYSTEM_DAYS');
-        if (empty($pref)) return 7;
-        return (int)$pref;
-    }
-
     public function setDays($value) { Site::setPreference('EVANG_MAILSYSTEM_DAYS', $value); }
 
+    public function getAllImageDataType(): array
+    {
+        return [
+            "link" => I18N::translate("Direct URLs"),
+            "data" => I18N::translate("Data URLs"),
+            "none" => I18N::translate("No images")
+        ];
+    }
+
+    public function getImageDataType(): string
+    {
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_IMAGEDATA');
+        if (empty($pref)) return "data";
+        return $pref;
+    }
+
+    public function setImageDataType($value) { Site::setPreference('EVANG_MAILSYSTEM_IMAGEDATA', $value); }
 
     public function getAllImageFormat(): array { return $this->allImageFormat; }
 
@@ -103,17 +111,17 @@ class Settings
 
     public function setImageFormat($value) { Site::setPreference('EVANG_MAILSYSTEM_IMAGEFORMAT', $value); }
 
-    #endregion
-
-
-    #region Change-list
-
     public function getChangelistEnabled(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED');
         if (!isset($pref)) return true;
         return (bool)$pref;
     }
+
+    #endregion
+
+
+    #region Change-list
 
     public function setChangelistEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED', $value); }
 
@@ -138,16 +146,16 @@ class Settings
 
     public function setChangelistTags($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_TAGS', implode(',', $value)); }
 
-    #
-
-    #region Anniversaries
-
     public function getAnniversariesEnabled(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED');
         if (!isset($pref)) return true;
         return (bool)$pref;
     }
+
+    #
+
+    #region Anniversaries
 
     public function setAnniversariesEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED', $value); }
 
@@ -177,26 +185,23 @@ class Settings
 
     public function setAnniversariesTags($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_TAGS', implode(',', $value)); }
 
+    public function setLastSend(?DateTimeImmutable $date)
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
+    }
+
     #endregion
 
 
     #region Infos
 
-    public function getLastSend(): ?DateTimeImmutable
+    public function getNextSend(): DateTimeImmutable
     {
-        $lastCronTxt = Site::getPreference('EVANG_MAILSYSTEM_LASTCRONDATE');
-        if (empty($lastCronTxt)) return null;
         try {
-            return new DateTimeImmutable($lastCronTxt);
+            return $this->getThisSend()->add(new DateInterval("P" . $this->getDays() . "D"));
         } catch (Exception $e) {
-            /* The date of the last send couldn't be understood, so we send the mails to give it a known value */
-            return null;
+            return $this->getThisSend();
         }
-    }
-
-    public function setLastSend(?DateTimeImmutable $date)
-    {
-        Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
     }
 
     public function getThisSend(): DateTimeImmutable
@@ -211,12 +216,23 @@ class Settings
         }
     }
 
-    public function getNextSend(): DateTimeImmutable{
+    public function getLastSend(): ?DateTimeImmutable
+    {
+        $lastCronTxt = Site::getPreference('EVANG_MAILSYSTEM_LASTCRONDATE');
+        if (empty($lastCronTxt)) return null;
         try {
-            return $this->getThisSend()->add(new DateInterval("P" . $this->getDays() . "D"));
+            return new DateTimeImmutable($lastCronTxt);
         } catch (Exception $e) {
-            return $this->getThisSend();
+            /* The date of the last send couldn't be understood, so we send the mails to give it a known value */
+            return null;
         }
+    }
+
+    public function getDays(): int
+    {
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_DAYS');
+        if (empty($pref)) return 7;
+        return (int)$pref;
     }
 
     #endregion

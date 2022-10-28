@@ -27,6 +27,7 @@ class AdminAction implements RequestHandlerInterface
         $settings->setUsers($params->array("EVANG_MAILSYSTEM_USERS"));
         $settings->setEmpty($params->integer("EVANG_MAILSYSTEM_EMPTY"));
         $settings->setDays($params->integer("EVANG_MAILSYSTEM_DAYS"));
+        $settings->setImageDataType($params->string("EVANG_MAILSYSTEM_IMAGEDATA"));
         $settings->setImageFormat($params->string("EVANG_MAILSYSTEM_IMAGEFORMAT"));
 
         /*** Change-list Settings ***/

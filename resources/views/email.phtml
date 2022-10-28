@@ -32,8 +32,11 @@ $getDate = function ($dateString): GregorianDate {
 };
 
 $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
+    $source = $args->getImageDataType();
+    if($source == "none") return;
+
     $format = $args->getImageFormat();
-    $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format);
+    $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format); // TODO: Data Url
     ?>
     <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= $translator->translate($name) ?>"/>
 <?php }; ?>
@@ -74,6 +77,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
         .date {
             margin-top: 0.5em;
             margin-bottom: 0.25em;
+            clear: both;
         }
 
         .treeChanges .changes {
@@ -97,6 +101,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
         .anniversary {
             clear: both;
             margin-bottom: 0.5em;
+            min-height: 50px;
         }
 
         .anniversary .anniversary-picture {
@@ -175,11 +180,13 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                             <div class="anniversaries">
                                 <?php foreach ($anniversaries as $anniversary) : ?>
                                     <div id="<?= $anniversary["xref"] ?>-<?= $anniversary["id"] ?>" class="anniversary">
-                                        <span class="anniversary-picture">
-                                        <?php if (!empty($anniversary["picture"])) : ?>
-                                            <img src="<?= $anniversary["picture"] ?>" width="50" alt=""/>
+                                        <?php if ($args->getImageDataType() != "none") : ?>
+                                            <span class="anniversary-picture">
+                                            <?php if (!empty($anniversary["picture"])) : ?>
+                                                <img src="<?= $anniversary["picture"] ?>" width="50" alt=""/>
+                                            <?php endif ?>
+                                            </span>
                                         <?php endif ?>
-                                        </span>
                                         <span class="anniversary-info">
                                             <span><?php
                                                 $tag = $anniversary["tag"];

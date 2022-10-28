@@ -99,6 +99,20 @@ use Fisharebest\Webtrees\I18N;
                         </div>
                     </fieldset>
 
+                    <!-- EVANG_MAILSYSTEM_IMAGEDATA -->
+                    <fieldset class="row mb-3">
+                        <legend class="col-form-label col-sm-3">
+                            <?= I18N::translate('Images') ?>
+                        </legend>
+                        <div class="col-sm-9">
+                            <?= view('components/radios-inline', ['name' => 'EVANG_MAILSYSTEM_IMAGEDATA', 'options' => $settings->getAllImageDataType(), 'selected' => $settings->getImageDataType()]) ?>
+                            <div class="form-text">
+                                <?= I18N::translate("Data URLs only work on relatively recent email clients."); ?><br />
+                                <?= I18N::translate("Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however).") ?>
+                            </div>
+                        </div>
+                    </fieldset>
+
                     <!-- EVANG_MAILSYSTEM_IMAGEFORMAT -->
                     <fieldset class="row mb-3">
                         <legend class="col-form-label col-sm-3">
