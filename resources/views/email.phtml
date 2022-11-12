@@ -104,17 +104,46 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
             min-height: 50px;
         }
 
-        .anniversary .anniversary-picture {
+        .anniversary .anniversary-pictures {
             float: left;
             margin-right: 1em;
             width: 50px;
             height: 50px;
+            position: relative;
+        }
+
+        .anniversary .anniversary-pictures .anniversary-picture {
+            display: inline-block;
             background-color: lightgray;
             border-radius: 50%;
+            border: 1px solid white;
             overflow: hidden;
         }
 
-        .anniversary .anniversary-picture img {
+        .anniversary .anniversary-pictures .anniversary-picture:nth-last-child(1) {
+            width: 100%;
+            height: 100%;
+        }
+
+        .anniversary .anniversary-pictures .anniversary-picture:nth-last-child(2),
+        .anniversary .anniversary-pictures .anniversary-picture:nth-last-child(2) ~ .anniversary-picture {
+            width: 75%;
+            height: 75%;
+        }
+
+        .anniversary .anniversary-pictures .anniversary-picture:nth-last-child(2) {
+            position: absolute;
+            top: -5%;
+            left: -5%;
+        }
+
+        .anniversary .anniversary-pictures .anniversary-picture:nth-child(2) {
+            position: absolute;
+            bottom: -5%;
+            right: -5%;
+        }
+
+        .anniversary .anniversary-pictures .anniversary-picture img {
             min-height: 100%;
             width: 100%;
         }
@@ -181,10 +210,15 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                                 <?php foreach ($anniversaries as $anniversary) : ?>
                                     <div id="<?= $anniversary["xref"] ?>-<?= $anniversary["id"] ?>" class="anniversary">
                                         <?php if ($args->getImageDataType() != "none") : ?>
-                                            <span class="anniversary-picture">
-                                            <?php if (!empty($anniversary["picture"])) : ?>
-                                                <img src="<?= $anniversary["picture"] ?>" width="50" alt=""/>
-                                            <?php endif ?>
+                                            <span class="anniversary-pictures">
+                                                <?php for ($pic_i = 0; $pic_i < min(count($anniversary["picture"]), 2); $pic_i++) : ?>
+                                                    <?php $pic = $anniversary["picture"][$pic_i] ?>
+                                                    <span class="anniversary-picture">
+                                                        <?php if (!empty($pic)) : ?>
+                                                            <img src="<?= $pic ?>" width="50" alt=""/>
+                                                        <?php endif ?>
+                                                    </span>
+                                                <?php endfor ?>
                                             </span>
                                         <?php endif ?>
                                         <span class="anniversary-info">

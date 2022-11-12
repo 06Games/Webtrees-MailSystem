@@ -5,6 +5,7 @@ namespace EvanG\Modules\MailSystem\Helpers;
 use DateTimeImmutable;
 use EvanG\Modules\MailSystem\Settings;
 use Fisharebest\Webtrees\Fact;
+use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Services\CalendarService;
 use Fisharebest\Webtrees\Tree;
@@ -33,20 +34,26 @@ class Anniversaries implements DataGetter
                 $date = new DateTimeImmutable(jdtogregorian($fact->date()->julianDay()));
                 $record = $fact->record();
 
-                $img = null;
-                if($record instanceof Individual) {
-                    if ($imgSource == "data") $img = Images::getImageDataUrl(Images::getIndividualPicture($record));
-                    else if ($imgSource == "link") $img = Images::getImageDirectUrl($record);
-                }
+                $img = [];
+                $individuals = [];
+
+                if ($record instanceof Individual) $individuals[] = $record;
+                else if ($record instanceof Family) $individuals = $record->spouses()->toArray();
+
+                foreach ($individuals as $individual)
+                    if ($individual instanceof Individual) {
+                        if ($imgSource == "data") $img[] = Images::getImageDataUrl(Images::getIndividualPicture($individual));
+                        else if ($imgSource == "link") $img[] = Images::getImageDirectUrl($individual);
+                    }
 
                 return [
                     "tag" => $fact->tag(),
-                    "xref" => $fact->record()->xref(),
+                    "xref" => $record->xref(),
                     "id" => $fact->id(),
-                    "name" => $fact->record()->fullName(),
+                    "name" => $record->fullName(),
                     "date" => $date->format("Y-m-d"),
                     "age" => date("Y") - $date->format("Y"),
-                    "url" => $fact->record()->url(),
+                    "url" => $record->url(),
                     "picture" => $img
                 ];
             })->groupBy(static fn($fact) => (new DateTimeImmutable($fact["date"]))->format('-m-d'))
