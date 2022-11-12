@@ -12,6 +12,7 @@ use Fisharebest\Localization\Locale;
 use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
+use Fisharebest\Webtrees\GuestUser;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Log;
@@ -59,10 +60,19 @@ class RequestHandler implements RequestHandlerInterface
             'get' => function () { return response($this->api($this->module->getSettings())); },
             'image' => function(Request $request){
                 if($this->module->getSettings()->getImageDataType() != "link") return response([ "message" => "Direct links are disabled" ], 403);
+                $loggedUser = Auth::user();
+                if(!Auth::isAdmin()) {
+                    Auth::login($this->users->administrators()->first());
+                    Registry::cache()->array()->forget('all-trees');
+                }
 
                 $query = $request->getQueryParams();
                 $record = Registry::gedcomRecordFactory()->make($query["xref"], $this->trees->find((int)$query["tree"]));
-                return $record instanceof Individual ? Images::getImageDataResponse(Images::getIndividualPicture($record)) : null;
+                $img = $record instanceof Individual ? Images::getImageDataResponse(Images::getIndividualPicture($record)) : null;
+
+                if($loggedUser instanceof GuestUser) Auth::logout();
+                else Auth::login($loggedUser);
+                return $img;
             },
             'html' => function (Request $request) {
                 $query = $request->getQueryParams();
