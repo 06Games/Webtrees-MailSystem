@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use EvanG\Modules\MailSystem\Helpers\Anniversaries;
 use EvanG\Modules\MailSystem\Helpers\Changes;
 use EvanG\Modules\MailSystem\Helpers\Images;
+use EvanG\Modules\MailSystem\Helpers\News;
 use Fisharebest\Localization\Locale;
 use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Auth;
@@ -41,8 +42,9 @@ class RequestHandler implements RequestHandlerInterface
     protected EmailService $email;
     protected CalendarService $calendar;
 
-    private Anniversaries $anniversaries;
+    private News $news;
     private Changes $changes;
+    private Anniversaries $anniversaries;
 
     public function __construct(MailSystem $msys)
     {
@@ -51,6 +53,7 @@ class RequestHandler implements RequestHandlerInterface
         $this->trees = app(TreeService::class);
         $this->email = app(EmailService::class);
 
+        $this->news = new News();
         $this->changes = new Changes();
         $this->anniversaries = new Anniversaries();
 
@@ -175,6 +178,7 @@ class RequestHandler implements RequestHandlerInterface
                     "next" => $nextCron->format("Y-m-d")
                 ];
 
+                if ($args->getNewsEnabled()) $treeData["news"] = $this->news->get($args, $tree);
                 if ($args->getChangelistEnabled()) $treeData["changes"] = $this->changes->get($args, $tree);
                 if ($args->getAnniversariesEnabled()) $treeData["anniversaries"] = $this->anniversaries->get($args, $tree);
 

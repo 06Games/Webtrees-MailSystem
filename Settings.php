@@ -111,17 +111,31 @@ class Settings
 
     public function setImageFormat($value) { Site::setPreference('EVANG_MAILSYSTEM_IMAGEFORMAT', $value); }
 
+    #endregion
+
+
+    #region News
+
+    public function getNewsEnabled(): bool
+    {
+        $pref = Site::getPreference('EVANG_MAILSYSTEM_NEWS_ENABLED');
+        if (!isset($pref)) return true;
+        return (bool)$pref;
+    }
+
+    public function setNewsEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_NEWS_ENABLED', $value); }
+
+    #endregion
+
+
+    #region Change-list
+
     public function getChangelistEnabled(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED');
         if (!isset($pref)) return true;
         return (bool)$pref;
     }
-
-    #endregion
-
-
-    #region Change-list
 
     public function setChangelistEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED', $value); }
 
@@ -146,16 +160,16 @@ class Settings
 
     public function setChangelistTags($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_TAGS', implode(',', $value)); }
 
+    #endregion
+
+    #region Anniversaries
+
     public function getAnniversariesEnabled(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED');
         if (!isset($pref)) return true;
         return (bool)$pref;
     }
-
-    #
-
-    #region Anniversaries
 
     public function setAnniversariesEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED', $value); }
 
@@ -185,15 +199,15 @@ class Settings
 
     public function setAnniversariesTags($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_TAGS', implode(',', $value)); }
 
-    public function setLastSend(?DateTimeImmutable $date)
-    {
-        Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
-    }
-
     #endregion
 
 
     #region Infos
+
+    public function setLastSend(?DateTimeImmutable $date)
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
+    }
 
     public function getNextSend(): DateTimeImmutable
     {

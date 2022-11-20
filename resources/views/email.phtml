@@ -36,9 +36,10 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
     if($source == "none") return;
 
     $format = $args->getImageFormat();
-    $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format); // TODO: Data Url
+    try { $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format); } // TODO: Data Url
+    catch (Exception $e) { $url = null; }
     ?>
-    <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= $translator->translate($name) ?>"/>
+    <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= $translator->translate($name) ?>" />
 <?php }; ?>
 
 <!DOCTYPE html>
@@ -47,6 +48,10 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
     <title><?= $subject ?></title>
 
     <style>
+        img {
+            font-size: 10px;
+        }
+
         body {
             margin: 0;
         }
@@ -78,6 +83,19 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
             margin-top: 0.5em;
             margin-bottom: 0.25em;
             clear: both;
+        }
+
+        .news .news-title{
+            margin-bottom: 0;
+        }
+
+        .news .news-body {
+            margin-top: 0.5em;
+        }
+
+        .news .news-body > * {
+            font-size: 0.9em;
+            line-height: 1.5;
         }
 
         .treeChanges .changes {
@@ -161,40 +179,55 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                 <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
                 <?= ucwords($tree) ?>
             </h3>
-            <?php
-            if ($args->getChangelistEnabled() && (!empty($data["changes"]) || $args->getEmpty())) :
-                $changesData = $data["changes"]; ?>
-            <div class="treeChanges" id="<?= $tree ?>-changes">
-                <h4><?php $getIcon('changes', 24) ?> <?= $translator->translate("Changes") ?></h4>
-                <div>
-                    <?php if (empty($changesData)) { ?>
-                        <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
-                    <?php } else foreach ($changesData as $date => $changes) : ?>
-                        <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format("%d %F %Y") ?></h5>
-                        <div class="changes">
-                            <?php foreach ($changes as $change) : ?>
-                                <?php $record = $change->record; ?>
-                                <div id="<?= $record["xref"] ?>" class="change">
-                                        <span class="recordTypeIcon">
-                                            <?php $tag = $record["tag"]; ?>
-                                            <?php
-                                            if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
-                                            else if ($tag === Family::RECORD_TYPE) $getIcon('family');
-                                            else if ($tag === Media::RECORD_TYPE) $getIcon('media');
-                                            else if ($tag === Note::RECORD_TYPE) $getIcon('note');
-                                            else if ($tag === Source::RECORD_TYPE) $getIcon('source');
-                                            else if ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
-                                            else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
-                                            ?>
-                                        </span>
-                                    <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
-                                </div>
-                            <?php endforeach ?>
-                        </div>
-                    <?php endforeach ?>
+            <?php if ($args->getNewsEnabled() && (!empty($data["news"]) || $args->getEmpty())) :
+                $newsData = $data["news"]; ?>
+                <div class="news" id="<?= $tree ?>-news">
+                    <h4><?php $getIcon('news', 24) ?> <?= $translator->translate("News") ?></h4>
+                    <div>
+                        <?php if (empty($newsData)) { ?>
+                            <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?> <!-- TODO -->
+                        <?php } else foreach ($newsData as $news) : ?>
+                            <h5 id="<?= $tree ?>-news-<?= $news["id"] ?>" class="news-title"><?= $news["subject"] ?></h5>
+                            <small class="news-date"><?= $getDate($news["date"])->format("%d %F %Y") ?></small>
+                            <div class="news-body"><?= $news["body"] ?></div>
+                        <?php endforeach ?>
+                    </div>
                 </div>
-                <?php endif ?>
-            </div>
+            <?php endif ?>
+
+            <?php if ($args->getChangelistEnabled() && (!empty($data["changes"]) || $args->getEmpty())) :
+                $changesData = $data["changes"]; ?>
+                <div class="treeChanges" id="<?= $tree ?>-changes">
+                    <h4><?php $getIcon('changes', 24) ?> <?= $translator->translate("Changes") ?></h4>
+                    <div>
+                        <?php if (empty($changesData)) { ?>
+                            <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
+                        <?php } else foreach ($changesData as $date => $changes) : ?>
+                            <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format("%d %F %Y") ?></h5>
+                            <div class="changes">
+                                <?php foreach ($changes as $change) : ?>
+                                    <?php $record = $change->record; ?>
+                                    <div id="<?= $record["xref"] ?>" class="change">
+                                            <span class="recordTypeIcon">
+                                                <?php $tag = $record["tag"]; ?>
+                                                <?php
+                                                if ($tag === Individual::RECORD_TYPE) $getIcon('individual');
+                                                else if ($tag === Family::RECORD_TYPE) $getIcon('family');
+                                                else if ($tag === Media::RECORD_TYPE) $getIcon('media');
+                                                else if ($tag === Note::RECORD_TYPE) $getIcon('note');
+                                                else if ($tag === Source::RECORD_TYPE) $getIcon('source');
+                                                else if ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
+                                                else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
+                                                ?>
+                                            </span>
+                                        <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
+                                    </div>
+                                <?php endforeach ?>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+                </div>
+            <?php endif ?>
 
             <?php
             if ($args->getAnniversariesEnabled() && (!empty($data["anniversaries"]) || $args->getEmpty())) :
