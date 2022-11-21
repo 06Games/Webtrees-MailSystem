@@ -6,6 +6,8 @@ use EvanG\Modules\MailSystem\RequestHandler;
 use EvanG\Modules\MailSystem\Settings;
 use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Module\FamilyTreeNewsModule;
+use Fisharebest\Webtrees\Services\ModuleService;
 
 /**
  * @var string $title
@@ -127,6 +129,32 @@ use Fisharebest\Webtrees\I18N;
                     </fieldset>
                 </div>
 
+                <div id="settings-news" class="settings-cat mt-5">
+                    <h2 style="margin-top: 1em;"><?= I18N::translate('News settings') ?></h2>
+
+                    <!-- EVANG_MAILSYSTEM_NEWS_ENABLED -->
+                    <fieldset class="row mb-3">
+                        <legend class="col-form-label col-sm-3">
+                            <?= I18N::translate('Enabled') ?>
+                        </legend>
+                        <div class="col-sm-9">
+                            <?= view('components/radios-inline', ['name' => 'EVANG_MAILSYSTEM_NEWS_ENABLED', 'options' => [I18N::translate('no'), I18N::translate('yes')], 'selected' => (int)$settings->getNewsEnabled()]) ?>
+                            <div class="form-text">
+                                <?= I18N::translate("Displays family news and site announcements (requires activation of the dedicated module)") ?>
+                                <?php
+                                    $module_service = app(ModuleService::class);
+                                    assert($module_service instanceof ModuleService);
+                                    $newsModule = $module_service->findByInterface(FamilyTreeNewsModule::class, true)->first();
+                                    if ($newsModule == null) : ?>
+                                        <br /><?= I18N::translate("The %1\$s module could not be found", "<code>News</code>") ?>
+                                    <?php elseif (!$newsModule->isEnabled()) : ?>
+                                        <br /><strong><?= I18N::translate('The %1$s module is disabled, please enable it if you wish to use this feature.', "<code>{$newsModule->title()}</code>") ?></strong>
+                                    <?php endif ?>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
                 <div id="settings-changelist" class="settings-cat mt-5">
                     <h2 style="margin-top: 1em;"><?= I18N::translate('Change-list settings') ?></h2>
 
@@ -225,13 +253,15 @@ use Fisharebest\Webtrees\I18N;
             <p>
                 <?php
                 $lastSend = $settings->getLastSend();
+                $lastSendText = $lastSend == null ? I18N::translate('never') : $lastSend->format('Y-m-d');
                 $nextSend = $settings->getThisSend();
+                $recipientsCount = count($settings->getUsers());
                 ?>
-                <?= I18N::translate('Last mailing: %s', "<code>" . ($lastSend == null ? I18N::translate("never") : $lastSend->format("Y-m-d")) . "</code>") ?>
+                <?= I18N::translate('Last mailing: %s', "<code>$lastSendText</code>") ?>
                 <br/>
-                <?= I18N::translate('Next mailing: %s', "<code>" . $nextSend->format("Y-m-d") . "</code>") ?>
+                <?= I18N::translate('Next mailing: %s', "<code>{$nextSend->format('Y-m-d')}</code>") ?>
                 <br/>
-                <?= I18N::translate('Number of recipients: %s', "<code>" . count($settings->getUsers()) . "</code>") ?>
+                <?= I18N::translate('Number of recipients: %s', "<code>$recipientsCount</code>") ?>
             </p>
         </div>
     </div>

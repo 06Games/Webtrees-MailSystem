@@ -30,6 +30,9 @@ class AdminAction implements RequestHandlerInterface
         $settings->setImageDataType($params->string("EVANG_MAILSYSTEM_IMAGEDATA"));
         $settings->setImageFormat($params->string("EVANG_MAILSYSTEM_IMAGEFORMAT"));
 
+        /*** News Settings ***/
+        $settings->setNewsEnabled($params->integer("EVANG_MAILSYSTEM_NEWS_ENABLED"));
+
         /*** Change-list Settings ***/
         $settings->setChangelistEnabled($params->integer("EVANG_MAILSYSTEM_CHANGE_ENABLED"));
         $settings->setChangelistTags($params->array("EVANG_MAILSYSTEM_CHANGE_TAGS"));

@@ -26,6 +26,8 @@ use Illuminate\Support\Collection;
 /** @var LocaleInterface $locale */
 
 
+const DATE_FORMAT = "%d %F %Y";
+
 $getDate = function ($dateString): GregorianDate {
     $date = date_parse($dateString);
     return new GregorianDate(gregoriantojd($date["month"], $date["day"], $date["year"]));
@@ -185,10 +187,10 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                     <h4><?php $getIcon('news', 24) ?> <?= $translator->translate("News") ?></h4>
                     <div>
                         <?php if (empty($newsData)) { ?>
-                            <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?> <!-- TODO -->
+                            <p><?= $translator->translate('No news to display') ?></p>
                         <?php } else foreach ($newsData as $news) : ?>
                             <h5 id="<?= $tree ?>-news-<?= $news["id"] ?>" class="news-title"><?= $news["subject"] ?></h5>
-                            <small class="news-date"><?= $getDate($news["date"])->format("%d %F %Y") ?></small>
+                            <small class="news-date"><?= $getDate($news["date"])->format(DATE_FORMAT) ?></small>
                             <div class="news-body"><?= $news["body"] ?></div>
                         <?php endforeach ?>
                     </div>
@@ -201,9 +203,9 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                     <h4><?php $getIcon('changes', 24) ?> <?= $translator->translate("Changes") ?></h4>
                     <div>
                         <?php if (empty($changesData)) { ?>
-                            <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
+                            <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?></p>
                         <?php } else foreach ($changesData as $date => $changes) : ?>
-                            <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format("%d %F %Y") ?></h5>
+                            <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format(DATE_FORMAT) ?></h5>
                             <div class="changes">
                                 <?php foreach ($changes as $change) : ?>
                                     <?php $record = $change->record; ?>
@@ -217,7 +219,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                                                 else if ($tag === Note::RECORD_TYPE) $getIcon('note');
                                                 else if ($tag === Source::RECORD_TYPE) $getIcon('source');
                                                 else if ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
-                                                else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
+                                                else if ($tag === Repository::RECORD_TYPE) { $getIcon('repository'); }
                                                 ?>
                                             </span>
                                         <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
@@ -236,7 +238,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                     <h4><?php $getIcon('anniversaries', 24) ?> <?= $translator->translate("Anniversaries") ?></h4>
                     <div>
                         <?php if (empty($anniversariesData)) { ?>
-                            <p><?= sprintf($translator->translatePlural('There is no anniversary to celebrate today.', 'There are no birthdays to celebrate in the next %s days.', $args->getDays()), $locale->number($args->getDays())); ?>
+                            <p><?= sprintf($translator->translatePlural('There is no anniversary to celebrate today.', 'There are no birthdays to celebrate in the next %s days.', $args->getDays()), $locale->number($args->getDays())); ?></p>
                         <?php } else foreach ($anniversariesData as $date => $anniversaries) : ?>
                             <h5 id="<?= $tree ?>-anniversaries-<?= $date ?>" class="date"><?= $getDate("0" . $date)->format("%d %F") ?></h5>
                             <div class="anniversaries">
@@ -261,7 +263,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                                                 $name = '<a class="record" href="' . e($anniversary["url"]) . '">' . $anniversary["name"] . '</a>';
                                                 echo sprintf($translator->translate('%1$s of %2$s (%3$s years ago)'), Registry::elementFactory()->make($tag)->label(), $name, $age); ?>
                                             <br/>
-                                            <span class="anniversary-date"><?= $getDate($anniversary["date"])->format("%d %F %Y") ?></span>
+                                            <span class="anniversary-date"><?= $getDate($anniversary["date"])->format(DATE_FORMAT) ?></span>
                                         </span>
                                     </div>
                                 <?php endforeach ?>
