@@ -42,6 +42,10 @@ class AdminAction implements RequestHandlerInterface
         $settings->setAnniversariesDeceased($params->integer("EVANG_MAILSYSTEM_ANNIV_DECEASED"));
         $settings->setAnniversariesTags($params->array("EVANG_MAILSYSTEM_ANNIV_TAGS"));
 
+        /*** Footer Settings ***/
+        $settings->setFooterEnabled($params->string("EVANG_MAILSYSTEM_FOOTER_ENABLED"));
+        $settings->setFooterMessage($params->string("EVANG_MAILSYSTEM_FOOTER_MESSAGE"));
+
         FlashMessages::addMessage(I18N::translate('The Mail System preferences have been updated.'), 'success');
         return redirect(route(AdminPage::class));
     }

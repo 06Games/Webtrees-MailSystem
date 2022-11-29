@@ -232,6 +232,36 @@ use Fisharebest\Webtrees\Services\ModuleService;
                     </fieldset>
                 </div>
 
+                <div id="settings-footer" class="settings-cat mt-5">
+                    <h2 style="margin-top: 1em;"><?= I18N::translate('Footer settings') ?></h2>
+
+                    <!-- EVANG_MAILSYSTEM_FOOTER_ENABLED -->
+                    <fieldset class="row mb-3">
+                        <legend class="col-form-label col-sm-3">
+                            <?= I18N::translate('Enabled') ?>
+                        </legend>
+                        <div class="col-sm-9">
+                            <?= view('components/radios-inline', ['name' => 'EVANG_MAILSYSTEM_FOOTER_ENABLED', 'options' => [I18N::translate('no'), I18N::translate('yes')], 'selected' => (int)$settings->getFooterEnabled()]) ?>
+                            <div class="form-text">
+                                <?= I18N::translate("Adds a footer to the email") ?>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- EVANG_MAILSYSTEM_FOOTER_MESSAGE -->
+                    <div class="row mb-3">
+                        <label for="EVANG_MAILSYSTEM_FOOTER_MESSAGE" class="col-sm-3 col-form-label">
+                            <?= I18N::translate('Message') ?>
+                        </label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="EVANG_MAILSYSTEM_FOOTER_MESSAGE" name="EVANG_MAILSYSTEM_FOOTER_MESSAGE"><?= $settings->getFooterMessage() ?></textarea>
+                            <div class="form-text">
+                                <?= I18N::translate('The message to write (you can use HTML)') ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row mb-3 mt-5">
                     <div class="offset-sm-3 col-sm-9">
                         <button type="submit" class="btn btn-primary">
