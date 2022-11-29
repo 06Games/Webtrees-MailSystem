@@ -9,6 +9,7 @@ use EvanG\Modules\MailSystem\Helpers\Anniversaries;
 use EvanG\Modules\MailSystem\Helpers\Changes;
 use EvanG\Modules\MailSystem\Helpers\Images;
 use EvanG\Modules\MailSystem\Helpers\News;
+use Exception;
 use Fisharebest\Localization\Locale;
 use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Auth;
@@ -61,10 +62,10 @@ class RequestHandler implements RequestHandlerInterface
             'help' => function () { return response($this->help()); },
             'cron' => function () { return $this->cron(); },
             'get' => function () { return response($this->api($this->module->getSettings())); },
-            'image' => function(Request $request){
-                if($this->module->getSettings()->getImageDataType() != "link") return response([ "message" => "Direct links are disabled" ], 403);
+            'image' => function (Request $request) {
+                if ($this->module->getSettings()->getImageDataType() != "link") return response(["message" => "Direct links are disabled"], 403);
                 $loggedUser = Auth::user();
-                if(!Auth::isAdmin()) {
+                if (!Auth::isAdmin()) {
                     Auth::login($this->users->administrators()->first());
                     Registry::cache()->array()->forget('all-trees');
                 }
@@ -73,7 +74,7 @@ class RequestHandler implements RequestHandlerInterface
                 $record = Registry::gedcomRecordFactory()->make($query["xref"], $this->trees->find((int)$query["tree"]));
                 $img = $record instanceof Individual ? Images::getImageDataResponse(Images::getIndividualPicture($record)) : null;
 
-                if($loggedUser instanceof GuestUser) Auth::logout();
+                if ($loggedUser instanceof GuestUser) Auth::logout();
                 else Auth::login($loggedUser);
                 return $img;
             },
@@ -129,13 +130,18 @@ class RequestHandler implements RequestHandlerInterface
 
     private function sendMail(User $user, Settings $args): bool
     {
-        $data = $this->htmlData($args, $user->getPreference(UserInterface::PREF_LANGUAGE), $user);
-        $html = $this->html($data);
-        if ($html == null) {
-            Log::addErrorLog("Mail System: HTML page is null (" . $user->userName() . ")");
+        try {
+            $data = $this->htmlData($args, $user->getPreference(UserInterface::PREF_LANGUAGE), $user);
+            $html = $this->html($data);
+            if ($html == null) {
+                Log::addErrorLog("Mail System: HTML page is null (" . $user->userName() . ")");
+                return false;
+            }
+            return $this->email->send(new SiteUser(), $user, new NoReplyUser(), $data["subject"], strip_tags($html), $html);
+        } catch (Exception $e) {
+            Log::addErrorLog("Mail System: Error (" . $e->getMessage() . ")\n" . $e->getTraceAsString());
             return false;
         }
-        return $this->email->send(new SiteUser(), $user, new NoReplyUser(), $data["subject"], strip_tags($html), $html);
     }
 
     private function htmlData(Settings $args, $languageCode = null, $user = null): array
