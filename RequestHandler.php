@@ -76,7 +76,7 @@ class RequestHandler implements RequestHandlerInterface
 
                 if ($loggedUser instanceof GuestUser) Auth::logout();
                 else Auth::login($loggedUser);
-                return $img;
+                return $img ?? response();
             },
             'html' => function (Request $request) {
                 $query = $request->getQueryParams();
