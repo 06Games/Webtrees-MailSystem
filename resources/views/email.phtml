@@ -26,7 +26,7 @@ use Illuminate\Support\Collection;
 /** @var LocaleInterface $locale */
 
 
-const DATE_FORMAT = "%d %F %Y";
+$DATE_FORMAT = "%d %F %Y";
 
 $getDate = function ($dateString): GregorianDate {
     $date = date_parse($dateString);
@@ -190,7 +190,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                             <p><?= $translator->translate('No news to display') ?></p>
                         <?php } else foreach ($newsData as $news) : ?>
                             <h5 id="<?= $tree ?>-news-<?= $news["id"] ?>" class="news-title"><?= $news["subject"] ?></h5>
-                            <small class="news-date"><?= $getDate($news["date"])->format(DATE_FORMAT) ?></small>
+                            <small class="news-date"><?= $getDate($news["date"])->format($DATE_FORMAT) ?></small>
                             <div class="news-body"><?= $news["body"] ?></div>
                         <?php endforeach ?>
                     </div>
@@ -205,7 +205,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                         <?php if (empty($changesData)) { ?>
                             <p><?= sprintf($translator->translatePlural('There were no changes during the day.', 'There have been no changes within the last %s days.', $args->getDays()), $locale->number($args->getDays())); ?></p>
                         <?php } else foreach ($changesData as $date => $changes) : ?>
-                            <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format(DATE_FORMAT) ?></h5>
+                            <h5 id="<?= $tree ?>-changes-<?= $date ?>" class="date"><?= $getDate($date)->format($DATE_FORMAT) ?></h5>
                             <div class="changes">
                                 <?php foreach ($changes as $change) : ?>
                                     <?php $record = $change->record; ?>
@@ -263,7 +263,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                                                 $name = '<a class="record" href="' . e($anniversary["url"]) . '">' . $anniversary["name"] . '</a>';
                                                 echo sprintf($translator->translate('%1$s of %2$s (%3$s years ago)'), Registry::elementFactory()->make($tag)->label(), $name, $age); ?>
                                             <br/>
-                                            <span class="anniversary-date"><?= $getDate($anniversary["date"])->format(DATE_FORMAT) ?></span>
+                                            <span class="anniversary-date"><?= $getDate($anniversary["date"])->format($DATE_FORMAT) ?></span>
                                         </span>
                                     </div>
                                 <?php endforeach ?>
