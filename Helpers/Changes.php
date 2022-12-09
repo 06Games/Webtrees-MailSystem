@@ -5,6 +5,7 @@ namespace EvanG\Modules\MailSystem\Helpers;
 use DateInterval;
 use DateTimeImmutable;
 use EvanG\Modules\MailSystem\Settings;
+use Exception;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\UserService;
 use Fisharebest\Webtrees\Tree;
@@ -23,7 +24,7 @@ class Changes implements DataGetter
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function get(Settings $args, Tree $tree): Collection
     {
