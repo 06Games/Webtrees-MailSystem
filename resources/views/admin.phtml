@@ -32,7 +32,7 @@ use Fisharebest\Webtrees\Services\ModuleService;
                 <?= I18N::translate('Please add the following line to your cron file') ?>
             </p>
             <input type="text" class="form-control" id="reminder-admin-config-cron-input" readonly
-                   value="0 8 * * * wget -O - -q &quot;<?= e(route(RequestHandler::class, ['action' => 'cron'])) ?>&quot;">
+                   value="0 8 * * * wget -O - -q &quot;<?= str_replace("%", "\%", e(route(RequestHandler::class, ['action' => 'cron']))) ?>&quot;">
             <div class="form-text">
                 <?= I18N::translate('You may need to add %1$s and %2$s depending on your configuration', "<code>--no-check-certificate</code>", "<code>--no-hsts</code>") ?>
             </div>
