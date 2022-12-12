@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mail System\n"
 "POT-Creation-Date: 2022-11-29 22:18+0100\n"
-"PO-Revision-Date: 2022-12-12 11:09+0100\n"
+"PO-Revision-Date: 2022-12-12 11:28+0100\n"
 "Language-Team: Evan Galli\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: AdminAction.php:49
 msgid "The Mail System preferences have been updated."
-msgstr "De voorkeuren van  Mail System zijn geactualiseerd."
+msgstr "De voorkeuren van Mail System zijn geactualiseerd."
 
 #: AdminPage.php:42
 msgid "Mail system preferences"
@@ -205,7 +205,7 @@ msgstr ""
 #: resources/views/admin.phtml:149
 #, php-format
 msgid "The %1$s module could not be found"
-msgstr "De module %1$s kon niet worden gevonden."
+msgstr "De module %1$s kon niet worden gevonden"
 
 #: resources/views/admin.phtml:151
 #, php-format
@@ -234,7 +234,7 @@ msgstr "Te overwegen soorten wijzigingen"
 
 #: resources/views/admin.phtml:190
 msgid "Anniversaries settings"
-msgstr "Instellingen verjaardagen"
+msgstr "Instellingen gebeurtenissen"
 
 #: resources/views/admin.phtml:200
 msgid "List of upcoming anniversaries in the next period"
@@ -330,8 +330,9 @@ msgstr "Gebeurtenissen"
 #, php-format
 msgid "There is no anniversary to celebrate today."
 msgid_plural "There are no birthdays to celebrate in the next %s days."
-msgstr[0] "Er is geen verjaardag te vieren vandaag."
-msgstr[1] "Er zijn geen verjaardagen te vieren in de komende %s dagen."
+msgstr[0] "Er is geen gebeurtenis te vieren/herdenken vandaag."
+msgstr[1] ""
+"Er zijn geen gebeurtenis te vieren/herdenken in de komende %s dagen."
 
 #: resources/views/email.phtml:264
 #, php-format
