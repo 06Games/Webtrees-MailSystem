@@ -1,24 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Mail System\n"
-"POT-Creation-Date: 2022-11-29 22:18+0100\n"
-"PO-Revision-Date: 2022-11-29 22:20+0100\n"
-"Last-Translator: Evan Galli <fr.06games@gmail.com>\n"
-"Language-Team: Evan Galli\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
-"X-Poedit-Basepath: ../..\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Poedit-KeywordsList: plural:1,2;translate;translatePlural:1,2\n"
-"X-Poedit-SearchPath-0: AdminAction.php\n"
-"X-Poedit-SearchPath-1: AdminPage.php\n"
-"X-Poedit-SearchPath-2: RequestHandler.php\n"
-"X-Poedit-SearchPath-3: resources/views\n"
-"X-Poedit-SearchPath-4: Settings.php\n"
-"X-Poedit-SearchPath-5: Helpers\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Webtrees Mail System\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: AdminAction.php:49
 msgid "The Mail System preferences have been updated."
@@ -82,19 +70,15 @@ msgstr "Premiers pas"
 
 #: resources/views/admin.phtml:30
 msgid "This module requires a cron job to be set up and run every day."
-msgstr ""
-"Ce module nécessite la mise en place d'une tâche cron qui sera exécutée "
-"chaque jour."
+msgstr "Ce module nécessite la mise en place d'une tâche cron qui sera exécutée chaque jour."
 
 #: resources/views/admin.phtml:32
 msgid "Please add the following line to your cron file"
 msgstr "Veuillez ajouter la ligne suivante à votre fichier cron"
 
 #: resources/views/admin.phtml:37
-#, php-format
 msgid "You may need to add %1$s and %2$s depending on your configuration"
-msgstr ""
-"Vous pourriez avoir besoin d'ajouter %1$s et %2$s selon votre configuration"
+msgstr "Vous pourriez avoir besoin d'ajouter %1$s et %2$s selon votre configuration"
 
 #: resources/views/admin.phtml:45
 msgid "General settings"
@@ -105,11 +89,8 @@ msgid "Trees"
 msgstr "Arbres"
 
 #: resources/views/admin.phtml:56
-msgid ""
-"Trees to be considered (User restrictions take precedence over this setting)"
-msgstr ""
-"Arbres à considérer (Les restrictions utilisateurs sont prioritaires sur ce "
-"paramètre)"
+msgid "Trees to be considered (User restrictions take precedence over this setting)"
+msgstr "Arbres à considérer (Les restrictions utilisateurs sont prioritaires sur ce paramètre)"
 
 #: resources/views/admin.phtml:64
 msgid "Users"
@@ -144,20 +125,12 @@ msgid "yes"
 msgstr "oui"
 
 #: resources/views/admin.phtml:98
-msgid ""
-"If this option is enabled, a message will indicate that there is no data to "
-"display for the period."
-msgstr ""
-"Si cette option est activée, un message indiquera qu'il n'y a pas de données "
-"à afficher pour cette période."
+msgid "If this option is enabled, a message will indicate that there is no data to display for the period."
+msgstr "Si cette option est activée, un message indiquera qu'il n'y a pas de données à afficher pour cette période."
 
 #: resources/views/admin.phtml:99
-msgid ""
-"When this option is disabled, in case all categories of all trees are "
-"without data, no mail will be sent."
-msgstr ""
-"Lorsque cette option est désactivée, si toutes les catégories de tous les "
-"arbres sont dépourvues de données, aucun courrier ne sera envoyé."
+msgid "When this option is disabled, in case all categories of all trees are without data, no mail will be sent."
+msgstr "Lorsque cette option est désactivée, si toutes les catégories de tous les arbres sont dépourvues de données, aucun courrier ne sera envoyé."
 
 #: resources/views/admin.phtml:107
 msgid "Images"
@@ -165,19 +138,11 @@ msgstr "Images"
 
 #: resources/views/admin.phtml:112
 msgid "Data URLs only work on relatively recent email clients."
-msgstr ""
-"Les URLs de données ne fonctionnent que sur les clients de messagerie "
-"relativement récents."
+msgstr "Les URLs de données ne fonctionnent que sur les clients de messagerie relativement récents."
 
 #: resources/views/admin.phtml:113
-msgid ""
-"Direct URLs should offer broad compatibility, but are slightly less secure, "
-"as image of individuals become available without authentication (they are "
-"resized to 50x50 px, however)."
-msgstr ""
-"Les liens directs devraient offrir une vaste compatibilité, mais sont un peu "
-"moins sûrs, car les images des individus deviennent disponibles sans "
-"authentification (elles sont néanmoins redimensionnées à 50x50 px)."
+msgid "Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however)."
+msgstr "Les liens directs devraient offrir une vaste compatibilité, mais sont un peu moins sûrs, car les images des individus deviennent disponibles sans authentification (elles sont néanmoins redimensionnées à 50x50 px)."
 
 #: resources/views/admin.phtml:121
 msgid "Image format"
@@ -197,26 +162,16 @@ msgid "Enabled"
 msgstr "Activé"
 
 #: resources/views/admin.phtml:143
-msgid ""
-"Displays family news and site announcements (requires activation of the "
-"dedicated module)"
-msgstr ""
-"Affiche les nouvelles familiales et annonces du site (nécessite l'activation "
-"du module dédié)"
+msgid "Displays family news and site announcements (requires activation of the dedicated module)"
+msgstr "Affiche les nouvelles familiales et annonces du site (nécessite l'activation du module dédié)"
 
 #: resources/views/admin.phtml:149
-#, php-format
 msgid "The %1$s module could not be found"
 msgstr "Le module %1$s n'a pas pu être trouvé"
 
 #: resources/views/admin.phtml:151
-#, php-format
-msgid ""
-"The %1$s module is disabled, please enable it if you wish to use this "
-"feature."
-msgstr ""
-"Le module %1$s est désactivé, veuillez l'activer si vous souhaitez utiliser "
-"cette fonctionnalité."
+msgid "The %1$s module is disabled, please enable it if you wish to use this feature."
+msgstr "Le module %1$s est désactivé, veuillez l'activer si vous souhaitez utiliser cette fonctionnalité."
 
 #: resources/views/admin.phtml:159
 msgid "Change-list settings"
@@ -291,17 +246,14 @@ msgid "never"
 msgstr "jamais"
 
 #: resources/views/admin.phtml:290
-#, php-format
 msgid "Last mailing: %s"
 msgstr "Dernier envoi : %s"
 
 #: resources/views/admin.phtml:292
-#, php-format
 msgid "Next mailing: %s"
 msgstr "Prochain envoi : %s"
 
 #: resources/views/admin.phtml:294
-#, php-format
 msgid "Number of recipients: %s"
 msgstr "Nombre de destinataires: %s"
 
@@ -318,25 +270,24 @@ msgid "Changes"
 msgstr "Changements"
 
 #: resources/views/email.phtml:206
-#, php-format
 msgid "There were no changes during the day."
 msgid_plural "There have been no changes within the last %s days."
 msgstr[0] "Il n'y a pas eu de changements au cours de la journée."
 msgstr[1] "Il n'y a pas eu de changements au cours de ces %s derniers jours."
+msgstr[2] "Il n'y a pas eu de changements au cours de ces %s derniers jours."
 
 #: resources/views/email.phtml:238
 msgid "Anniversaries"
 msgstr "Anniversaires"
 
 #: resources/views/email.phtml:241
-#, php-format
 msgid "There is no anniversary to celebrate today."
 msgid_plural "There are no birthdays to celebrate in the next %s days."
 msgstr[0] "Il n'y a pas d'anniversaire à célébrer aujourd'hui."
-msgstr[1] ""
-"Il n'y a pas d'anniversaire à célébrer durant les %s prochains jours."
+msgstr[1] "Il n'y a pas d'anniversaire à célébrer durant les %s prochains jours."
+msgstr[2] "Il n'y a pas d'anniversaire à célébrer durant les %s prochains jours."
 
 #: resources/views/email.phtml:264
-#, php-format
 msgid "%1$s of %2$s (%3$s years ago)"
 msgstr "%1$s de %2$s (il y a %3$s ans)"
+
