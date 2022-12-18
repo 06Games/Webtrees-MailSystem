@@ -24,9 +24,12 @@
     "archive": {
         "exclude": [
             ".*",
+            "/composer.*",
+            "/vendor",
             "*.po",
             "!*.mo",
-            "/version.txt"
+            "/version.txt",
+            "/build.sh"
         ]
     },
     "scripts": {
