@@ -22,8 +22,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
-      - name: Install dependencies
+      - name: Install PHP dependencies
         run: composer install --prefer-dist --no-progress
+
+      - name: Install dependencies
+        run: sudo apt install -y gettext
 
       - name: Build module
         run: composer archive -f zip --file evang-mailsystem-$(cat version.txt)
