@@ -13,3 +13,17 @@
 
 ## Translation
 If you want to participate in the translation of this module, you can use [POEditor](https://poeditor.com/join/project/hTVWOr86m9).
+
+## Development
+> Nightly builds are available [here](https://github.com/06Games/Webtrees-MailSystem/actions/workflows/build.yml)
+
+This module requires `composer` and `gettext`.  
+To install the PHP dependencies, run
+```shell
+composer install --prefer-dist
+```
+
+To build the module, run
+```shell
+composer archive -f zip --file evang-mailsystem-$(cat version.txt)
+```
