@@ -20,5 +20,16 @@
     },
     "require": {
         "fisharebest/webtrees": "^2.0"
+    },
+    "archive": {
+        "exclude": [
+            ".*",
+            "*.po",
+            "!*.mo",
+            "/version.txt"
+        ]
+    },
+    "scripts": {
+        "pre-archive-cmd": "bash ./build.sh"
     }
 }

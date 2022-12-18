@@ -7,3 +7,5 @@ riderModule.iml
 composer.phar
 *.lock
 /.idea/webServers.xml
+
+/resources/lang/*.mo

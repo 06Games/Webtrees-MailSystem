@@ -12,4 +12,4 @@
 
 
 ## Translation
-All language files are located in `/ressouces/lang`. You can edit them with a po editor such as [Poedit](https://poedit.net/)
+If you want to participate in the translation of this module, you can use [POEditor](https://poeditor.com/join/project/hTVWOr86m9).
