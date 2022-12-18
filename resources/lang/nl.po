@@ -1,24 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Mail System\n"
-"POT-Creation-Date: 2022-11-29 22:18+0100\n"
-"PO-Revision-Date: 2022-12-12 11:28+0100\n"
-"Language-Team: Evan Galli\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"X-Poedit-Basepath: ../..\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-KeywordsList: plural:1,2;translate;translatePlural:1,2\n"
-"Last-Translator: \n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Webtrees Mail System\n"
 "Language: nl\n"
-"X-Poedit-SearchPath-0: AdminAction.php\n"
-"X-Poedit-SearchPath-1: AdminPage.php\n"
-"X-Poedit-SearchPath-2: RequestHandler.php\n"
-"X-Poedit-SearchPath-3: resources/views\n"
-"X-Poedit-SearchPath-4: Settings.php\n"
-"X-Poedit-SearchPath-5: Helpers\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: AdminAction.php:49
 msgid "The Mail System preferences have been updated."
@@ -82,19 +70,15 @@ msgstr "Eerste stappen"
 
 #: resources/views/admin.phtml:30
 msgid "This module requires a cron job to be set up and run every day."
-msgstr ""
-"Deze module vereist dat een cron job wordt ingesteld en elke dag wordt "
-"uitgevoerd."
+msgstr "Deze module vereist dat een cron job wordt ingesteld en elke dag wordt uitgevoerd."
 
 #: resources/views/admin.phtml:32
 msgid "Please add the following line to your cron file"
 msgstr "Voeg de volgende regel toe aan uw cron-bestand"
 
 #: resources/views/admin.phtml:37
-#, php-format
 msgid "You may need to add %1$s and %2$s depending on your configuration"
-msgstr ""
-"Mogelijk moet u %1$s en %2$s toevoegen, afhankelijk van uw configuratie"
+msgstr "Mogelijk moet u %1$s en %2$s toevoegen, afhankelijk van uw configuratie"
 
 #: resources/views/admin.phtml:45
 msgid "General settings"
@@ -105,11 +89,8 @@ msgid "Trees"
 msgstr "Stambomen"
 
 #: resources/views/admin.phtml:56
-msgid ""
-"Trees to be considered (User restrictions take precedence over this setting)"
-msgstr ""
-"Te overwegen stambomen (Gebruikersbeperkingen hebben voorrang op deze "
-"instelling)"
+msgid "Trees to be considered (User restrictions take precedence over this setting)"
+msgstr "Te overwegen stambomen (Gebruikersbeperkingen hebben voorrang op deze instelling)"
 
 #: resources/views/admin.phtml:64
 msgid "Users"
@@ -144,20 +125,12 @@ msgid "yes"
 msgstr "ja"
 
 #: resources/views/admin.phtml:98
-msgid ""
-"If this option is enabled, a message will indicate that there is no data to "
-"display for the period."
-msgstr ""
-"Als deze optie is ingeschakeld, zal een bericht aangeven dat er voor de "
-"periode geen gegevens kunnen worden weergegeven."
+msgid "If this option is enabled, a message will indicate that there is no data to display for the period."
+msgstr "Als deze optie is ingeschakeld, zal een bericht aangeven dat er voor de periode geen gegevens kunnen worden weergegeven."
 
 #: resources/views/admin.phtml:99
-msgid ""
-"When this option is disabled, in case all categories of all trees are "
-"without data, no mail will be sent."
-msgstr ""
-"Wanneer deze optie is uitgeschakeld, wordt er, indien alle categorieën van "
-"alle stambomen geen gegevens bevatten, geen mail verstuurd."
+msgid "When this option is disabled, in case all categories of all trees are without data, no mail will be sent."
+msgstr "Wanneer deze optie is uitgeschakeld, wordt er, indien alle categorieën van alle stambomen geen gegevens bevatten, geen mail verstuurd."
 
 #: resources/views/admin.phtml:107
 msgid "Images"
@@ -168,14 +141,8 @@ msgid "Data URLs only work on relatively recent email clients."
 msgstr "Data URL's werken alleen op relatief recente e-mailclients."
 
 #: resources/views/admin.phtml:113
-msgid ""
-"Direct URLs should offer broad compatibility, but are slightly less secure, "
-"as image of individuals become available without authentication (they are "
-"resized to 50x50 px, however)."
-msgstr ""
-"Directe URL's zouden brede compatibiliteit moeten bieden, maar zijn iets "
-"minder veilig, aangezien afbeeldingen van personen beschikbaar komen zonder "
-"authenticatie (ze worden echter verkleind tot 50x50 px)."
+msgid "Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however)."
+msgstr "Directe URL's zouden brede compatibiliteit moeten bieden, maar zijn iets minder veilig, aangezien afbeeldingen van personen beschikbaar komen zonder authenticatie (ze worden echter verkleind tot 50x50 px)."
 
 #: resources/views/admin.phtml:121
 msgid "Image format"
@@ -195,26 +162,16 @@ msgid "Enabled"
 msgstr "Geactiveerd"
 
 #: resources/views/admin.phtml:143
-msgid ""
-"Displays family news and site announcements (requires activation of the "
-"dedicated module)"
-msgstr ""
-"Toont familienieuws en aankondigingen van de site (vereist activering van "
-"de speciale module)"
+msgid "Displays family news and site announcements (requires activation of the dedicated module)"
+msgstr "Toont familienieuws en aankondigingen van de site (vereist activering van de speciale module)"
 
 #: resources/views/admin.phtml:149
-#, php-format
 msgid "The %1$s module could not be found"
 msgstr "De module %1$s kon niet worden gevonden"
 
 #: resources/views/admin.phtml:151
-#, php-format
-msgid ""
-"The %1$s module is disabled, please enable it if you wish to use this "
-"feature."
-msgstr ""
-"De module %1$s is uitgeschakeld, schakel deze in als u deze functie wilt "
-"gebruiken."
+msgid "The %1$s module is disabled, please enable it if you wish to use this feature."
+msgstr "De module %1$s is uitgeschakeld, schakel deze in als u deze functie wilt gebruiken."
 
 #: resources/views/admin.phtml:159
 msgid "Change-list settings"
@@ -289,17 +246,14 @@ msgid "never"
 msgstr "nooit"
 
 #: resources/views/admin.phtml:290
-#, php-format
 msgid "Last mailing: %s"
 msgstr "Laatste mailing: %s"
 
 #: resources/views/admin.phtml:292
-#, php-format
 msgid "Next mailing: %s"
 msgstr "Volgende mailing: %s"
 
 #: resources/views/admin.phtml:294
-#, php-format
 msgid "Number of recipients: %s"
 msgstr "Aantal ontvangers: %s"
 
@@ -316,7 +270,6 @@ msgid "Changes"
 msgstr "Wijzigingen"
 
 #: resources/views/email.phtml:206
-#, php-format
 msgid "There were no changes during the day."
 msgid_plural "There have been no changes within the last %s days."
 msgstr[0] "Er waren geen veranderingen gedurende de afgelopen dag."
@@ -327,14 +280,12 @@ msgid "Anniversaries"
 msgstr "Gebeurtenissen"
 
 #: resources/views/email.phtml:241
-#, php-format
 msgid "There is no anniversary to celebrate today."
 msgid_plural "There are no birthdays to celebrate in the next %s days."
 msgstr[0] "Er is geen gebeurtenis te vieren/herdenken vandaag."
-msgstr[1] ""
-"Er zijn geen gebeurtenis te vieren/herdenken in de komende %s dagen."
+msgstr[1] "Er zijn geen gebeurtenis te vieren/herdenken in de komende %s dagen."
 
 #: resources/views/email.phtml:264
-#, php-format
 msgid "%1$s of %2$s (%3$s years ago)"
 msgstr "%1$s: %2$s (%3$s jaar geleden)"
+
