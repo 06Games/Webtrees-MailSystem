@@ -34,5 +34,6 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: evang-mailsystem-$(cat version.txt)
-          path: evang-mailsystem-$(cat version.txt).zip
+          name: evang-mailsystem-${{cat version.txt}}
+          path: evang-mailsystem-${{cat version.txt}}.zip
+          if-no-files-found: error
