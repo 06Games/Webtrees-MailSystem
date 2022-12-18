@@ -1,26 +1,14 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Mail System\n"
-"POT-Creation-Date: 2022-10-28 18:07+0200\n"
-"PO-Revision-Date: 2022-10-29 10:46+0200\n"
-"Last-Translator: Evan Galli <fr.06games@gmail.com>\n"
-"Language-Team: goaskle.com\n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.2\n"
-"X-Poedit-Basepath: ../..\n"
-"X-Poedit-KeywordsList: plural:1,2;translate;translatePlural:1,2\n"
-"X-Poedit-SearchPath-0: AdminAction.php\n"
-"X-Poedit-SearchPath-1: AdminPage.php\n"
-"X-Poedit-SearchPath-2: RequestHandler.php\n"
-"X-Poedit-SearchPath-3: resources/views\n"
-"X-Poedit-SearchPath-4: Settings.php\n"
-"X-Poedit-SearchPath-5: Helpers\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Webtrees Mail System\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: AdminAction.php:42
+#: AdminAction.php:49
 msgid "The Mail System preferences have been updated."
 msgstr "Параметры почтовой системы были обновлены."
 
@@ -28,7 +16,7 @@ msgstr "Параметры почтовой системы были обновл
 msgid "Mail system preferences"
 msgstr "Настройки почтовой системы"
 
-#: RequestHandler.php:137
+#: RequestHandler.php:156
 msgid "Newsletter"
 msgstr "Новостная рассылка"
 
@@ -44,286 +32,264 @@ msgstr "URL-адреса данных"
 msgid "No images"
 msgstr "Без изображений"
 
-#: Settings.php:131
+#: Settings.php:145
 msgid "Individual"
 msgstr "Человек"
 
-#: Settings.php:132
+#: Settings.php:146
 msgid "Family"
 msgstr "Семья"
 
-#: Settings.php:133
+#: Settings.php:147
 msgid "Media"
 msgstr "Медиа"
 
-#: Settings.php:134
+#: Settings.php:148
 msgid "Note"
 msgstr "Примечание"
 
-#: Settings.php:135
+#: Settings.php:149
 msgid "Source"
 msgstr "Источник"
 
-#: Settings.php:136
+#: Settings.php:150
 msgid "Submitter"
 msgstr "Отправитель"
 
-#: Settings.php:137
+#: Settings.php:151
 msgid "Repository"
 msgstr "Хранилище"
 
-#: resources/views/admin.phtml:17
+#: resources/views/admin.phtml:19
 msgid "Control panel"
 msgstr "Панель управления"
 
-#: resources/views/admin.phtml:26
+#: resources/views/admin.phtml:28
 msgid "First steps"
 msgstr "Первые шаги"
 
-#: resources/views/admin.phtml:28
+#: resources/views/admin.phtml:30
 msgid "This module requires a cron job to be set up and run every day."
 msgstr "Этот модуль требует установки и ежедневного выполнения задания cron."
 
-#: resources/views/admin.phtml:30
+#: resources/views/admin.phtml:32
 msgid "Please add the following line to your cron file"
 msgstr "Пожалуйста, добавьте следующую строку в ваш файл cron"
 
-#: resources/views/admin.phtml:35
-#, php-format
+#: resources/views/admin.phtml:37
 msgid "You may need to add %1$s and %2$s depending on your configuration"
-msgstr ""
-"Вам может понадобиться добавить %1$s и %2$s в зависимости от вашей "
-"конфигурации"
+msgstr "Вам может понадобиться добавить %1$s и %2$s в зависимости от вашей конфигурации"
 
-#: resources/views/admin.phtml:43
+#: resources/views/admin.phtml:45
 msgid "General settings"
 msgstr "Общие настройки"
 
-#: resources/views/admin.phtml:48
+#: resources/views/admin.phtml:50
 msgid "Trees"
 msgstr "Деревья"
 
-#: resources/views/admin.phtml:54
-msgid ""
-"Trees to be considered (User restrictions take precedence over this setting)"
-msgstr ""
-"Деревья, которые необходимо учитывать (Ограничения пользователя имеют "
-"приоритет над этим параметром)"
+#: resources/views/admin.phtml:56
+msgid "Trees to be considered (User restrictions take precedence over this setting)"
+msgstr "Деревья, которые необходимо учитывать (Ограничения пользователя имеют приоритет над этим параметром)"
 
-#: resources/views/admin.phtml:62
+#: resources/views/admin.phtml:64
 msgid "Users"
 msgstr "Пользователи"
 
-#: resources/views/admin.phtml:68
+#: resources/views/admin.phtml:70
 msgid "Users to send the mail to"
 msgstr "Пользователи, которым нужно отправить письмо"
 
-#: resources/views/admin.phtml:76
+#: resources/views/admin.phtml:78
 msgid "Frequency"
 msgstr "Частота"
 
-#: resources/views/admin.phtml:83
+#: resources/views/admin.phtml:85
 msgid "Frequency of sending e-mails (in days)"
 msgstr "Частота отправки электронных писем (в днях)"
 
-#: resources/views/admin.phtml:91
+#: resources/views/admin.phtml:93
 msgid "Show empty categories"
 msgstr "Показать пустые категории"
 
-#: resources/views/admin.phtml:94 resources/views/admin.phtml:139
-#: resources/views/admin.phtml:170 resources/views/admin.phtml:198
+#: resources/views/admin.phtml:96 resources/views/admin.phtml:141
+#: resources/views/admin.phtml:167 resources/views/admin.phtml:198
+#: resources/views/admin.phtml:226 resources/views/admin.phtml:244
 msgid "no"
 msgstr "Нет"
 
-#: resources/views/admin.phtml:94 resources/views/admin.phtml:139
-#: resources/views/admin.phtml:170 resources/views/admin.phtml:198
+#: resources/views/admin.phtml:96 resources/views/admin.phtml:141
+#: resources/views/admin.phtml:167 resources/views/admin.phtml:198
+#: resources/views/admin.phtml:226 resources/views/admin.phtml:244
 msgid "yes"
 msgstr "Да"
 
-#: resources/views/admin.phtml:96
-msgid ""
-"If this option is enabled, a message will indicate that there is no data to "
-"display for the period."
-msgstr ""
-"Если этот параметр включен, появится сообщение о том, что за данный период "
-"нет данных для отображения."
+#: resources/views/admin.phtml:98
+msgid "If this option is enabled, a message will indicate that there is no data to display for the period."
+msgstr "Если этот параметр включен, появится сообщение о том, что за данный период нет данных для отображения."
 
-#: resources/views/admin.phtml:97
-msgid ""
-"When this option is disabled, in case all categories of all trees are "
-"without data, no mail will be sent."
-msgstr ""
-"Если эта опция отключена, в случае, если все категории всех деревьев не "
-"содержат данных, письмо не будет отправлено."
+#: resources/views/admin.phtml:99
+msgid "When this option is disabled, in case all categories of all trees are without data, no mail will be sent."
+msgstr "Если эта опция отключена, в случае, если все категории всех деревьев не содержат данных, письмо не будет отправлено."
 
-#: resources/views/admin.phtml:105
+#: resources/views/admin.phtml:107
 msgid "Images"
 msgstr "Изображения"
 
-#: resources/views/admin.phtml:110
+#: resources/views/admin.phtml:112
 msgid "Data URLs only work on relatively recent email clients."
-msgstr ""
-"URL-адреса данных работают только в относительно новых почтовых клиентах."
+msgstr "URL-адреса данных работают только в относительно новых почтовых клиентах."
 
-#: resources/views/admin.phtml:111
-msgid ""
-"Direct URLs should offer broad compatibility, but are slightly less secure, "
-"as image of individuals become available without authentication (they are "
-"resized to 50x50 px, however)."
-msgstr ""
-"Прямые URL обеспечивают широкую совместимость, но несколько менее безопасны, "
-"поскольку изображения людей становятся доступными без аутентификации (однако "
-"их размер уменьшается до 50x50 px)."
+#: resources/views/admin.phtml:113
+msgid "Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however)."
+msgstr "Прямые URL обеспечивают широкую совместимость, но несколько менее безопасны, поскольку изображения людей становятся доступными без аутентификации (однако их размер уменьшается до 50x50 px)."
 
-#: resources/views/admin.phtml:119
+#: resources/views/admin.phtml:121
 msgid "Image format"
 msgstr "Формат изображения"
 
-#: resources/views/admin.phtml:124
+#: resources/views/admin.phtml:126
 msgid "Use PNG for a better compatibility"
 msgstr "Используйте PNG для лучшей совместимости"
 
-#: resources/views/admin.phtml:131
-msgid "Change-list settings"
-msgstr "Настройки списка изменений"
+#: resources/views/admin.phtml:133
+msgid "News settings"
+msgstr ""
 
-#: resources/views/admin.phtml:136 resources/views/admin.phtml:167
+#: resources/views/admin.phtml:138 resources/views/admin.phtml:164
+#: resources/views/admin.phtml:195 resources/views/admin.phtml:241
 msgid "Enabled"
 msgstr "Включено"
 
-#: resources/views/admin.phtml:141
+#: resources/views/admin.phtml:143
+msgid "Displays family news and site announcements (requires activation of the dedicated module)"
+msgstr ""
+
+#: resources/views/admin.phtml:149
+msgid "The %1$s module could not be found"
+msgstr ""
+
+#: resources/views/admin.phtml:151
+msgid "The %1$s module is disabled, please enable it if you wish to use this feature."
+msgstr ""
+
+#: resources/views/admin.phtml:159
+msgid "Change-list settings"
+msgstr "Настройки списка изменений"
+
+#: resources/views/admin.phtml:169
 msgid "List of changes made in the previous period"
 msgstr "Список изменений, произведенных в предыдущем периоде"
 
-#: resources/views/admin.phtml:149 resources/views/admin.phtml:180
+#: resources/views/admin.phtml:177 resources/views/admin.phtml:208
 msgid "Tags"
 msgstr "Теги"
 
-#: resources/views/admin.phtml:155
+#: resources/views/admin.phtml:183
 msgid "Types of changes to be considered"
 msgstr "Типы изменений, которые необходимо рассмотреть"
 
-#: resources/views/admin.phtml:162
+#: resources/views/admin.phtml:190
 msgid "Anniversaries settings"
 msgstr "Настройки юбилеев"
 
-#: resources/views/admin.phtml:172
+#: resources/views/admin.phtml:200
 msgid "List of upcoming anniversaries in the next period"
 msgstr "Список предстоящих юбилеев в следующем периоде"
 
-#: resources/views/admin.phtml:186
+#: resources/views/admin.phtml:214
 msgid "Types of events to consider"
 msgstr "Типы мероприятий, которые следует рассмотреть"
 
-#: resources/views/admin.phtml:195
+#: resources/views/admin.phtml:223
 msgid "Deceased persons"
 msgstr "Умершие лица"
 
-#: resources/views/admin.phtml:200
+#: resources/views/admin.phtml:228
 msgid "Display the anniversaries of deceased persons"
 msgstr "Отображение годовщин смерти умерших людей"
 
-#: resources/views/admin.phtml:201
+#: resources/views/admin.phtml:229
 msgid "Required for death anniversaries"
 msgstr "Требуется для годовщин смерти"
 
-#: resources/views/admin.phtml:211
+#: resources/views/admin.phtml:236
+msgid "Footer settings"
+msgstr ""
+
+#: resources/views/admin.phtml:246
+msgid "Adds a footer to the email"
+msgstr ""
+
+#: resources/views/admin.phtml:254
+msgid "Message"
+msgstr ""
+
+#: resources/views/admin.phtml:259
+msgid "The message to write (you can use HTML)"
+msgstr ""
+
+#: resources/views/admin.phtml:269
 msgid "save"
 msgstr "сохранить"
 
-#: resources/views/admin.phtml:216
+#: resources/views/admin.phtml:274
 msgid "cancel"
 msgstr "отменить"
 
-#: resources/views/admin.phtml:224
+#: resources/views/admin.phtml:282
 msgid "Information"
 msgstr "Информация"
 
-#: resources/views/admin.phtml:230
+#: resources/views/admin.phtml:286
 msgid "never"
 msgstr "никогда"
 
-#: resources/views/admin.phtml:230
-#, php-format
+#: resources/views/admin.phtml:290
 msgid "Last mailing: %s"
 msgstr "Последняя рассылка: %s"
 
-#: resources/views/admin.phtml:232
-#, php-format
+#: resources/views/admin.phtml:292
 msgid "Next mailing: %s"
 msgstr "Следующая рассылка: %s"
 
-#: resources/views/admin.phtml:234
-#, php-format
+#: resources/views/admin.phtml:294
 msgid "Number of recipients: %s"
 msgstr "Количество получателей: %s"
 
-#: resources/views/email.phtml:139
+#: resources/views/email.phtml:187
+msgid "News"
+msgstr ""
+
+#: resources/views/email.phtml:190
+msgid "No news to display"
+msgstr ""
+
+#: resources/views/email.phtml:203
 msgid "Changes"
 msgstr "Изменения"
 
-#: resources/views/email.phtml:142
-#, php-format
+#: resources/views/email.phtml:206
 msgid "There were no changes during the day."
 msgid_plural "There have been no changes within the last %s days."
 msgstr[0] "В течение дня изменений не произошло."
 msgstr[1] "За последние %s дней изменений не было."
+msgstr[2] ""
+msgstr[3] ""
 
-#: resources/views/email.phtml:174
+#: resources/views/email.phtml:238
 msgid "Anniversaries"
 msgstr "Памятные даты"
 
-#: resources/views/email.phtml:177
-#, php-format
+#: resources/views/email.phtml:241
 msgid "There is no anniversary to celebrate today."
 msgid_plural "There are no birthdays to celebrate in the next %s days."
 msgstr[0] "Сегодня нет события, о котором стоит напомнить."
-msgstr[1] ""
-"В ближайшие %s дней нет дней рождения, которые можно было бы отпраздновать."
+msgstr[1] "В ближайшие %s дней нет дней рождения, которые можно было бы отпраздновать."
+msgstr[2] ""
+msgstr[3] ""
 
-#: resources/views/email.phtml:193
-#, php-format
+#: resources/views/email.phtml:264
 msgid "%1$s of %2$s (%3$s years ago)"
 msgstr "%1$s от %2$s (%3$s лет назад)"
 
-#: resources/views/email.phtml:210
-#, php-format
-msgid "This email was autogenerated by Webtrees and programmed with ❤ by %s"
-msgstr "Это письмо было автогенерировано и запрограммировано ❤ %s"
-
-#, php-format
-#~ msgid "Changes during the day"
-#~ msgid_plural "Changes during the last %s days"
-#~ msgstr[0] "Changements au cours de la journée"
-#~ msgstr[1] "Changements au cours des %s derniers jours"
-
-#, php-format
-#~ msgid "Marriage of %1$s (%2$s years ago)"
-#~ msgstr "Mariage de %1$s (il y a %2$s ans)"
-
-#, php-format
-#~ msgid "Death of %1$s (%2$s years ago)"
-#~ msgstr "Décès de %1$s (il y a %2$s ans)"
-
-#~ msgid "Display trees without changes"
-#~ msgstr "Afficher les arbres sans changements"
-
-#~ msgid "Days"
-#~ msgstr "Jours"
-
-#~ msgid "Settings"
-#~ msgstr "Paramètres"
-
-#~ msgid "The period (in days) to be considered"
-#~ msgstr "La période (en jours) à considérer"
-
-#~ msgid "Trees to be considered"
-#~ msgstr ""
-#~ "Arbres à considérer (Les restrictions utilisateurs sont prioritaires sur "
-#~ "ce paramètre)"
-
-#~ msgid ""
-#~ "If the value is False and there is no changes, the email won't be sent"
-#~ msgstr ""
-#~ "Lorsque cette option est désactivé, aucun mail ne sera envoyé s'il n'y a "
-#~ "pas eu de changement durant la période donnée"
