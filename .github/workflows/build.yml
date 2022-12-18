@@ -28,12 +28,16 @@ jobs:
       - name: Install dependencies
         run: sudo apt install -y gettext
 
+      - name: Set output filename
+        run: |
+          echo "outputName=evang-mailsystem-$(cat version.txt)" >> $GITHUB_ENV
+
       - name: Build module
-        run: composer archive -f zip --file evang-mailsystem-$(cat version.txt)
+        run: composer archive -f zip --file ${{ env.outputName }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: evang-mailsystem-${{cat version.txt}}
-          path: evang-mailsystem-${{cat version.txt}}.zip
+          name: ${{ env.outputName }}
+          path: ${{ env.outputName }}.zip
           if-no-files-found: error
