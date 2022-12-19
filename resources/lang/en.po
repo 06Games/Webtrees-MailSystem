@@ -1,0 +1,294 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"Project-Id-Version: Webtrees Mail System\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Evan Galli <fr.06games@gmail.com>\n"
+"Language-Team: \n"
+
+#: AdminAction.php:49
+msgid "The Mail System preferences have been updated."
+msgstr "The Mail System preferences have been updated."
+
+#: AdminPage.php:42
+msgid "Mail system preferences"
+msgstr "Mail system preferences"
+
+#: RequestHandler.php:156
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: Settings.php:88
+msgid "Direct URLs"
+msgstr "Direct URLs"
+
+#: Settings.php:89
+msgid "Data URLs"
+msgstr "Data URLs"
+
+#: Settings.php:90
+msgid "No images"
+msgstr "No images"
+
+#: Settings.php:145
+msgid "Individual"
+msgstr "Individual"
+
+#: Settings.php:146
+msgid "Family"
+msgstr "Family"
+
+#: Settings.php:147
+msgid "Media"
+msgstr "Media"
+
+#: Settings.php:148
+msgid "Note"
+msgstr "Note"
+
+#: Settings.php:149
+msgid "Source"
+msgstr "Source"
+
+#: Settings.php:150
+msgid "Submitter"
+msgstr "Submitter"
+
+#: Settings.php:151
+msgid "Repository"
+msgstr "Repository"
+
+#: resources/views/admin.phtml:19
+msgid "Control panel"
+msgstr "Control panel"
+
+#: resources/views/admin.phtml:28
+msgid "First steps"
+msgstr "First steps"
+
+#: resources/views/admin.phtml:30
+msgid "This module requires a cron job to be set up and run every day."
+msgstr "This module requires a cron job to be set up and run every day."
+
+#: resources/views/admin.phtml:32
+msgid "Please add the following line to your cron file"
+msgstr "Please add the following line to your cron file"
+
+#: resources/views/admin.phtml:37
+msgid "You may need to add %1$s and %2$s depending on your configuration"
+msgstr "You may need to add %1$s and %2$s depending on your configuration"
+
+#: resources/views/admin.phtml:45
+msgid "General settings"
+msgstr "General settings"
+
+#: resources/views/admin.phtml:50
+msgid "Trees"
+msgstr "Trees"
+
+#: resources/views/admin.phtml:56
+msgid "Trees to be considered (User restrictions take precedence over this setting)"
+msgstr "Trees to be considered (User restrictions take precedence over this setting)"
+
+#: resources/views/admin.phtml:64
+msgid "Users"
+msgstr "Users"
+
+#: resources/views/admin.phtml:70
+msgid "Users to send the mail to"
+msgstr "Users to send the mail to"
+
+#: resources/views/admin.phtml:78
+msgid "Frequency"
+msgstr "Frequency"
+
+#: resources/views/admin.phtml:85
+msgid "Frequency of sending e-mails (in days)"
+msgstr "Frequency of sending e-mails (in days)"
+
+#: resources/views/admin.phtml:93
+msgid "Show empty categories"
+msgstr "Show empty categories"
+
+#: resources/views/admin.phtml:96 resources/views/admin.phtml:141
+#: resources/views/admin.phtml:167 resources/views/admin.phtml:198
+#: resources/views/admin.phtml:226 resources/views/admin.phtml:244
+msgid "no"
+msgstr "no"
+
+#: resources/views/admin.phtml:96 resources/views/admin.phtml:141
+#: resources/views/admin.phtml:167 resources/views/admin.phtml:198
+#: resources/views/admin.phtml:226 resources/views/admin.phtml:244
+msgid "yes"
+msgstr "yes"
+
+#: resources/views/admin.phtml:98
+msgid "If this option is enabled, a message will indicate that there is no data to display for the period."
+msgstr "If this option is enabled, a message will indicate that there is no data to display for the period."
+
+#: resources/views/admin.phtml:99
+msgid "When this option is disabled, in case all categories of all trees are without data, no mail will be sent."
+msgstr "When this option is disabled, in case all categories of all trees are without data, no mail will be sent."
+
+#: resources/views/admin.phtml:107
+msgid "Images"
+msgstr "Images"
+
+#: resources/views/admin.phtml:112
+msgid "Data URLs only work on relatively recent email clients."
+msgstr "Data URLs only work on relatively recent email clients."
+
+#: resources/views/admin.phtml:113
+msgid "Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however)."
+msgstr "Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however)."
+
+#: resources/views/admin.phtml:121
+msgid "Image format"
+msgstr "Image format"
+
+#: resources/views/admin.phtml:126
+msgid "Use PNG for a better compatibility"
+msgstr "Use PNG for a better compatibility"
+
+#: resources/views/admin.phtml:133
+msgid "News settings"
+msgstr "News settings"
+
+#: resources/views/admin.phtml:138 resources/views/admin.phtml:164
+#: resources/views/admin.phtml:195 resources/views/admin.phtml:241
+msgid "Enabled"
+msgstr "Enabled"
+
+#: resources/views/admin.phtml:143
+msgid "Displays family news and site announcements (requires activation of the dedicated module)"
+msgstr "Displays family news and site announcements (requires activation of the dedicated module)"
+
+#: resources/views/admin.phtml:149
+msgid "The %1$s module could not be found"
+msgstr "The %1$s module could not be found"
+
+#: resources/views/admin.phtml:151
+msgid "The %1$s module is disabled, please enable it if you wish to use this feature."
+msgstr "The %1$s module is disabled, please enable it if you wish to use this feature."
+
+#: resources/views/admin.phtml:159
+msgid "Change-list settings"
+msgstr "Change-list settings"
+
+#: resources/views/admin.phtml:169
+msgid "List of changes made in the previous period"
+msgstr "List of changes made in the previous period"
+
+#: resources/views/admin.phtml:177 resources/views/admin.phtml:208
+msgid "Tags"
+msgstr "Tags"
+
+#: resources/views/admin.phtml:183
+msgid "Types of changes to be considered"
+msgstr "Types of changes to be considered"
+
+#: resources/views/admin.phtml:190
+msgid "Anniversaries settings"
+msgstr "Anniversaries settings"
+
+#: resources/views/admin.phtml:200
+msgid "List of upcoming anniversaries in the next period"
+msgstr "List of upcoming anniversaries in the next period"
+
+#: resources/views/admin.phtml:214
+msgid "Types of events to consider"
+msgstr "Types of events to consider"
+
+#: resources/views/admin.phtml:223
+msgid "Deceased persons"
+msgstr "Deceased persons"
+
+#: resources/views/admin.phtml:228
+msgid "Display the anniversaries of deceased persons"
+msgstr "Display the anniversaries of deceased persons"
+
+#: resources/views/admin.phtml:229
+msgid "Required for death anniversaries"
+msgstr "Required for death anniversaries"
+
+#: resources/views/admin.phtml:236
+msgid "Footer settings"
+msgstr "Footer settings"
+
+#: resources/views/admin.phtml:246
+msgid "Adds a footer to the email"
+msgstr "Adds a footer to the email"
+
+#: resources/views/admin.phtml:254
+msgid "Message"
+msgstr "Message"
+
+#: resources/views/admin.phtml:259
+msgid "The message to write (you can use HTML)"
+msgstr "The message to write (you can use HTML)"
+
+#: resources/views/admin.phtml:269
+msgid "save"
+msgstr "save"
+
+#: resources/views/admin.phtml:274
+msgid "cancel"
+msgstr "cancel"
+
+#: resources/views/admin.phtml:282
+msgid "Information"
+msgstr "Information"
+
+#: resources/views/admin.phtml:286
+msgid "never"
+msgstr "never"
+
+#: resources/views/admin.phtml:290
+msgid "Last mailing: %s"
+msgstr "Last mailing: %s"
+
+#: resources/views/admin.phtml:292
+msgid "Next mailing: %s"
+msgstr "Next mailing: %s"
+
+#: resources/views/admin.phtml:294
+msgid "Number of recipients: %s"
+msgstr "Number of recipients: %s"
+
+#: resources/views/email.phtml:187
+msgid "News"
+msgstr "News"
+
+#: resources/views/email.phtml:190
+msgid "No news to display"
+msgstr "No news to display"
+
+#: resources/views/email.phtml:203
+msgid "Changes"
+msgstr "Changes"
+
+#: resources/views/email.phtml:206
+msgid "There were no changes during the day."
+msgid_plural "There have been no changes within the last %s days."
+msgstr[0] "There were no changes during the day."
+msgstr[1] "There have been no changes within the last %s days."
+
+#: resources/views/email.phtml:238
+msgid "Anniversaries"
+msgstr "Anniversaries"
+
+#: resources/views/email.phtml:241
+msgid "There is no anniversary to celebrate today."
+msgid_plural "There are no birthdays to celebrate in the next %s days."
+msgstr[0] "There is no anniversary to celebrate today."
+msgstr[1] "There are no birthdays to celebrate in the next %s days."
+
+#: resources/views/email.phtml:264
+msgid "%1$s of %2$s (%3$s years ago)"
+msgstr "%1$s of %2$s (%3$s years ago)"
