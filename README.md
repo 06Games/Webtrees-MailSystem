@@ -12,7 +12,7 @@
 
 
 ## Translation
-If you want to participate in the translation of this module, you can use [POEditor](https://poeditor.com/join/project/hTVWOr86m9).
+All language files are located in `/ressouces/lang`. You can edit them with a po editor such as [Poedit](https://poedit.net/)
 
 ## Development
 > Nightly builds are available [here](https://github.com/06Games/Webtrees-MailSystem/actions/workflows/build.yml)

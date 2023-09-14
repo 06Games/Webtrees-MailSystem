@@ -1,3 +1,0 @@
-files:
-  - source: /resources/lang/en.po
-    translation: /resources/lang/%two_letters_code%.po
