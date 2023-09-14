@@ -1,21 +1,16 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: webtrees-mail-system\n"
+"POT-Creation-Date: 2023-09-14 22:27+0200\n"
+"PO-Revision-Date: 2023-09-14 22:34+0200\n"
+"Last-Translator: Evan Galli <fr.06games@gmail.com>\n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
-"Project-Id-Version: webtrees-mail-system\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-12-19 20:14\n"
-"Last-Translator: Evan Galli <fr.06games@gmail.com>\n"
-"Language-Team: Dutch\n"
-"X-Crowdin-Project: webtrees-mail-system\n"
-"X-Crowdin-Project-ID: 556549\n"
-"X-Crowdin-Language: nl\n"
-"X-Crowdin-File: /main/resources/lang/en.po\n"
-"X-Crowdin-File-ID: 7\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: AdminAction.php:49
 msgid "The Mail System preferences have been updated."
@@ -79,15 +74,19 @@ msgstr "Eerste stappen"
 
 #: resources/views/admin.phtml:30
 msgid "This module requires a cron job to be set up and run every day."
-msgstr "Deze module vereist dat een cron job wordt ingesteld en elke dag wordt uitgevoerd."
+msgstr ""
+"Deze module vereist dat een cron job wordt ingesteld en elke dag wordt "
+"uitgevoerd."
 
 #: resources/views/admin.phtml:32
 msgid "Please add the following line to your cron file"
 msgstr "Voeg de volgende regel toe aan uw cron-bestand"
 
 #: resources/views/admin.phtml:37
+#, php-format
 msgid "You may need to add %1$s and %2$s depending on your configuration"
-msgstr "Mogelijk moet u %1$s en %2$s toevoegen, afhankelijk van uw configuratie"
+msgstr ""
+"Mogelijk moet u %1$s en %2$s toevoegen, afhankelijk van uw configuratie"
 
 #: resources/views/admin.phtml:45
 msgid "General settings"
@@ -98,8 +97,11 @@ msgid "Trees"
 msgstr "Stambomen"
 
 #: resources/views/admin.phtml:56
-msgid "Trees to be considered (User restrictions take precedence over this setting)"
-msgstr "Te overwegen stambomen (Gebruikersbeperkingen hebben voorrang op deze instelling)"
+msgid ""
+"Trees to be considered (User restrictions take precedence over this setting)"
+msgstr ""
+"Te overwegen stambomen (Gebruikersbeperkingen hebben voorrang op deze "
+"instelling)"
 
 #: resources/views/admin.phtml:64
 msgid "Users"
@@ -122,24 +124,32 @@ msgid "Show empty categories"
 msgstr "Toon lege categorieën"
 
 #: resources/views/admin.phtml:96 resources/views/admin.phtml:141
-#: resources/views/admin.phtml:167 resources/views/admin.phtml:198
-#: resources/views/admin.phtml:226 resources/views/admin.phtml:244
+#: resources/views/admin.phtml:168 resources/views/admin.phtml:199
+#: resources/views/admin.phtml:227 resources/views/admin.phtml:245
 msgid "no"
 msgstr "nee"
 
 #: resources/views/admin.phtml:96 resources/views/admin.phtml:141
-#: resources/views/admin.phtml:167 resources/views/admin.phtml:198
-#: resources/views/admin.phtml:226 resources/views/admin.phtml:244
+#: resources/views/admin.phtml:168 resources/views/admin.phtml:199
+#: resources/views/admin.phtml:227 resources/views/admin.phtml:245
 msgid "yes"
 msgstr "ja"
 
 #: resources/views/admin.phtml:98
-msgid "If this option is enabled, a message will indicate that there is no data to display for the period."
-msgstr "Als deze optie is ingeschakeld, zal een bericht aangeven dat er voor de periode geen gegevens kunnen worden weergegeven."
+msgid ""
+"If this option is enabled, a message will indicate that there is no data to "
+"display for the period."
+msgstr ""
+"Als deze optie is ingeschakeld, zal een bericht aangeven dat er voor de "
+"periode geen gegevens kunnen worden weergegeven."
 
 #: resources/views/admin.phtml:99
-msgid "When this option is disabled, in case all categories of all trees are without data, no mail will be sent."
-msgstr "Wanneer deze optie is uitgeschakeld, wordt er, indien alle categorieën van alle stambomen geen gegevens bevatten, geen mail verstuurd."
+msgid ""
+"When this option is disabled, in case all categories of all trees are "
+"without data, no mail will be sent."
+msgstr ""
+"Wanneer deze optie is uitgeschakeld, wordt er, indien alle categorieën van "
+"alle stambomen geen gegevens bevatten, geen mail verstuurd."
 
 #: resources/views/admin.phtml:107
 msgid "Images"
@@ -150,8 +160,14 @@ msgid "Data URLs only work on relatively recent email clients."
 msgstr "Data URL's werken alleen op relatief recente e-mailclients."
 
 #: resources/views/admin.phtml:113
-msgid "Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however)."
-msgstr "Directe URL's zouden brede compatibiliteit moeten bieden, maar zijn iets minder veilig, aangezien afbeeldingen van personen beschikbaar komen zonder authenticatie (ze worden echter verkleind tot 50x50 px)."
+msgid ""
+"Direct URLs should offer broad compatibility, but are slightly less secure, "
+"as image of individuals become available without authentication (they are "
+"resized to 50x50 px, however)."
+msgstr ""
+"Directe URL's zouden brede compatibiliteit moeten bieden, maar zijn iets "
+"minder veilig, aangezien afbeeldingen van personen beschikbaar komen zonder "
+"authenticatie (ze worden echter verkleind tot 50x50 px)."
 
 #: resources/views/admin.phtml:121
 msgid "Image format"
@@ -165,136 +181,156 @@ msgstr ""
 msgid "News settings"
 msgstr "Instellingen nieuws"
 
-#: resources/views/admin.phtml:138 resources/views/admin.phtml:164
-#: resources/views/admin.phtml:195 resources/views/admin.phtml:241
+#: resources/views/admin.phtml:138 resources/views/admin.phtml:165
+#: resources/views/admin.phtml:196 resources/views/admin.phtml:242
 msgid "Enabled"
 msgstr "Geactiveerd"
 
 #: resources/views/admin.phtml:143
-msgid "Displays family news and site announcements (requires activation of the dedicated module)"
-msgstr "Toont familienieuws en aankondigingen van de site (vereist activering van de speciale module)"
+msgid ""
+"Displays family news and site announcements (requires activation of the "
+"dedicated module)"
+msgstr ""
+"Toont familienieuws en aankondigingen van de site (vereist activering van de "
+"speciale module)"
 
 #: resources/views/admin.phtml:149
+#, php-format
 msgid "The %1$s module could not be found"
 msgstr "De module %1$s kon niet worden gevonden"
 
-#: resources/views/admin.phtml:151
-msgid "The %1$s module is disabled, please enable it if you wish to use this feature."
-msgstr "De module %1$s is uitgeschakeld, schakel deze in als u deze functie wilt gebruiken."
+#: resources/views/admin.phtml:152
+#, php-format
+msgid ""
+"The %1$s module is disabled, please enable it if you wish to use this "
+"feature."
+msgstr ""
+"De module %1$s is uitgeschakeld, schakel deze in als u deze functie wilt "
+"gebruiken."
 
-#: resources/views/admin.phtml:159
+#: resources/views/admin.phtml:160
 msgid "Change-list settings"
 msgstr "Instellingen voor de wijzigingslijst"
 
-#: resources/views/admin.phtml:169
+#: resources/views/admin.phtml:170
 msgid "List of changes made in the previous period"
 msgstr "Lijst van wijzigingen in de afgelopen periode"
 
-#: resources/views/admin.phtml:177 resources/views/admin.phtml:208
+#: resources/views/admin.phtml:178 resources/views/admin.phtml:209
 msgid "Tags"
 msgstr "Labels"
 
-#: resources/views/admin.phtml:183
+#: resources/views/admin.phtml:184
 msgid "Types of changes to be considered"
 msgstr "Te overwegen soorten wijzigingen"
 
-#: resources/views/admin.phtml:190
+#: resources/views/admin.phtml:191
 msgid "Anniversaries settings"
 msgstr "Instellingen gebeurtenissen"
 
-#: resources/views/admin.phtml:200
+#: resources/views/admin.phtml:201
 msgid "List of upcoming anniversaries in the next period"
 msgstr "Lijst van komende verjaardagen in de volgende periode"
 
-#: resources/views/admin.phtml:214
+#: resources/views/admin.phtml:215
 msgid "Types of events to consider"
 msgstr "Soorten gebeurtenissen om te overwegen"
 
-#: resources/views/admin.phtml:223
+#: resources/views/admin.phtml:224
 msgid "Deceased persons"
 msgstr "Overleden personen"
 
-#: resources/views/admin.phtml:228
+#: resources/views/admin.phtml:229
 msgid "Display the anniversaries of deceased persons"
 msgstr "Toon de verjaardagen van overleden personen"
 
-#: resources/views/admin.phtml:229
+#: resources/views/admin.phtml:230
 msgid "Required for death anniversaries"
 msgstr "Vereist voor sterfgevallen"
 
-#: resources/views/admin.phtml:236
+#: resources/views/admin.phtml:237
 msgid "Footer settings"
 msgstr "Instellingen voettekst"
 
-#: resources/views/admin.phtml:246
+#: resources/views/admin.phtml:247
 msgid "Adds a footer to the email"
 msgstr "Voegt een voettekst toe aan de e-mail"
 
-#: resources/views/admin.phtml:254
+#: resources/views/admin.phtml:255
 msgid "Message"
 msgstr "Bericht"
 
-#: resources/views/admin.phtml:259
+#: resources/views/admin.phtml:261
 msgid "The message to write (you can use HTML)"
 msgstr "Het te schrijven bericht (u kunt HTML gebruiken)"
 
-#: resources/views/admin.phtml:269
+#: resources/views/admin.phtml:271
 msgid "save"
 msgstr "opslaan"
 
-#: resources/views/admin.phtml:274
+#: resources/views/admin.phtml:276
 msgid "cancel"
 msgstr "afbreken"
 
-#: resources/views/admin.phtml:282
+#: resources/views/admin.phtml:284
 msgid "Information"
 msgstr "Informatie"
 
-#: resources/views/admin.phtml:286
+#: resources/views/admin.phtml:288
 msgid "never"
 msgstr "nooit"
 
-#: resources/views/admin.phtml:290
+#: resources/views/admin.phtml:292
+#, php-format
 msgid "Last mailing: %s"
 msgstr "Laatste mailing: %s"
 
-#: resources/views/admin.phtml:292
+#: resources/views/admin.phtml:294
+#, php-format
 msgid "Next mailing: %s"
 msgstr "Volgende mailing: %s"
 
-#: resources/views/admin.phtml:294
+#: resources/views/admin.phtml:296
+#, php-format
 msgid "Number of recipients: %s"
 msgstr "Aantal ontvangers: %s"
 
-#: resources/views/email.phtml:187
+#: resources/views/admin.phtml:300
+msgid "preview next mail"
+msgstr ""
+
+#: resources/views/email.phtml:189
 msgid "News"
 msgstr "Nieuws"
 
-#: resources/views/email.phtml:190
+#: resources/views/email.phtml:192
 msgid "No news to display"
 msgstr "Geen nieuws om weer te geven"
 
-#: resources/views/email.phtml:203
+#: resources/views/email.phtml:205
 msgid "Changes"
 msgstr "Wijzigingen"
 
-#: resources/views/email.phtml:206
+#: resources/views/email.phtml:208
+#, php-format
 msgid "There were no changes during the day."
 msgid_plural "There have been no changes within the last %s days."
 msgstr[0] "Er waren geen veranderingen gedurende de afgelopen dag."
 msgstr[1] "Er zijn geen wijzigingen geweest in de afgelopen %s dagen."
 
-#: resources/views/email.phtml:238
+#: resources/views/email.phtml:240
 msgid "Anniversaries"
 msgstr "Gebeurtenissen"
 
-#: resources/views/email.phtml:241
+#: resources/views/email.phtml:243
+#, php-format
 msgid "There is no anniversary to celebrate today."
 msgid_plural "There are no birthdays to celebrate in the next %s days."
 msgstr[0] "Er is geen gebeurtenis te vieren/herdenken vandaag."
-msgstr[1] "Er zijn geen gebeurtenis te vieren/herdenken in de komende %s dagen."
+msgstr[1] ""
+"Er zijn geen gebeurtenis te vieren/herdenken in de komende %s dagen."
 
-#: resources/views/email.phtml:264
+#: resources/views/email.phtml:266
+#, php-format
 msgid "%1$s of %2$s (%3$s years ago)"
 msgstr "%1$s: %2$s (%3$s jaar geleden)"
-
