@@ -1,0 +1,315 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Webtrees Mail System\n"
+"POT-Creation-Date: 2024-01-29 05:30+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Holger Eisold (HerzScheisse) <kontakt@eisold.family>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: plural:1,2;translate;translatePlural:1,2\n"
+"X-Poedit-SearchPath-0: AdminAction.php\n"
+"X-Poedit-SearchPath-1: AdminPage.php\n"
+"X-Poedit-SearchPath-2: RequestHandler.php\n"
+"X-Poedit-SearchPath-3: resources/views\n"
+"X-Poedit-SearchPath-4: Settings.php\n"
+"X-Poedit-SearchPath-5: Helpers\n"
+
+#: AdminAction.php:49
+msgid "The Mail System preferences have been updated."
+msgstr "Die Mail-System Einstellungen wurden aktualisiert."
+
+#: AdminPage.php:42
+msgid "Mail system preferences"
+msgstr "Mail-System Einstellungen"
+
+#: RequestHandler.php:156
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: Settings.php:88
+msgid "Direct URLs"
+msgstr "Direkte URLs"
+
+#: Settings.php:89
+msgid "Data URLs"
+msgstr "Daten-URLs"
+
+#: Settings.php:90
+msgid "No images"
+msgstr "Keine Bilder"
+
+#: Settings.php:145
+msgid "Individual"
+msgstr "Individuell"
+
+#: Settings.php:146
+msgid "Family"
+msgstr "Familie"
+
+#: Settings.php:147
+msgid "Media"
+msgstr "Medien"
+
+#: Settings.php:148
+msgid "Note"
+msgstr "Notiz"
+
+#: Settings.php:149
+msgid "Source"
+msgstr "Quelle"
+
+#: Settings.php:150
+msgid "Submitter"
+msgstr "Einreicher"
+
+#: Settings.php:151
+msgid "Repository"
+msgstr "Repository"
+
+#: resources/views/admin.phtml:19
+msgid "Control panel"
+msgstr "Verwaltung"
+
+#: resources/views/admin.phtml:28
+msgid "First steps"
+msgstr "Erste Schritte"
+
+#: resources/views/admin.phtml:30
+msgid "This module requires a cron job to be set up and run every day."
+msgstr "Dieses Modul erfordert, dass ein Cron-Job eingerichtet und jeden Tag ausgeführt wird."
+
+#: resources/views/admin.phtml:32
+msgid "Please add the following line to your cron file"
+msgstr "Bitte füge die folgende Zeile der Cron-Datei hinzu"
+
+#: resources/views/admin.phtml:37
+#, php-format
+msgid "You may need to add %1$s and %2$s depending on your configuration"
+msgstr "Möglicherweise muss je nach Konfiguration %1$s und %2$s hinzufügt werden"
+
+#: resources/views/admin.phtml:45
+msgid "General settings"
+msgstr "Allgemeine Einstellungen"
+
+#: resources/views/admin.phtml:50
+msgid "Trees"
+msgstr "Bäume"
+
+#: resources/views/admin.phtml:56
+msgid "Trees to be considered (User restrictions take precedence over this setting)"
+msgstr "Bäume zu berücksichtigen (Benutzerbeschränkungen haben Vorrang vor dieser Einstellung)"
+
+#: resources/views/admin.phtml:64
+msgid "Users"
+msgstr "Benutzer"
+
+#: resources/views/admin.phtml:70
+msgid "Users to send the mail to"
+msgstr "Benutzer, an die die E-Mail zu senden ist"
+
+#: resources/views/admin.phtml:78
+msgid "Frequency"
+msgstr "Frequenz"
+
+#: resources/views/admin.phtml:85
+msgid "Frequency of sending e-mails (in days)"
+msgstr "Häufigkeit des Versendens von E-Mails (in Tagen)"
+
+#: resources/views/admin.phtml:93
+msgid "Show empty categories"
+msgstr "Zeige leere Kategorien"
+
+#: resources/views/admin.phtml:96 resources/views/admin.phtml:141
+#: resources/views/admin.phtml:168 resources/views/admin.phtml:199
+#: resources/views/admin.phtml:227 resources/views/admin.phtml:245
+msgid "no"
+msgstr "Nein"
+
+#: resources/views/admin.phtml:96 resources/views/admin.phtml:141
+#: resources/views/admin.phtml:168 resources/views/admin.phtml:199
+#: resources/views/admin.phtml:227 resources/views/admin.phtml:245
+msgid "yes"
+msgstr "Ja"
+
+#: resources/views/admin.phtml:98
+msgid "If this option is enabled, a message will indicate that there is no data to display for the period."
+msgstr "Wenn diese Option aktiviert ist, wird eine Meldung angezeigt, dass für den Zeitraum keine Daten angezeigt werden können."
+
+#: resources/views/admin.phtml:99
+msgid "When this option is disabled, in case all categories of all trees are without data, no mail will be sent."
+msgstr "Wenn diese Option deaktiviert ist, wird keine E-Mail verschickt, wenn alle Kategorien aller Bäume keine Daten enthalten."
+
+#: resources/views/admin.phtml:107
+msgid "Images"
+msgstr "Bilder"
+
+#: resources/views/admin.phtml:112
+msgid "Data URLs only work on relatively recent email clients."
+msgstr "Daten-URLs funktionieren nur mit relativ aktuellen E-Mail Programmen."
+
+#: resources/views/admin.phtml:113
+msgid "Direct URLs should offer broad compatibility, but are slightly less secure, as image of individuals become available without authentication (they are resized to 50x50 px, however)."
+msgstr "Direkte URLs sollten eine breite Kompatibilität bieten, sind aber etwas weniger sicher, da Bilder von Einzelpersonen ohne Authentifizierung verfügbar sind (sie werden jedoch auf 50x50 px verkleinert)."
+
+#: resources/views/admin.phtml:121
+msgid "Image format"
+msgstr "Bildformat"
+
+#: resources/views/admin.phtml:126
+msgid "Use PNG for a better compatibility"
+msgstr "Verwende PNG für eine bessere Kompatibilität"
+
+#: resources/views/admin.phtml:133
+msgid "News settings"
+msgstr "Neuigkeiten Einstellungen"
+
+#: resources/views/admin.phtml:138 resources/views/admin.phtml:165
+#: resources/views/admin.phtml:196 resources/views/admin.phtml:242
+msgid "Enabled"
+msgstr "Aktiviert"
+
+#: resources/views/admin.phtml:143
+msgid "Displays family news and site announcements (requires activation of the dedicated module)"
+msgstr "Anzeige von Familien-Neuigkeiten und Seitenankündigungen (erfordert die Aktivierung des entsprechenden Moduls)"
+
+#: resources/views/admin.phtml:149
+#, php-format
+msgid "The %1$s module could not be found"
+msgstr "Das Modul %1$s konnte nicht gefunden werden"
+
+#: resources/views/admin.phtml:152
+#, php-format
+msgid "The %1$s module is disabled, please enable it if you wish to use this feature."
+msgstr "Das Modul %1$s ist deaktiviert. Bitte aktiviere es, wenn die Funktion genutzt werden soll."
+
+#: resources/views/admin.phtml:160
+msgid "Change-list settings"
+msgstr "Einstellungen für Änderungslisten"
+
+#: resources/views/admin.phtml:170
+msgid "List of changes made in the previous period"
+msgstr "Liste der Änderungen, die in der vorherigen Periode vorgenommen wurden"
+
+#: resources/views/admin.phtml:178 resources/views/admin.phtml:209
+msgid "Tags"
+msgstr "Stichworte"
+
+#: resources/views/admin.phtml:184
+msgid "Types of changes to be considered"
+msgstr "Arten von Änderungen, die berücksichtigt werden sollen"
+
+#: resources/views/admin.phtml:191
+msgid "Anniversaries settings"
+msgstr "Jubiläeneinstellungen"
+
+#: resources/views/admin.phtml:201
+msgid "List of upcoming anniversaries in the next period"
+msgstr "Liste der bevorstehenden Jubiläen in der nächsten Zeit"
+
+#: resources/views/admin.phtml:215
+msgid "Types of events to consider"
+msgstr "Arten von Ereignissen, die berücksichtigt werden sollen"
+
+#: resources/views/admin.phtml:224
+msgid "Deceased persons"
+msgstr "Verstorbene Personen"
+
+#: resources/views/admin.phtml:229
+msgid "Display the anniversaries of deceased persons"
+msgstr "Zeige die Jubiläen von Verstorbenen an"
+
+#: resources/views/admin.phtml:230
+msgid "Required for death anniversaries"
+msgstr "Erforderlich für Todesjubiläen"
+
+#: resources/views/admin.phtml:237
+msgid "Footer settings"
+msgstr "Fußzeileneinstellungen"
+
+#: resources/views/admin.phtml:247
+msgid "Adds a footer to the email"
+msgstr "Fügt der E-Mail eine Fußzeile hinzu"
+
+#: resources/views/admin.phtml:255
+msgid "Message"
+msgstr "Nachricht"
+
+#: resources/views/admin.phtml:261
+msgid "The message to write (you can use HTML)"
+msgstr "Die zu schreibende Nachricht (HTML kann verwendet werden)"
+
+#: resources/views/admin.phtml:271
+msgid "save"
+msgstr "speichern"
+
+#: resources/views/admin.phtml:276
+msgid "cancel"
+msgstr "abbrechen"
+
+#: resources/views/admin.phtml:284
+msgid "Information"
+msgstr "Information"
+
+#: resources/views/admin.phtml:288
+msgid "never"
+msgstr "noch nie"
+
+#: resources/views/admin.phtml:292
+#, php-format
+msgid "Last mailing: %s"
+msgstr "Letzter Versand: %s"
+
+#: resources/views/admin.phtml:294
+#, php-format
+msgid "Next mailing: %s"
+msgstr "Nächster Versand: %s"
+
+#: resources/views/admin.phtml:296
+#, php-format
+msgid "Number of recipients: %s"
+msgstr "Anzahl der Empfänger: %s"
+
+#: resources/views/admin.phtml:300
+msgid "preview next mail"
+msgstr "Vorschau Nächste Mail"
+
+#: resources/views/email.phtml:189
+msgid "News"
+msgstr "Neuigkeiten"
+
+#: resources/views/email.phtml:192
+msgid "No news to display"
+msgstr "Keine Neuigkeiten zum Anzeigen"
+
+#: resources/views/email.phtml:205
+msgid "Changes"
+msgstr "Änderungen"
+
+#: resources/views/email.phtml:208
+#, php-format
+msgid "There were no changes during the day."
+msgid_plural "There have been no changes within the last %s days."
+msgstr[0] "Es gab keine Veränderungen tagsüber."
+msgstr[1] "Es gab keine Änderungen innerhalb der letzten %s -Tage."
+
+#: resources/views/email.phtml:240
+msgid "Anniversaries"
+msgstr "Jubiläen"
+
+#: resources/views/email.phtml:243
+#, php-format
+msgid "There is no anniversary to celebrate today."
+msgid_plural "There are no birthdays to celebrate in the next %s days."
+msgstr[0] "Es gibt heute kein Jubiläum zu feiern."
+msgstr[1] "Es gibt in den nächsten %s -Tagen keine Geburtstage zu feiern."
+
+#: resources/views/email.phtml:266
+#, php-format
+msgid "%1$s of %2$s (%3$s years ago)"
+msgstr "%1$s von %2$s (%3$s Jahre zuvor)"
