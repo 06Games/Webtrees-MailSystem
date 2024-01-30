@@ -8,6 +8,7 @@ use Aura\Router\RouterContainer;
 use Composer\Autoload\ClassLoader;
 use Fisharebest\Localization\Translation;
 use Fisharebest\Webtrees\Http\Middleware\AuthAdministrator;
+use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
@@ -51,7 +52,7 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
     }
 
     public function title(): string { return 'Mail System'; }
-    public function description(): string { return 'Sends out newsletters at regular intervals'; }
+    public function description(): string { return I18N::translate('Sends out newsletters at regular intervals'); }
     public function customModuleAuthorName(): string { return 'EvanG'; }
     public function customModuleSupportUrl(): string { return 'https://github.com/06Games/Webtrees-MailSystem'; }
     public function customModuleVersion(): string { return '2.3.5'; }
