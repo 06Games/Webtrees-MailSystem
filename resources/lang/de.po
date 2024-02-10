@@ -70,7 +70,7 @@ msgstr "Einreicher"
 
 #: Settings.php:151
 msgid "Repository"
-msgstr "Repository"
+msgstr "Archiv"
 
 #: Settings.php:269
 #, php-format
