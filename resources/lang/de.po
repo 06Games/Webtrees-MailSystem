@@ -321,4 +321,4 @@ msgstr[1] "Es gibt in den nächsten %s -Tagen keine Geburtstage zu feiern."
 #: resources/views/email.phtml:266
 #, php-format
 msgid "%1$s of %2$s (%3$s years ago)"
-msgstr "%1$s von %2$s (%3$s Jahre zuvor)"
+msgstr "%1$s von %2$s (vor %3$s Jahren)"
