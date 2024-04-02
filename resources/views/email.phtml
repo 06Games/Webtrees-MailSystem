@@ -8,8 +8,9 @@ use Fisharebest\Localization\Translator;
 use Fisharebest\Webtrees\Date\GregorianDate;
 use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 
-use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Location;
 use Fisharebest\Webtrees\Media;
 use Fisharebest\Webtrees\Note;
 use Fisharebest\Webtrees\Registry;
@@ -221,7 +222,8 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
                                                 else if ($tag === Note::RECORD_TYPE) $getIcon('note');
                                                 else if ($tag === Source::RECORD_TYPE) $getIcon('source');
                                                 else if ($tag === Submitter::RECORD_TYPE) $getIcon('submitter');
-                                                else if ($tag === Repository::RECORD_TYPE) { $getIcon('repository'); }
+                                                else if ($tag === Repository::RECORD_TYPE) $getIcon('repository');
+                                                else if ($tag === Location::RECORD_TYPE) $getIcon('location');
                                                 ?>
                                             </span>
                                         <a class="record" href="<?= e($record["url"]) ?>"><?= $record["fullName"] ?></a>
