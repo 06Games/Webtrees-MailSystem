@@ -9,6 +9,7 @@ use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Gedcom;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Location;
 use Fisharebest\Webtrees\Media;
 use Fisharebest\Webtrees\Note;
 use Fisharebest\Webtrees\Registry;
@@ -148,7 +149,8 @@ class Settings
             Note::RECORD_TYPE => I18N::translate("Note"),
             Source::RECORD_TYPE => I18N::translate("Source"),
             Submitter::RECORD_TYPE => I18N::translate("Submitter"),
-            Repository::RECORD_TYPE => I18N::translate("Repository")];
+            Repository::RECORD_TYPE => I18N::translate("Repository"),
+            Location::RECORD_TYPE => I18N::translate('Location')];
     }
 
     public function getChangelistTags(): array
