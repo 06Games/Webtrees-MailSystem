@@ -31,8 +31,8 @@ class Settings
 
     public function __construct()
     {
-        $this->userService = app(UserService::class);
-        $this->treeService = app(TreeService::class);
+        $this->userService = Registry::container()->get(UserService::class);
+        $this->treeService = Registry::container()->get(TreeService::class);
 
         $users = [];
         foreach ($this->userService->all() as $u) $users[$u->username()] = $u->username();

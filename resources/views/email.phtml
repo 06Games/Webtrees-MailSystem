@@ -172,7 +172,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
         }
     </style>
 
-    <?php foreach (app(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
+    <?php foreach (Registry::container()->get(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
         <link rel="stylesheet" href="<?= e($stylesheet) ?>">
     <?php endforeach ?>
 </head>

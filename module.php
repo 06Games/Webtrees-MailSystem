@@ -13,6 +13,7 @@ use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
+use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\View;
 
 /** Sends a mail with recent changes to Webtrees users. */
@@ -34,7 +35,7 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
     {
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
 
-        /** @var RouterContainer $router */ $router = app(RouterContainer::class);
+        /** @var RouterContainer $router */ $router = Registry::container()->get(RouterContainer::class);
 
         $map = $router->getMap();
         $module = $this;

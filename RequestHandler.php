@@ -50,9 +50,9 @@ class RequestHandler implements RequestHandlerInterface
     public function __construct(MailSystem $msys)
     {
         $this->module = $msys;
-        $this->users = app(UserService::class);
-        $this->trees = app(TreeService::class);
-        $this->email = app(EmailService::class);
+        $this->users = Registry::container()->get(UserService::class);
+        $this->trees = Registry::container()->get(TreeService::class);
+        $this->email = Registry::container()->get(EmailService::class);
 
         $this->news = new News();
         $this->changes = new Changes();
