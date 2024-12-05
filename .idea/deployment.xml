@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="Webtrees">
+  <component name="PublishConfigData" autoUpload="Always" serverName="NAS">
     <serverData>
-      <paths name="Webtrees">
+      <paths name="NAS">
         <serverdata>
           <mappings>
-            <mapping deploy="modules_v4/mailsystem" local="$PROJECT_DIR$" web="/mail-sys" />
+            <mapping deploy="/mailsystem" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

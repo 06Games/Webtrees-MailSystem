@@ -6,6 +6,6 @@ riderModule.iml
 /_ReSharper.Caches/
 composer.phar
 *.lock
-/.idea/webServers.xml
+/.idea
 
 /resources/lang/*.mo
