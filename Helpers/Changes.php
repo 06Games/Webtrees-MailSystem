@@ -20,7 +20,7 @@ class Changes implements DataGetter
 
     public function __construct()
     {
-        $this->users = Registry::container()->get(UserService::class);
+        $this->users = CompatibilityHelper::getService(UserService::class);
     }
 
     /**

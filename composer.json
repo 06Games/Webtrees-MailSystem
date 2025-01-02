@@ -19,7 +19,7 @@
         }
     },
     "require": {
-        "fisharebest/webtrees": "^2.2"
+        "fisharebest/webtrees": "^2.1"
     },
     "archive": {
         "exclude": [

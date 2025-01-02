@@ -6,6 +6,7 @@ namespace EvanG\Modules\MailSystem;
 use Aura\Router\Map;
 use Aura\Router\RouterContainer;
 use Composer\Autoload\ClassLoader;
+use EvanG\Modules\MailSystem\Helpers\CompatibilityHelper;
 use Fisharebest\Localization\Translation;
 use Fisharebest\Webtrees\Http\Middleware\AuthAdministrator;
 use Fisharebest\Webtrees\I18N;
@@ -13,7 +14,6 @@ use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\ModuleConfigInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
-use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\View;
 
 /** Sends a mail with recent changes to Webtrees users. */
@@ -35,7 +35,7 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
     {
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
 
-        /** @var RouterContainer $router */ $router = Registry::container()->get(RouterContainer::class);
+        /** @var RouterContainer $router */ $router = CompatibilityHelper::getService(RouterContainer::class);
 
         $map = $router->getMap();
         $module = $this;

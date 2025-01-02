@@ -7,6 +7,7 @@ namespace EvanG\Modules\MailSystem;
 use DateTimeImmutable;
 use EvanG\Modules\MailSystem\Helpers\Anniversaries;
 use EvanG\Modules\MailSystem\Helpers\Changes;
+use EvanG\Modules\MailSystem\Helpers\CompatibilityHelper;
 use EvanG\Modules\MailSystem\Helpers\Images;
 use EvanG\Modules\MailSystem\Helpers\News;
 use Exception;
@@ -50,9 +51,9 @@ class RequestHandler implements RequestHandlerInterface
     public function __construct(MailSystem $msys)
     {
         $this->module = $msys;
-        $this->users = Registry::container()->get(UserService::class);
-        $this->trees = Registry::container()->get(TreeService::class);
-        $this->email = Registry::container()->get(EmailService::class);
+        $this->users = CompatibilityHelper::getService(UserService::class);
+        $this->trees = CompatibilityHelper::getService(TreeService::class);
+        $this->email = CompatibilityHelper::getService(EmailService::class);
 
         $this->news = new News();
         $this->changes = new Changes();

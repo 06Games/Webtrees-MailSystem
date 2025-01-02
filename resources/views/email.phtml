@@ -1,22 +1,21 @@
 <?php
 
+use EvanG\Modules\MailSystem\Helpers\CompatibilityHelper;
 use EvanG\Modules\MailSystem\MailSystem;
 use EvanG\Modules\MailSystem\Settings;
 use Fisharebest\Localization\Locale\LocaleInterface;
 use Fisharebest\Localization\Translator;
-
 use Fisharebest\Webtrees\Date\GregorianDate;
-use Fisharebest\Webtrees\Module\ModuleThemeInterface;
-
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Location;
 use Fisharebest\Webtrees\Media;
+use Fisharebest\Webtrees\Module\ModuleThemeInterface;
 use Fisharebest\Webtrees\Note;
 use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Repository;
 use Fisharebest\Webtrees\Source;
 use Fisharebest\Webtrees\Submitter;
-use Fisharebest\Webtrees\Repository;
 use Illuminate\Support\Collection;
 
 /** @var Settings $args */
@@ -172,7 +171,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
         }
     </style>
 
-    <?php foreach (Registry::container()->get(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
+    <?php foreach (CompatibilityHelper::getService(ModuleThemeInterface::class)->stylesheets() as $stylesheet) : ?>
         <link rel="stylesheet" href="<?= e($stylesheet) ?>">
     <?php endforeach ?>
 </head>

@@ -7,7 +7,6 @@ use EvanG\Modules\MailSystem\Settings;
 use Fisharebest\Webtrees\Fact;
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Individual;
-use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\CalendarService;
 use Fisharebest\Webtrees\Tree;
 use Illuminate\Support\Collection;
@@ -18,7 +17,7 @@ class Anniversaries implements DataGetter
 
     public function __construct()
     {
-        $this->calendar = Registry::container()->get(CalendarService::class);
+        $this->calendar = CompatibilityHelper::getService(CalendarService::class);
     }
 
     public function get(Settings $args, Tree $tree): Collection

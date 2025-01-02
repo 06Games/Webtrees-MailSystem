@@ -4,6 +4,7 @@ namespace EvanG\Modules\MailSystem;
 
 use DateInterval;
 use DateTimeImmutable;
+use EvanG\Modules\MailSystem\Helpers\CompatibilityHelper;
 use Exception;
 use Fisharebest\Webtrees\Family;
 use Fisharebest\Webtrees\Gedcom;
@@ -31,8 +32,8 @@ class Settings
 
     public function __construct()
     {
-        $this->userService = Registry::container()->get(UserService::class);
-        $this->treeService = Registry::container()->get(TreeService::class);
+        $this->userService = CompatibilityHelper::getService(UserService::class);
+        $this->treeService = CompatibilityHelper::getService(TreeService::class);
 
         $users = [];
         foreach ($this->userService->all() as $u) $users[$u->username()] = $u->username();

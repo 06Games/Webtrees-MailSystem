@@ -2,9 +2,9 @@
 
 namespace EvanG\Modules\MailSystem;
 
+use EvanG\Modules\MailSystem\Helpers\CompatibilityHelper;
 use Fisharebest\Webtrees\Http\ViewResponseTrait;
 use Fisharebest\Webtrees\I18N;
-use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\TreeService;
 use Fisharebest\Webtrees\Services\UserService;
 use Psr\Http\Message\ResponseInterface;
@@ -26,8 +26,8 @@ class AdminPage implements RequestHandlerInterface
     public function __construct(MailSystem $msys)
     {
         $this->module = $msys;
-        $this->userService = Registry::container()->get(UserService::class);
-        $this->treeService = Registry::container()->get(TreeService::class);
+        $this->userService = CompatibilityHelper::getService(UserService::class);
+        $this->treeService = CompatibilityHelper::getService(TreeService::class);
     }
 
     /**
