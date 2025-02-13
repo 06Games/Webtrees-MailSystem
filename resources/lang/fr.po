@@ -273,7 +273,7 @@ msgstr "Message"
 
 #: resources/views/admin.phtml:261
 msgid "The message to write (you can use HTML)"
-msgstr "Le message a écrire (vous pouvez utiliser de l'HTML)"
+msgstr "Le message à écrire (vous pouvez utiliser de l'HTML)"
 
 #: resources/views/admin.phtml:271
 msgid "save"
