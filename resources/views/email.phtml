@@ -35,13 +35,17 @@ $getDate = function ($dateString): GregorianDate {
 
 $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
     $source = $args->getImageDataType();
-    if($source == "none") return;
+    if ($source == "none") return;
 
     $format = $args->getImageFormat();
-    try { $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format); } // TODO: Data Url
-    catch (Exception $e) { $url = null; }
+    try {
+        $url = $module->assetUrl('img/' . $format . '/' . $name . '.' . $format);
+    } // TODO: Data Url
+    catch (Exception $e) {
+        $url = null;
+    }
     ?>
-    <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= $translator->translate($name) ?>" />
+    <img height="<?= $height ?>" src="<?= $url ?>" alt="<?= $translator->translate($name) ?>"/>
 <?php }; ?>
 
 <!DOCTYPE html>
@@ -88,7 +92,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
             clear: both;
         }
 
-        .news .news-title{
+        .news .news-title {
             margin-bottom: 0;
         }
 
@@ -181,7 +185,7 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
         <section id="<?= $tree ?>" class="tree">
             <h3 class="treeName">
                 <span style="vertical-align: text-bottom;"><?php $getIcon('tree', 32); ?></span>
-                <?= ucwords($tree) ?>
+                <?= $data["title"] ?>
             </h3>
             <?php if ($args->getNewsEnabled() && (!empty($data["news"]) || $args->getEmpty())) :
                 $newsData = $data["news"]; ?>
@@ -280,9 +284,9 @@ $getIcon = function ($name, $height = 16) use ($translator, $module, $args) {
 </main>
 <br/>
 <?php if ($args->getFooterEnabled()): ?>
-<footer>
-    <small><?= $args->getFooterMessage() ?></small>
-</footer>
+    <footer>
+        <small><?= $args->getFooterMessage() ?></small>
+    </footer>
 <?php endif ?>
 </body>
 </html>

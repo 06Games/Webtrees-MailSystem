@@ -60,9 +60,15 @@ class RequestHandler implements RequestHandlerInterface
         $this->anniversaries = new Anniversaries();
 
         $this->actions = [
-            'help' => function () { return response($this->help()); },
-            'cron' => function () { return $this->cron(); },
-            'get' => function () { return response($this->api($this->module->getSettings())); },
+            'help' => function () {
+                return response($this->help());
+            },
+            'cron' => function () {
+                return $this->cron();
+            },
+            'get' => function () {
+                return response($this->api($this->module->getSettings()));
+            },
             'image' => function (Request $request) {
                 if ($this->module->getSettings()->getImageDataType() != "link") return response(["message" => "Direct links are disabled"], 403);
                 $loggedUser = Auth::user();
@@ -83,7 +89,9 @@ class RequestHandler implements RequestHandlerInterface
                 $query = $request->getQueryParams();
                 return response($this->html($this->htmlData($this->module->getSettings(), $query["lang"] ?? null)));
             },
-            'send' => function () { if (Auth::isAdmin()) return response($this->sendMails($this->module->getSettings())); else return null; }
+            'send' => function () {
+                if (Auth::isAdmin()) return response($this->sendMails($this->module->getSettings())); else return null;
+            }
         ];
     }
 
@@ -174,13 +182,14 @@ class RequestHandler implements RequestHandlerInterface
                 return $args->getTrees() == null || in_array($tree->name(), $args->getTrees());
             })->map(function ($tree) use ($args) {
                 $treeData = new Collection();
+                $treeData["title"] = $tree->title();
 
                 $lastCron = $args->getLastSend();
                 $thisCron = $args->getThisSend();
                 $nextCron = $args->getNextSend();
 
                 $treeData["dates"] = [
-                    "last" => $lastCron == null ? null : $lastCron->format("Y-m-d"),
+                    "last" => $lastCron?->format("Y-m-d"),
                     "this" => $thisCron->format("Y-m-d"),
                     "next" => $nextCron->format("Y-m-d")
                 ];
