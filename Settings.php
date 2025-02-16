@@ -35,17 +35,9 @@ class Settings
         $this->userService = CompatibilityHelper::getService(UserService::class);
         $this->treeService = CompatibilityHelper::getService(TreeService::class);
 
-        $users = [];
-        foreach ($this->userService->all() as $u) $users[$u->username()] = $u->username();
-        $this->allUsers = $users;
-
-        $trees = [];
-        foreach ($this->treeService->all() as $t) $trees[$t->name()] = $t->name();
-        $this->allTrees = $trees;
-
-        $formats = [];
-        foreach (["png", "svg"] as $f) $formats[$f] = $f;
-        $this->allImageFormat = $formats;
+        $this->allUsers = $this->userService->all()->mapWithKeys(fn($u) => [$u->username() => $u->username()])->toArray();
+        $this->allTrees = $this->treeService->all()->mapWithKeys(fn($t) => [$t->name() => $t->title()])->toArray();
+        $this->allImageFormat = ["png" => "png", "svg" => "svg"];
     }
 
     #region General
