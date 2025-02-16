@@ -49,9 +49,15 @@ class Settings
         return explode(",", $pref);
     }
 
-    public function getAllUsers(): array { return $this->allUsers; }
+    public function getAllUsers(): array
+    {
+        return $this->allUsers;
+    }
 
-    public function setUsers($value) { Site::setPreference('EVANG_MAILSYSTEM_USERS', implode(',', $value)); }
+    public function setUsers($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_USERS', implode(',', $value));
+    }
 
     public function getTrees(): array
     {
@@ -60,9 +66,15 @@ class Settings
         return explode(",", $pref);
     }
 
-    public function getAllTrees(): array { return $this->allTrees; }
+    public function getAllTrees(): array
+    {
+        return $this->allTrees;
+    }
 
-    public function setTrees($value) { Site::setPreference('EVANG_MAILSYSTEM_TREES', implode(',', $value)); }
+    public function setTrees($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_TREES', implode(',', $value));
+    }
 
 
     public function getEmpty(): bool
@@ -72,9 +84,15 @@ class Settings
         return (bool)$pref;
     }
 
-    public function setEmpty($value) { Site::setPreference('EVANG_MAILSYSTEM_EMPTY', $value); }
+    public function setEmpty($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_EMPTY', $value);
+    }
 
-    public function setDays($value) { Site::setPreference('EVANG_MAILSYSTEM_DAYS', $value); }
+    public function setDays($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_DAYS', $value);
+    }
 
     public function getAllImageDataType(): array
     {
@@ -92,9 +110,15 @@ class Settings
         return $pref;
     }
 
-    public function setImageDataType($value) { Site::setPreference('EVANG_MAILSYSTEM_IMAGEDATA', $value); }
+    public function setImageDataType($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_IMAGEDATA', $value);
+    }
 
-    public function getAllImageFormat(): array { return $this->allImageFormat; }
+    public function getAllImageFormat(): array
+    {
+        return $this->allImageFormat;
+    }
 
     public function getImageFormat(): string
     {
@@ -103,7 +127,10 @@ class Settings
         return $pref;
     }
 
-    public function setImageFormat($value) { Site::setPreference('EVANG_MAILSYSTEM_IMAGEFORMAT', $value); }
+    public function setImageFormat($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_IMAGEFORMAT', $value);
+    }
 
     #endregion
 
@@ -117,7 +144,10 @@ class Settings
         return (bool)$pref;
     }
 
-    public function setNewsEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_NEWS_ENABLED', $value); }
+    public function setNewsEnabled($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_NEWS_ENABLED', $value);
+    }
 
     #endregion
 
@@ -131,7 +161,10 @@ class Settings
         return (bool)$pref;
     }
 
-    public function setChangelistEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED', $value); }
+    public function setChangelistEnabled($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED', $value);
+    }
 
     public function getAllChangelistTags(): array
     {
@@ -153,7 +186,10 @@ class Settings
         return explode(",", $pref);
     }
 
-    public function setChangelistTags($value) { Site::setPreference('EVANG_MAILSYSTEM_CHANGE_TAGS', implode(',', $value)); }
+    public function setChangelistTags($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_CHANGE_TAGS', implode(',', $value));
+    }
 
     #endregion
 
@@ -166,7 +202,10 @@ class Settings
         return (bool)$pref;
     }
 
-    public function setAnniversariesEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED', $value); }
+    public function setAnniversariesEnabled($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED', $value);
+    }
 
     public function getAnniversariesDeceased(): bool
     {
@@ -175,7 +214,10 @@ class Settings
         return (bool)$pref;
     }
 
-    public function setAnniversariesDeceased($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_DECEASED', $value); }
+    public function setAnniversariesDeceased($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_ANNIV_DECEASED', $value);
+    }
 
     public function getAllAnniversariesTags(): array
     {
@@ -192,14 +234,17 @@ class Settings
         return explode(",", $pref);
     }
 
-    public function setAnniversariesTags($value) { Site::setPreference('EVANG_MAILSYSTEM_ANNIV_TAGS', implode(',', $value)); }
+    public function setAnniversariesTags($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_ANNIV_TAGS', implode(',', $value));
+    }
 
     #endregion
 
 
     #region Infos
 
-    public function setLastSend(?DateTimeImmutable $date)
+    public function setLastSend(?DateTimeImmutable $date): void
     {
         Site::setPreference('EVANG_MAILSYSTEM_LASTCRONDATE', $date == null ? "" : $date->format("Y-m-d"));
     }
@@ -256,7 +301,10 @@ class Settings
         return $pref;
     }
 
-    public function setFooterEnabled($value) { Site::setPreference('EVANG_MAILSYSTEM_FOOTER_ENABLED', $value); }
+    public function setFooterEnabled($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_FOOTER_ENABLED', $value);
+    }
 
     public function getFooterMessage(): string
     {
@@ -266,7 +314,10 @@ class Settings
         return $pref;
     }
 
-    public function setFooterMessage($value) { Site::setPreference('EVANG_MAILSYSTEM_FOOTER_MESSAGE', $value); }
+    public function setFooterMessage($value): void
+    {
+        Site::setPreference('EVANG_MAILSYSTEM_FOOTER_MESSAGE', $value);
+    }
 
     #endregion
 }
