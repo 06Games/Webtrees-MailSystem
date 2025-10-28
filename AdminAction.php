@@ -19,7 +19,7 @@ class AdminAction implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $params = Validator::queryParams($request);
+        $params = Validator::parsedBody($request);
         $settings = $this->module->getSettings();
 
         /*** General Settings ***/

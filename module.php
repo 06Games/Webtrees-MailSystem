@@ -3,6 +3,8 @@
 declare(strict_types=1);
 namespace EvanG\Modules\MailSystem;
 
+use Aura\Router\Exception\ImmutableProperty;
+use Aura\Router\Exception\RouteAlreadyExists;
 use Aura\Router\Map;
 use Aura\Router\RouterContainer;
 use Composer\Autoload\ClassLoader;
@@ -31,6 +33,10 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
         $this->settings = new Settings();
     }
 
+    /**
+     * @throws ImmutableProperty
+     * @throws RouteAlreadyExists
+     */
     public function boot(): void
     {
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
@@ -48,7 +54,7 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
                 ],
             ]);
             $router->get(AdminPage::class, '/mail-sys', new AdminPage($module));
-            $router->get(AdminAction::class, '/mail-sys/save', new AdminAction($module));
+            $router->post(AdminAction::class, '/mail-sys', new AdminAction($module));
         });
     }
 

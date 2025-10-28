@@ -1,7 +1,5 @@
 <?php
 
-use Aura\Router\RouterContainer;
-use EvanG\Modules\MailSystem\AdminAction;
 use EvanG\Modules\MailSystem\Helpers\CompatibilityHelper;
 use EvanG\Modules\MailSystem\RequestHandler;
 use EvanG\Modules\MailSystem\Settings;
@@ -40,8 +38,8 @@ use Fisharebest\Webtrees\Services\ModuleService;
         </div>
 
         <div id="settings">
-            <form action="<?= route(AdminAction::class) ?>" method="get" class="form-horizontal">
-                <input type="hidden" name="route" value="<?= CompatibilityHelper::getService(RouterContainer::class)->getMap()->getRoute(AdminAction::class)->path; ?>"/>
+            <form method="post" class="form-horizontal">
+                <?= csrf_field() ?>
                 <div id="settings-general" class="settings-cat mt-5">
                     <h2 style="margin-top: 1em;"><?= I18N::translate('General settings') ?></h2>
 
