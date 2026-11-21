@@ -1,6 +1,10 @@
 # Mail System
 [Webtrees](https://github.com/fisharebest/webtrees) module for sending newsletters at regular intervals.
 
+<img height="500" alt="preview" src="https://github.com/user-attachments/assets/4ad5cd64-ac0e-4cc0-bc98-28089edcda5e" />
+<br/><br/>
+
+> [!IMPORTANT]
 > *Make sure to configure the cron job as described in the module settings.*
 
 ## APIs
