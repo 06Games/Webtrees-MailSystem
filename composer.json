@@ -1,38 +1,45 @@
 {
-    "name": "evang/mailsystem",
-    "description": "Sends a mail with recent changes to Webtrees users.",
-    "license": "GPL-3.0-or-later",
-    "type": "webtrees-module",
-    "keywords": [
-        "webtrees",
-        "module"
-    ],
-    "authors": [
-        {
-            "name": "Evan Galli",
-            "role": "Developer"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "EvanG\\Modules\\MailSystem\\": ""
-        }
-    },
-    "require": {
-        "fisharebest/webtrees": "^2.1"
-    },
-    "archive": {
-        "exclude": [
-            ".*",
-            "/composer.*",
-            "/vendor",
-            "*.po",
-            "!*.mo",
-            "/version.txt",
-            "/build.sh"
-        ]
-    },
-    "scripts": {
-        "pre-archive-cmd": "bash ./build.sh"
+  "name": "evang/mailsystem",
+  "description": "Sends a mail with recent changes to Webtrees users.",
+  "license": "GPL-3.0-or-later",
+  "type": "webtrees-module",
+  "keywords": [
+    "webtrees",
+    "module"
+  ],
+  "authors": [
+    {
+      "name": "Evan Galli",
+      "role": "Developer"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "EvanG\\Modules\\MailSystem\\": ""
+    }
+  },
+  "require": {
+    "fisharebest/webtrees": "^2.1"
+  },
+  "archive": {
+    "exclude": [
+      ".*",
+      "/composer.*",
+      "/vendor",
+      "*.po",
+      "!*.mo",
+      "/version.txt",
+      "/build.sh"
+    ]
+  },
+  "scripts": {
+    "pre-archive-cmd": "bash ./build.sh"
+  },
+  "config": {
+    "policy": {
+      "advisories": {
+        "block": false
+      }
+    }
+  }
 }
