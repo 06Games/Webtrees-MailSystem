@@ -70,7 +70,8 @@ class RequestHandler implements RequestHandlerInterface
                 return response($this->api($this->module->getSettings()));
             },
             'image' => function (Request $request) {
-                if ($this->module->getSettings()->getImageDataType() != "link") return response(["message" => "Direct links are disabled"], 403);
+                if ($this->module->getSettings()->getImageDataType() != "link")
+                    return response(["message" => "Direct links are disabled"], 403);
                 $loggedUser = Auth::user();
                 if (!Auth::isAdmin()) {
                     Auth::login($this->users->administrators()->first());
@@ -78,19 +79,27 @@ class RequestHandler implements RequestHandlerInterface
                 }
 
                 $query = $request->getQueryParams();
-                $record = Registry::gedcomRecordFactory()->make($query["xref"], $this->trees->find((int)$query["tree"]));
+                $record = Registry::gedcomRecordFactory()->make($query["xref"], $this->trees->find((int) $query["tree"]));
                 $img = $record instanceof Individual ? Images::getImageDataResponse(Images::getIndividualPicture($record)) : null;
 
-                if ($loggedUser instanceof GuestUser) Auth::logout();
-                else Auth::login($loggedUser);
+                if ($loggedUser instanceof GuestUser)
+                    Auth::logout();
+                else
+                    Auth::login($loggedUser);
                 return $img ?? response();
             },
             'html' => function (Request $request) {
                 $query = $request->getQueryParams();
-                return response($this->html($this->htmlData($this->module->getSettings(), $query["lang"] ?? null)));
+                $body = $this->html($this->htmlData($this->module->getSettings(), $query["lang"] ?? null));
+                if ($body === null)
+                    return response(["message" => "Nothing to show"]);
+                return response($body);
             },
             'send' => function () {
-                if (Auth::isAdmin()) return response($this->sendMails($this->module->getSettings())); else return null;
+                if (Auth::isAdmin())
+                    return response($this->sendMails($this->module->getSettings()));
+                else
+                    return null;
             }
         ];
     }
@@ -118,7 +127,8 @@ class RequestHandler implements RequestHandlerInterface
 
         $today = new DateTimeImmutable("midnight");
         $nextCron = $settings->getThisSend();
-        if ($today < $nextCron) return response(["message" => "Skip", "today" => $today->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")]);
+        if ($today < $nextCron)
+            return response(["message" => "Skip", "today" => $today->format("Y-m-d"), "next" => $nextCron->format("Y-m-d")]);
         $response = $this->sendMails($settings);
         $settings->setLastSend($today);
         return response($response);
@@ -130,8 +140,10 @@ class RequestHandler implements RequestHandlerInterface
         $failed = [];
         foreach ($this->users->all() as $user) {
             if ($args->getUsers() == null || in_array($user->username(), $args->getUsers())) {
-                if ($this->sendMail($user, $args)) $sent[] = $user->username();
-                else $failed[] = $user->username();
+                if ($this->sendMail($user, $args))
+                    $sent[] = $user->username();
+                else
+                    $failed[] = $user->username();
             }
         }
         return ["success" => $sent, "failure" => $failed];
@@ -170,7 +182,7 @@ class RequestHandler implements RequestHandlerInterface
         ];
     }
 
-    public function api(Settings $args, User $user = null): array
+    public function api(Settings $args, ?User $user = null): array
     {
         if ($user != null) {
             Auth::login($user);
@@ -179,7 +191,7 @@ class RequestHandler implements RequestHandlerInterface
 
         $data = $this->trees->all()
             ->filter(function ($tree) use ($args) {
-                return $args->getTrees() == null || in_array($tree->name(), $args->getTrees());
+                return empty($args->getTrees()) || in_array($tree->name(), $args->getTrees());
             })->map(function ($tree) use ($args) {
                 $treeData = new Collection();
                 $treeData["title"] = $tree->title();
@@ -194,26 +206,33 @@ class RequestHandler implements RequestHandlerInterface
                     "next" => $nextCron->format("Y-m-d")
                 ];
 
-                if ($args->getNewsEnabled()) $treeData["news"] = $this->news->get($args, $tree);
-                if ($args->getChangelistEnabled()) $treeData["changes"] = $this->changes->get($args, $tree);
-                if ($args->getAnniversariesEnabled()) $treeData["anniversaries"] = $this->anniversaries->get($args, $tree);
+                if ($args->getNewsEnabled())
+                    $treeData["news"] = $this->news->get($args, $tree);
+                if ($args->getChangelistEnabled())
+                    $treeData["changes"] = $this->changes->get($args, $tree);
+                if ($args->getAnniversariesEnabled())
+                    $treeData["anniversaries"] = $this->anniversaries->get($args, $tree);
 
                 return !$args->getEmpty() && empty($treeData->whereNotNull()->count()) ? null : $treeData;
             })->whereNotNull();
-        if ($user != null) Auth::logout();
+        if ($user != null)
+            Auth::logout();
         return $data->toArray();
     }
 
     private function html(array $data): ?string
     {
-        if (empty($data["items"])) return null;
+        if (empty($data["items"]))
+            return null;
         return view("{$this->module->name()}::email", $data);
     }
 
     public function handle(Request $request): Response
     {
         $action = $request->getAttribute('action');
-        if (key_exists($action, $this->actions)) return $this->actions[$action]($request);
-        else return redirect(route(RequestHandler::class, ['action' => 'help']));
+        if (key_exists($action, $this->actions))
+            return $this->actions[$action]($request) ?? response(code: 500);
+        else
+            return redirect(route(RequestHandler::class, ['action' => 'help']));
     }
 }
