@@ -19,11 +19,15 @@ use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 use Fisharebest\Webtrees\View;
 
 /** Sends a mail with recent changes to Webtrees users. */
-class MailSystem extends AbstractModule implements ModuleCustomInterface, ModuleConfigInterface {
+class MailSystem extends AbstractModule implements ModuleCustomInterface, ModuleConfigInterface
+{
     use ModuleCustomTrait;
 
     private Settings $settings;
-    public function getSettings(): Settings { return $this->settings; }
+    public function getSettings(): Settings
+    {
+        return $this->settings;
+    }
 
     public function __construct()
     {
@@ -41,7 +45,8 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
     {
         View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
 
-        /** @var RouterContainer $router */ $router = CompatibilityHelper::getService(RouterContainer::class);
+        /** @var RouterContainer $router */
+        $router = CompatibilityHelper::getService(RouterContainer::class);
 
         $map = $router->getMap();
         $module = $this;
@@ -58,14 +63,38 @@ class MailSystem extends AbstractModule implements ModuleCustomInterface, Module
         });
     }
 
-    public function title(): string { return 'Mail System'; }
-    public function description(): string { return I18N::translate('Sends out newsletters at regular intervals'); }
-    public function customModuleAuthorName(): string { return 'EvanG'; }
-    public function customModuleSupportUrl(): string { return 'https://github.com/06Games/Webtrees-MailSystem'; }
-    public function customModuleVersion(): string { return '2.3.11'; }
-    public function customModuleLatestVersionUrl(): string { return 'https://github.com/06Games/Webtrees-MailSystem/raw/main/version.txt'; }
-    public function resourcesFolder(): string { return __DIR__ . '/resources/'; }
-    public function getConfigLink(): string { return route(AdminPage::class); }
+    public function title(): string
+    {
+        return 'Mail System';
+    }
+    public function description(): string
+    {
+        return I18N::translate('Sends out newsletters at regular intervals');
+    }
+    public function customModuleAuthorName(): string
+    {
+        return 'EvanG';
+    }
+    public function customModuleSupportUrl(): string
+    {
+        return 'https://github.com/06Games/Webtrees-MailSystem';
+    }
+    public function customModuleVersion(): string
+    {
+        return '2.3.12';
+    }
+    public function customModuleLatestVersionUrl(): string
+    {
+        return 'https://github.com/06Games/Webtrees-MailSystem/raw/main/version.txt';
+    }
+    public function resourcesFolder(): string
+    {
+        return __DIR__ . '/resources/';
+    }
+    public function getConfigLink(): string
+    {
+        return route(AdminPage::class);
+    }
     public function customTranslations(string $language): array
     {
         $languageFile = $this->resourcesFolder() . 'lang/' . $language . '.mo';
