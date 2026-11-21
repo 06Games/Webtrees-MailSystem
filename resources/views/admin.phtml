@@ -307,7 +307,7 @@ use Fisharebest\Webtrees\Services\ModuleService;
             <div class="modal-content h-100">
                 <div class="modal-body overflow-hidden">
                     <iframe class="w-100 h-100 border border-0"
-                         src="/mail-sys/html" sandbox="allow-same-origin"
+                        src="<?= e(route(RequestHandler::class, ['action' => 'html'])) ?>" sandbox="allow-same-origin"
                         title="Mail preview" id="reminder-admin-config-preview-iframe"></iframe>
                 </div>
                 <?= view('modals/footer-close') ?>
