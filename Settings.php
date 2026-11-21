@@ -45,7 +45,8 @@ class Settings
     public function getUsers(): array
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_USERS');
-        if (empty($pref)) return $this->getAllUsers();
+        if (empty($pref))
+            return array_keys($this->getAllUsers());
         return explode(",", $pref);
     }
 
@@ -62,7 +63,8 @@ class Settings
     public function getTrees(): array
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_TREES');
-        if (empty($pref)) return $this->getAllTrees();
+        if (empty($pref))
+            return array_keys($this->getAllTrees());
         return explode(",", $pref);
     }
 
@@ -80,8 +82,9 @@ class Settings
     public function getEmpty(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_EMPTY');
-        if (empty($pref)) return false;
-        return (bool)$pref;
+        if (empty($pref))
+            return false;
+        return (bool) $pref;
     }
 
     public function setEmpty($value): void
@@ -106,7 +109,8 @@ class Settings
     public function getImageDataType(): string
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_IMAGEDATA');
-        if (empty($pref)) return "data";
+        if (empty($pref))
+            return "data";
         return $pref;
     }
 
@@ -123,7 +127,8 @@ class Settings
     public function getImageFormat(): string
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_IMAGEFORMAT');
-        if (empty($pref)) return "png";
+        if (empty($pref))
+            return "png";
         return $pref;
     }
 
@@ -140,8 +145,9 @@ class Settings
     public function getNewsEnabled(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_NEWS_ENABLED');
-        if (!isset($pref)) return true;
-        return (bool)$pref;
+        if (!isset($pref))
+            return true;
+        return (bool) $pref;
     }
 
     public function setNewsEnabled($value): void
@@ -157,8 +163,9 @@ class Settings
     public function getChangelistEnabled(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_CHANGE_ENABLED');
-        if (!isset($pref)) return true;
-        return (bool)$pref;
+        if (!isset($pref))
+            return true;
+        return (bool) $pref;
     }
 
     public function setChangelistEnabled($value): void
@@ -176,13 +183,15 @@ class Settings
             Source::RECORD_TYPE => I18N::translate("Source"),
             Submitter::RECORD_TYPE => I18N::translate("Submitter"),
             Repository::RECORD_TYPE => I18N::translate("Repository"),
-            Location::RECORD_TYPE => I18N::translate('Location')];
+            Location::RECORD_TYPE => I18N::translate('Location')
+        ];
     }
 
     public function getChangelistTags(): array
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_CHANGE_TAGS');
-        if (empty($pref)) return [Individual::RECORD_TYPE, Family::RECORD_TYPE];
+        if (empty($pref))
+            return [Individual::RECORD_TYPE, Family::RECORD_TYPE];
         return explode(",", $pref);
     }
 
@@ -198,8 +207,9 @@ class Settings
     public function getAnniversariesEnabled(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_ENABLED');
-        if (!isset($pref)) return true;
-        return (bool)$pref;
+        if (!isset($pref))
+            return true;
+        return (bool) $pref;
     }
 
     public function setAnniversariesEnabled($value): void
@@ -210,8 +220,9 @@ class Settings
     public function getAnniversariesDeceased(): bool
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_DECEASED');
-        if (!isset($pref)) return false;
-        return (bool)$pref;
+        if (!isset($pref))
+            return false;
+        return (bool) $pref;
     }
 
     public function setAnniversariesDeceased($value): void
@@ -222,15 +233,18 @@ class Settings
     public function getAllAnniversariesTags(): array
     {
         $data = [];
-        foreach (array_merge(Gedcom::BIRTH_EVENTS, Gedcom::DEATH_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("INDI:" . $tag)->label();
-        foreach (array_merge(Gedcom::MARRIAGE_EVENTS) as $tag) $data[$tag] = Registry::elementFactory()->make("FAM:" . $tag)->label();
+        foreach (array_merge(Gedcom::BIRTH_EVENTS, Gedcom::DEATH_EVENTS) as $tag)
+            $data[$tag] = Registry::elementFactory()->make("INDI:" . $tag)->label();
+        foreach (array_merge(Gedcom::MARRIAGE_EVENTS) as $tag)
+            $data[$tag] = Registry::elementFactory()->make("FAM:" . $tag)->label();
         return $data;
     }
 
     public function getAnniversariesTags(): array
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_ANNIV_TAGS');
-        if (empty($pref)) return ["BIRT"];
+        if (empty($pref))
+            return ["BIRT"];
         return explode(",", $pref);
     }
 
@@ -262,7 +276,8 @@ class Settings
     {
         $lastCronDate = $this->getLastSend();
         $today = new DateTimeImmutable("midnight");
-        if ($lastCronDate == null) return $today;
+        if ($lastCronDate == null)
+            return $today;
         try {
             return $lastCronDate->add(new DateInterval('P' . $this->getDays() . 'D'));
         } catch (Exception $e) {
@@ -273,7 +288,8 @@ class Settings
     public function getLastSend(): ?DateTimeImmutable
     {
         $lastCronTxt = Site::getPreference('EVANG_MAILSYSTEM_LASTCRONDATE');
-        if (empty($lastCronTxt)) return null;
+        if (empty($lastCronTxt))
+            return null;
         try {
             return new DateTimeImmutable($lastCronTxt);
         } catch (Exception $e) {
@@ -285,8 +301,9 @@ class Settings
     public function getDays(): int
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_DAYS');
-        if (empty($pref)) return 7;
-        return (int)$pref;
+        if (empty($pref))
+            return 7;
+        return (int) $pref;
     }
 
     #endregion
@@ -297,7 +314,8 @@ class Settings
     public function getFooterEnabled(): string
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_FOOTER_ENABLED');
-        if (!isset($pref)) return true;
+        if (!isset($pref))
+            return true;
         return $pref;
     }
 
@@ -309,8 +327,11 @@ class Settings
     public function getFooterMessage(): string
     {
         $pref = Site::getPreference('EVANG_MAILSYSTEM_FOOTER_MESSAGE');
-        if (empty($pref)) return I18N::translate("This email was autogenerated by Webtrees and programmed with ❤ by %s",
-            "<a href=\"https://github.com/06Games/Webtrees-MailSystem\">Evan Galli</a>");
+        if (empty($pref))
+            return I18N::translate(
+                "This email was autogenerated by Webtrees and programmed with ❤ by %s",
+                "<a href=\"https://github.com/06Games/Webtrees-MailSystem\">Evan Galli</a>"
+            );
         return $pref;
     }
 
