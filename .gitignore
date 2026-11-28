@@ -7,5 +7,6 @@ riderModule.iml
 composer.phar
 *.lock
 /.idea
+/.vscode
 
 /resources/lang/*.mo

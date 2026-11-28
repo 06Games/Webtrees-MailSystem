@@ -18,8 +18,18 @@
       "EvanG\\Modules\\MailSystem\\": ""
     }
   },
-  "require": {
-    "fisharebest/webtrees": "^2.1"
+  "config": {
+    "policy": {
+      "advisories": {
+        "block": false
+      }
+    }
+  },
+  "require-dev": {
+    "fisharebest/webtrees": ">=2.1 <2.3"
+  },
+  "conflict": {
+    "fisharebest/webtrees": "<2.1"
   },
   "archive": {
     "exclude": [
@@ -34,12 +44,5 @@
   },
   "scripts": {
     "pre-archive-cmd": "bash ./build.sh"
-  },
-  "config": {
-    "policy": {
-      "advisories": {
-        "block": false
-      }
-    }
   }
 }
